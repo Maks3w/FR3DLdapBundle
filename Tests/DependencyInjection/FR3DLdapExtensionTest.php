@@ -10,81 +10,96 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testConfigurationNamespace()
     {
-        $container = new ContainerBuilder();
-        $container->registerExtension(new FR3DLdapExtension());
-        $this->assertTrue($container->hasExtension('fr3d_ldap'));
+        $this->container = new ContainerBuilder();
+        $this->container->registerExtension(new FR3DLdapExtension());
+        $this->assertTrue($this->container->hasExtension('fr3d_ldap'));
     }
 
     public function testLoadMinimalConfiguration()
     {
         $minRequiredConfig = array(
-            'client' => array(
+            'driver' => array(
                 'host' => 'ldap.hostname.local',
             ),
             'user' => array(
-                'baseDn' => 'ou=Groups,dc=example,dc=com',
+                'baseDn' => 'ou=Persons,dc=example,dc=com',
             ),
         );
 
         $defaultConfig = $this->getDefaultConfig();
 
-        $container = new ContainerBuilder();
+        $this->container = new ContainerBuilder();
         $extension = new FR3DLdapExtension();
 
-        $extension->load(array($minRequiredConfig), $container);
+        $extension->load(array($minRequiredConfig), $this->container);
 
-        $this->assertTrue($container->hasDefinition('fr3d_ldap.client'));
-        $this->assertTrue($container->hasDefinition('fr3d_ldap.ldap_manager.default'));
+        $this->assertHasDefinition('fr3d_ldap.ldap_driver');
+        $this->assertHasDefinition('fr3d_ldap.ldap_manager.default');
 
-        $this->assertEquals($defaultConfig['client'], $container->getParameter('fr3d_ldap.client.parameters'));
-        $this->assertEquals($defaultConfig['user'], $container->getParameter('fr3d_ldap.ldap_manager.parameters'));
+        $this->assertParameter($defaultConfig['driver'], 'fr3d_ldap.ldap_driver.parameters');
+        $this->assertParameter($defaultConfig['user'], 'fr3d_ldap.ldap_manager.parameters');
 
-        $this->assertEquals('fos_user.user_manager', (string) $container->getAlias('fr3d_ldap.user_manager', 'user_manager alias failed'));
-        $this->assertEquals('fr3d_ldap.ldap_manager.default', (string) $container->getAlias('fr3d_ldap.ldap_manager', 'ldap_manager alias failed'));
+        $this->assertAlias('fos_user.user_manager', 'fr3d_ldap.user_manager');
+        $this->assertAlias('fr3d_ldap.ldap_manager.default', 'fr3d_ldap.ldap_manager');
+        $this->assertAlias('fr3d_ldap.ldap_driver.zend', 'fr3d_ldap.ldap_driver');
     }
 
     public function testLoadFullConfiguration()
     {
         $config                           = $this->getDefaultConfig();
-        $config['client']['username']     = null;
-        $config['client']['password']     = null;
-        $config['client']['optReferrals'] = false;
+        $config['driver']['username']     = null;
+        $config['driver']['password']     = null;
+        $config['driver']['optReferrals'] = false;
 
-        $container = new ContainerBuilder();
+        $this->container = new ContainerBuilder();
         $extension = new FR3DLdapExtension();
 
-        $extension->load(array($config), $container);
+        $extension->load(array($config), $this->container);
 
-        $this->assertEquals($config['client'], $container->getParameter('fr3d_ldap.client.parameters'));
-        $this->assertEquals($config['user'], $container->getParameter('fr3d_ldap.ldap_manager.parameters'));
+        $this->assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
+        $this->assertEquals($config['user'], $this->container->getParameter('fr3d_ldap.ldap_manager.parameters'));
+    }
+
+    public function testLoadDriverConfiguration()
+    {
+        $config                                  = $this->getDefaultConfig();
+        $config['driver']['accountFilterFormat'] = '(%(uid=%s))';
+
+        $this->container = new ContainerBuilder();
+        $extension = new FR3DLdapExtension();
+
+        $extension->load(array($config), $this->container);
+
+        $this->assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
+        $this->assertEquals($config['user'], $this->container->getParameter('fr3d_ldap.ldap_manager.parameters'));
     }
 
     public function testSslConfiguration()
     {
         $config                          = $this->getDefaultConfig();
-        $config['client']['useSsl']      = true;
-        $config['client']['useStartTls'] = false;
+        $config['driver']['useSsl']      = true;
+        $config['driver']['useStartTls'] = false;
 
-        $container = new ContainerBuilder();
+        $this->container = new ContainerBuilder();
         $extension = new FR3DLdapExtension();
 
-        $extension->load(array($config), $container);
+        $extension->load(array($config), $this->container);
 
-        $this->assertEquals($config['client'], $container->getParameter('fr3d_ldap.client.parameters'));
+        $this->assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
     }
 
     public function testTlsConfiguration()
     {
         $config                          = $this->getDefaultConfig();
-        $config['client']['useSsl']      = false;
-        $config['client']['useStartTls'] = true;
+        $config['driver']['useSsl']      = false;
+        $config['driver']['useStartTls'] = true;
 
-        $container = new ContainerBuilder();
+        $this->container = new ContainerBuilder();
         $extension = new FR3DLdapExtension();
 
-        $extension->load(array($config), $container);
+        $extension->load(array($config), $this->container);
 
-        $this->assertEquals($config['client'], $container->getParameter('fr3d_ldap.client.parameters'));
+        $this->assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
     }
 
     /**
@@ -93,27 +108,29 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
     public function testSslTlsExclusiveConfiguration()
     {
         $config                          = $this->getDefaultConfig();
-        $config['client']['useSsl']      = true;
-        $config['client']['useStartTls'] = true;
+        $config['driver']['useSsl']      = true;
+        $config['driver']['useStartTls'] = true;
 
-        $container = new ContainerBuilder();
+        $this->container = new ContainerBuilder();
         $extension = new FR3DLdapExtension();
 
-        $extension->load(array($config), $container);
+        $extension->load(array($config), $this->container);
     }
 
     private function getDefaultConfig()
     {
         return array(
-            'client' => array(
-                'host'        => 'ldap.hostname.local',
-                'port'        => 389,
-                'version'     => 3,
-                'useSsl'      => false,
-                'useStartTls' => false,
+            'driver' => array(
+                'host'                => 'ldap.hostname.local',
+                'port'                => 389,
+                'useSsl'              => false,
+                'useStartTls'         => false,
+                'baseDn'              => 'ou=Persons,dc=example,dc=com',
+                'accountFilterFormat' => '',
+                'bindRequiresDn'      => false,
             ),
-            'user'        => array(
-                'baseDn'     => 'ou=Groups,dc=example,dc=com',
+            'user'                => array(
+                'baseDn'     => 'ou=Persons,dc=example,dc=com',
                 'filter'     => '',
                 'attributes' => array(
                     array(
@@ -125,7 +142,28 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
             'service'     => array(
                 'user_manager' => 'fos_user.user_manager',
                 'ldap_manager' => 'fr3d_ldap.ldap_manager.default',
+                'ldap_driver'  => 'fr3d_ldap.ldap_driver.zend',
             ),
         );
+    }
+
+    private function assertAlias($value, $key)
+    {
+        $this->assertEquals($value, (string) $this->container->getAlias($key), sprintf('%s alias is not correct', $key));
+    }
+
+    private function assertParameter($value, $key)
+    {
+        $this->assertEquals($value, $this->container->getParameter($key), sprintf('%s parameter is not correct', $key));
+    }
+
+    private function assertHasDefinition($id)
+    {
+        $this->assertTrue(($this->container->hasDefinition($id) ? : $this->container->hasAlias($id)), sprintf('%s definition is not set', $id));
+    }
+
+    protected function tearDown()
+    {
+        unset($this->container);
     }
 }

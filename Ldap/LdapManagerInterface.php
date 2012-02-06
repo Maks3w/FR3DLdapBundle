@@ -2,7 +2,7 @@
 
 namespace FR3D\LdapBundle\Ldap;
 
-use FR3D\LdapBundle\Model\LdapUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 interface LdapManagerInterface
 {
@@ -26,9 +26,9 @@ interface LdapManagerInterface
     /**
      * Bind the user on ldap
      *
-     * @param LdapUserInterface $user
+     * @param UserInterface $user
      * @param string password
      * @return Boolean
      */
-    function bind(LdapUserInterface $user, $password);
+    function bind(UserInterface $user, $password);
 }

@@ -4,6 +4,7 @@ namespace FR3D\LdapBundle\Ldap;
 
 use FR3D\LdapBundle\Driver\LdapConnectionInterface;
 use FR3D\LdapBundle\Model\LdapUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 class LdapManager implements LdapManagerInterface
@@ -42,7 +43,6 @@ class LdapManager implements LdapManagerInterface
     {
         $filter  = $this->buildFilter($criteria);
         $entries = $this->connection->search($this->params['baseDn'], $filter, $this->ldapAttributes);
-
         if ($entries['count'] > 1) {
             throw new \Exception('This search can only return a single user');
         }
@@ -77,12 +77,12 @@ class LdapManager implements LdapManagerInterface
     /**
      * Hydrates an user entity with ldap attributes.
      * 
-     * @param LdapUserInterface $user  user to hydrate
+     * @param UserInterface $user  user to hydrate
      * @param array             $entry ldap result
      * 
-     * @return LdapUserInterface
+     * @return UserInterface
      */
-    protected function hydrate(LdapUserInterface $user, array $entry)
+    protected function hydrate(UserInterface $user, array $entry)
     {
         $user->setPassword('');
 
@@ -94,14 +94,27 @@ class LdapManager implements LdapManagerInterface
             call_user_func(array($user, $attr['user_method']), $entry[$attr['ldap_attr']][0]);
         }
 
-        $user->setDn($entry['dn']);
+        if ($user instanceof LdapUserInterface) {
+            $user->setDn($entry['dn']);
+        }
     }
 
     /**
      * {@inheritDoc}
      */
-    public function bind(LdapUserInterface $user, $password)
+    public function bind(UserInterface $user, $password)
     {
-        return $this->connection->bind($user->getDn(), $password);
+        return $this->connection->bind($user, $password);
+    }
+
+    /**
+     * Get a list of roles for the username.
+     *
+     * @param string $username
+     * @return array
+     */
+    public function getRolesForUsername($username)
+    {
+        
     }
 }

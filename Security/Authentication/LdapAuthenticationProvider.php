@@ -3,7 +3,6 @@
 namespace FR3D\LdapBundle\Security\Authentication;
 
 use FR3D\LdapBundle\Ldap\LdapManagerInterface;
-use FR3D\LdapBundle\Model\LdapUserInterface;
 use Symfony\Component\Security\Core\Authentication\Provider\UserAuthenticationProvider;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
@@ -55,10 +54,6 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
         try {
             $user = $this->userProvider->loadUserByUsername($username);
 
-            if (!$user instanceof LdapUserInterface) {
-                throw new AuthenticationServiceException('The user provider must return a LdapUserInterface object.');
-            }
-
             return $user;
         } catch (UsernameNotFoundException $notFound) {
             throw $notFound;
@@ -73,20 +68,11 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
     protected function checkAuthentication(UserInterface $user, UsernamePasswordToken $token)
     {
         $currentUser = $token->getUser();
-        if ($currentUser instanceof LdapUserInterface) {
+        if ($currentUser instanceof UserInterface) {
             if (!$this->ldapManager->bind($currentUser, $currentUser->getPassword())) {
                 throw new BadCredentialsException('The credentials were changed from another session.');
             }
         } else {
-            if (!$user->getDn()) {
-                $userLdap = $this->ldapManager->findUserByUsername($user->getUsername());
-                if (!$userLdap) {
-                    throw new BadCredentialsException(sprintf('User "%s" not found', $user->getUsername()));
-                }
-
-                $user->setDn($userLdap->getDn());
-            }
-
             if (!$presentedPassword = $token->getCredentials()) {
                 throw new BadCredentialsException('The presented password cannot be empty.');
             }

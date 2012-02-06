@@ -169,11 +169,10 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     public function testBind()
     {
         $user = new TestUser();
-        $user->setDn('dn=test_username');
 
         $this->connection->expects($this->once())
                 ->method('bind')
-                ->with($this->equalTo('dn=test_username'), $this->equalTo('password'))
+                ->with($user, $this->equalTo('password'))
                 ->will($this->returnValue(true));
 
         $this->assertTrue($this->ldapManager->bind($user, 'password'));

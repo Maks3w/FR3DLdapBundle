@@ -124,10 +124,6 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $token    = new UsernamePasswordToken($username, $password, 'provider_key', array());
 
         $this->ldapManager->expects($this->once())
-                ->method('findUserByUsername')
-                ->with($this->equalTo($username))
-                ->will($this->returnValue($user));
-        $this->ldapManager->expects($this->once())
                 ->method('bind')
                 ->with($this->equalTo($user), $this->equalTo($password))
                 ->will($this->returnValue(true));
@@ -135,26 +131,6 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $method->invoke($this->ldapAuthenticationProvider, $user, $token);
 
         $this->assertTrue(true);
-    }
-
-    /**
-     * @expectedException Symfony\Component\Security\Core\Exception\UsernameNotFoundException
-     */
-    public function testCheckAuthenticationUnknownUserUsernameNotFound()
-    {
-        $method   = $this->setMethodAccesible('checkAuthentication');
-        $username = 'bad_username';
-        $password = 'password';
-        $user     = new TestUser();
-        $user->setUsername($username);
-        $token    = new UsernamePasswordToken($username, $password, 'provider_key', array());
-
-        $this->ldapManager->expects($this->once())
-                ->method('findUserByUsername')
-                ->with($this->equalTo($username))
-                ->will($this->throwException(new UsernameNotFoundException('')));
-
-        $method->invoke($this->ldapAuthenticationProvider, $user, $token);
     }
 
     /**
@@ -169,10 +145,6 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $user->setUsername($username);
         $token    = new UsernamePasswordToken($username, $password, 'provider_key', array());
 
-        $this->ldapManager->expects($this->once())
-                ->method('findUserByUsername')
-                ->with($this->equalTo($username))
-                ->will($this->returnValue($user));
         $this->ldapManager->expects($this->once())
                 ->method('bind')
                 ->with($this->equalTo($user), $this->equalTo($password))
@@ -194,44 +166,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
 
         $token = new UsernamePasswordToken($username, $password, 'provider_key', array());
 
-        $this->ldapManager->expects($this->once())
-                ->method('findUserByUsername')
-                ->with($this->equalTo($username))
-                ->will($this->returnValue($user));
-
         $method->invoke($this->ldapAuthenticationProvider, $user, $token);
-    }
-
-    public function testCheckAuthenticationUnknownUserWithoutDn()
-    {
-        $method       = $this->setMethodAccesible('checkAuthentication');
-        $username     = 'test_username';
-        $password     = 'password';
-        $userOriginal = new TestUser();
-        $userOriginal->setUsername($username);
-
-        $dn       = 'ou=group, dc=host, dc=foo';
-        $userLdap = new TestUser();
-        $userLdap->setDn($dn);
-
-        $userHydrated = new TestUser();
-        $userHydrated->setUsername($username);
-        $userHydrated->setDn($dn);
-
-        $token = new UsernamePasswordToken($username, $password, 'provider_key', array());
-
-        $this->ldapManager->expects($this->once())
-                ->method('findUserByUsername')
-                ->with($this->equalTo($username))
-                ->will($this->returnValue($userLdap));
-        $this->ldapManager->expects($this->once())
-                ->method('bind')
-                ->with($this->equalTo($userHydrated), $this->equalTo($password))
-                ->will($this->returnValue(true));
-
-        $method->invoke($this->ldapAuthenticationProvider, $userOriginal, $token);
-
-        $this->assertTrue(true);
     }
 
     private function setMethodAccesible($name)

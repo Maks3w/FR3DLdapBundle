@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="fr3d_ldap.security.user.provider.class">FR3D\LdapBundle\Security\User\LdapUserProvider</parameter>
+        <parameter key="fr3d_ldap.security.authentication.provider.class">FR3D\LdapBundle\Security\Authentication\LdapAuthenticationProvider</parameter>
+    </parameters>
+
+    <services>
+
+        <service id="fr3d_ldap.security.user.provider" class="%fr3d_ldap.security.user.provider.class%">
+            <argument type="service" id="fr3d_ldap.ldap_manager" />
+            <tag name="monolog.logger" channel="security" />
+            <argument type="service" id="logger" />
+        </service>
+
+        <service id="fr3d_ldap.security.authentication.provider" class="%fr3d_ldap.security.authentication.provider.class%">
+            <argument type="service" id="security.user_checker" />
+            <argument /> <!-- Provider-key -->
+            <argument /> <!-- User provider service -->
+            <argument type="service" id="fr3d_ldap.ldap_manager" />
+            <argument>%security.authentication.hide_user_not_found%</argument>
+        </service>
+
+    </services>
+
+</container>

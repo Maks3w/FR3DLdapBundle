@@ -5,39 +5,17 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="fr3d_ldap.client.class">FR3D\LdapBundle\Driver\LdapConnection</parameter>
-        <parameter key="fr3d_ldap.client.parameters" />
         <parameter key="fr3d_ldap.ldap_manager.class">FR3D\LdapBundle\Ldap\LdapManager</parameter>
-        <parameter key="fr3d_ldap.security.user.provider.class">FR3D\LdapBundle\Security\User\LdapUserProvider</parameter>
-
-        <parameter key="fr3d_ldap.security.authentication.provider.class">FR3D\LdapBundle\Security\Authentication\LdapAuthenticationProvider</parameter>
     </parameters>
 
     <services>
-        <service id="fr3d_ldap.client" class="%fr3d_ldap.client.class%">
-            <argument>%fr3d_ldap.client.parameters%</argument>
-            <tag name="monolog.logger" channel="ldap_connection" />
-            <argument type="service" id="logger" />
-        </service>
-        
+
         <service id="fr3d_ldap.ldap_manager.default" class="%fr3d_ldap.ldap_manager.class%">
-            <argument type="service" id="fr3d_ldap.client" />
+            <argument type="service" id="fr3d_ldap.ldap_driver" />
             <argument type="service" id="fr3d_ldap.user_manager" />
             <argument>%fr3d_ldap.ldap_manager.parameters%</argument>
         </service>
-        
-        <service id="fr3d_ldap.security.user.provider" class="%fr3d_ldap.security.user.provider.class%">
-            <argument type="service" id="fr3d_ldap.ldap_manager" />
-            <tag name="monolog.logger" channel="security" />
-            <argument type="service" id="logger" />
-        </service>
-        
-        <service id="fr3d_ldap.security.authentication.provider" class="%fr3d_ldap.security.authentication.provider.class%">
-            <argument type="service" id="security.user_checker" />
-            <argument /> <!-- Provider-key -->
-            <argument /> <!-- User Provider -->
-            <argument type="service" id="fr3d_ldap.ldap_manager" />
-        </service>
+
     </services>
-    
+
 </container>
