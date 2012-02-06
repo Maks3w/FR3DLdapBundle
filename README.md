@@ -1,21 +1,19 @@
 FR3DLdapBundle
 ==============
 
-The FR3DLdapBundle adds support for provide and/or authenticate users with a
-LDAP Directory in Symfony2.
+FR3DLdapBundle provide users and authentication services based on LDAP directories for Symfony2 framework.
 
-It's mainly developed thinking in unmanaged corporate LDAP directories so you
-could retrieve users from LDAP and manage them using `FOSUserBundle` features
-(role management, guess users registration, etc).
+The bundle is mainly developed for unmanaged LDAP directories scenarios, so
+you will able to retrieve users from LDAP and manage them using the [FOSUserBundle features](https://github.com/FriendsOfSymfony/FOSUserBundle/) (role management, guess users registration, etc) without the need to modify your corporate directory.
 
-Features include:
 
-- Works together with [FOSUserBundle](https://github.com/FriendsOfSymfony/FOSUserBundle/)
+Features included:
+
+- Works with with [FOSUserBundle](https://github.com/FriendsOfSymfony/FOSUserBundle/)
 - Customizable and extensible
 - Unit tested
 
-**Note:** This bundle don't provide at this moment User Management and requires
-then an external user manager like `FOSUserBundle`
+**Note:** This bundle cannot work as standalone at this moment and requires an User Manager like `FOSUserBundle`
 
 **Caution:** This bundles is developed in sync with [symfony's repository](https://github.com/symfony/symfony)
 

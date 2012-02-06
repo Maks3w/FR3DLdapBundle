@@ -81,7 +81,7 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
             if (!$user->getDn()) {
                 $userLdap = $this->ldapManager->findUserByUsername($user->getUsername());
                 if (!$userLdap) {
-                    throw new UsernameNotFoundException(sprintf('User "%s" not found', $user->getUsername()));
+                    throw new BadCredentialsException(sprintf('User "%s" not found', $user->getUsername()));
                 }
 
                 $user->setDn($userLdap->getDn());
