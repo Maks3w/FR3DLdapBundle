@@ -24,9 +24,15 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $context = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')
+                ->disableOriginalConstructor()
+                ->getMock();
+
         $this->ldapManagerMock = $this->getMock('FR3D\LdapBundle\Ldap\LdapManagerInterface');
         $this->constraint = new Unique(array('username'));
         $this->validator = new UniqueValidator($this->ldapManagerMock);
+        $this->validator->initialize($context);
+
         $this->user = new TestUser();
     }
 
