@@ -67,7 +67,7 @@ class LdapConnection implements LdapConnectionInterface
      */
     private function checkServer() {
         $socket = @fsockopen($this->params['host'], $this->params['port'], $errno, $errstr, 2);
-
+        if(!$socket) {
             throw new AuthenticationServiceException(sprintf('LDAP Server Unavailable: Error %s: %s.', $errno, $errstr));
         }
 
