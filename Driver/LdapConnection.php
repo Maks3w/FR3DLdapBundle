@@ -3,6 +3,7 @@
 namespace FR3D\LdapBundle\Driver;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
 
 class LdapConnection implements LdapConnectionInterface
 {
@@ -54,9 +55,32 @@ class LdapConnection implements LdapConnectionInterface
         return @ldap_bind($this->ldap_res, $user_dn, $password);
     }
 
+    /**
+     * Ping the LDAP server before trying to open the LDAP connection.
+     * This compensates for the lack of a timeout parameter on the PHP LDAP library.
+     * Without this, the LDAP library will listen for a long period of time,
+     * resulting in the user having to wait far too long.
+     *
+     * Timeout is two seconds.
+     *
+     * @throws AuthenticationServiceException If the LDAP server is unavailable.
+     */
+    private function checkServer() {
+        $socket = @fsockopen($this->params['host'], $this->params['port'], $errno, $errstr, 2);
+        if(!$socket) {
+            throw new AuthenticationServiceException(sprintf('LDAP Server Unavailable: Error %s: %s.', $errno, $errstr));
+        }
+
+        fclose($socket);
+    }
+
     private function connect()
     {
         $host = $this->params['host'];
+
+        // Check if the server is alive
+        $this->checkServer();
+
         if (isset($this->params['useSsl']) && (boolean) $this->params['useSsl']) {
             $host = 'ldaps://' . $host;
         }
