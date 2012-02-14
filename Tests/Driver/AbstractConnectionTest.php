@@ -11,8 +11,8 @@ abstract class AbstractConnectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        if (getenv('TRAVIS')) {
-            $this->markTestSkipped("LDAPVirtual tests are not enabled");
+        if (!function_exists('ldap_connect')) {
+            $this->markTestSkipped("PHP LDAP extension not loaded");
         }
 
         global $ldapServer;
