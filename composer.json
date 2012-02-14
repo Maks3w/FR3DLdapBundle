@@ -3,13 +3,31 @@
     "type": "symfony-bundle",
     "description": "This package provide users and authentication services based on LDAP directories for Symfony2 framework",
     "keywords": ["ldap", "authentication"],
-    "version": "1.5.2",
+    "version": "2.0.0-ALPHA3",
     "license": "MIT",
     "authors": [
         {
             "name": "Maks3w"
         }
     ],
+    "repositories": {
+        "zend-framework-2": {
+            "package": {
+                "name": "zend/zf2",
+                "version": "master-dev",
+                "source": {
+                    "type": "git",
+                    "url": "http://github.com/zendframework/zf2.git",
+                    "reference": "master-dev"
+                },
+                "autoload": {
+                    "psr-0": {
+                        "Zend\\": "library/"
+                    }
+                }
+            }
+        }
+    },
     "require": {
         "php": ">=5.3.2",
         "ext-ldap": "*",
@@ -23,6 +41,7 @@
         "symfony/validator": "2.0.*"
     },
     "suggest": {
+        "zend/zf2": "master-dev",
         "symfony/framework-bundle": "2.0.*",
         "friendsofsymfony/user-bundle": "*"
     },
