@@ -15,7 +15,7 @@ class FR3DLdapBundle extends Bundle
         }
     }
     
-    /* Require Symfony > 2.1.x
+    /* Require Symfony > 2.1.x */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
@@ -23,5 +23,4 @@ class FR3DLdapBundle extends Bundle
         $extension = $container->getExtension('security');
         $extension->addSecurityListenerFactory(new LdapFactory());
     }
-    */
 }

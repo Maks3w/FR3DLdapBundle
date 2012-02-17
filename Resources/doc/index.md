@@ -26,6 +26,7 @@ Add this bundle to your ``vendor/`` dir:
         [FR3DLdapBundle]
             git=git://github.com/Maks3w/FR3DLdapBundle.git
             target=/bundles/FR3D/LdapBundle
+            version=origin/1.6.x
 
       Run the vendors script:
 
@@ -33,7 +34,7 @@ Add this bundle to your ``vendor/`` dir:
 
 * Using git submodules.
 
-        $ git submodule add git://github.com/Maks3w/FR3DLdapBundle.git vendor/bundles/FR3D/LdapBundle
+        $ git submodule add -b 1.6.x git://github.com/Maks3w/FR3DLdapBundle.git vendor/bundles/FR3D/LdapBundle
 
 ### 2. Configure the Autoloader
 
@@ -83,9 +84,6 @@ security:
 
   encoders:
       AcmeBundle\Acme\User\LdapUser: plaintext
-
-  factories:
-    - "%kernel.root_dir%/../vendor/bundles/FR3D/LdapBundle/Resources/config/security_factories.xml"
 ```
 
 ### 5. Configure config.yml
