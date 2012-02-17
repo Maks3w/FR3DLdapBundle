@@ -83,9 +83,6 @@ security:
 
   encoders:
       AcmeBundle\Acme\User\LdapUser: plaintext
-
-  factories:
-    - "%kernel.root_dir%/../vendor/bundles/FR3D/LdapBundle/Resources/config/security_factories.xml"
 ```
 
 ### 5. Configure config.yml
