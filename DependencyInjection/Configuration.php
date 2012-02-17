@@ -42,7 +42,6 @@ class Configuration implements ConfigurationInterface
                   ->scalarNode('baseDn')->isRequired()->cannotBeEmpty()->end()
                   ->scalarNode('filter')->defaultValue('')->end()
                   ->arrayNode('attributes')
-                    ->addDefaultsIfNotSet()
                     ->defaultValue(array(array('ldap_attr' => 'uid', 'user_method' => 'setUsername')))
                     ->prototype('array')
                       ->children()
