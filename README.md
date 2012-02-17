@@ -19,7 +19,7 @@ then an external user manager like `FOSUserBundle`
 
 **Caution:** This bundles is developed in sync with [symfony's repository](https://github.com/symfony/symfony)
 
-[![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=2.0.x-20)](http://travis-ci.org/Maks3w/FR3DLdapBundle)
+[![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=2.0.x)](http://travis-ci.org/Maks3w/FR3DLdapBundle)
 
 Documentation
 -------------
