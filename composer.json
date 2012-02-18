@@ -1,5 +1,5 @@
 {
-    "name": "fr3d/ldap-symfony-bundle",
+    "name": "fr3d/ldap-bundle",
     "type": "symfony-bundle",
     "description": "This package provide users and authentication services based on LDAP directories for Symfony2 framework",
     "keywords": ["ldap", "authentication"],
