@@ -2,19 +2,19 @@
 
 namespace FR3D\LdapBundle\Tests\Driver;
 
-use FR3D\LdapBundle\Driver\LegacyLdapConnection;
+use FR3D\LdapBundle\Driver\LegacyLdapDriver;
 use FR3D\LdapBundle\Tests\TestUser;
 
-class LegacyLdapConnectionTest extends AbstractConnectionTest
+class LegacyLdapDriverTest extends AbstractDriverTest
 {
     /**
-     * @var LegacyLdapConnection
+     * @var LegacyLdapDriver
      */
-    protected $legacyLdapConnection;
+    protected $legacyLdapDriver;
 
     protected function setUp()
     {
-        $this->legacyLdapConnection = new LegacyLdapConnection($this->getOptions());
+        $this->legacyLdapDriver = new LegacyLdapDriver($this->getOptions());
 
         parent::setUp();
     }
@@ -48,7 +48,7 @@ class LegacyLdapConnectionTest extends AbstractConnectionTest
                 ->with($this->equalTo($search_result))
                 ->will($this->returnValue($expect));
 
-        $this->assertEquals($expect, $this->legacyLdapConnection->search($baseDn, $filter, $attributes));
+        $this->assertEquals($expect, $this->legacyLdapDriver->search($baseDn, $filter, $attributes));
     }
 
     // Bind (bindRequireDn=false)
@@ -66,7 +66,7 @@ class LegacyLdapConnectionTest extends AbstractConnectionTest
                 ->method('ldap_bind')
                 ->will($this->returnValueMap($this->provideTestBind()));
 
-        $this->assertEquals($expect, $this->legacyLdapConnection->bind($user, $password));
+        $this->assertEquals($expect, $this->legacyLdapDriver->bind($user, $password));
     }
 
     public function provideTestBind()
@@ -101,7 +101,7 @@ class LegacyLdapConnectionTest extends AbstractConnectionTest
                 ->will($this->returnValue(true));
 
 
-        $this->assertTrue($this->legacyLdapConnection->bind($user, $password));
+        $this->assertTrue($this->legacyLdapDriver->bind($user, $password));
     }
 
     // Bind DN (bindRequireDn=true)
@@ -113,7 +113,7 @@ class LegacyLdapConnectionTest extends AbstractConnectionTest
         $options['baseDn']              = 'ou=example,dc=org';
         $options['accountFilterFormat'] = '(&(uid=%s))';
         $options['bindRequiresDn']      = true;
-        $this->legacyLdapConnection = new LegacyLdapConnection($options);
+        $this->legacyLdapDriver = new LegacyLdapDriver($options);
 
         $baseDn = 'ou=example,dc=org';
         $filter = '(&(uid=test_username))';
@@ -148,7 +148,7 @@ class LegacyLdapConnectionTest extends AbstractConnectionTest
                 ->will($this->returnValue(true));
 
 
-        $this->assertTrue($this->legacyLdapConnection->bind($user, $password));
+        $this->assertTrue($this->legacyLdapDriver->bind($user, $password));
     }
 
     public function testBindByDnFromBadUsername()
@@ -159,7 +159,7 @@ class LegacyLdapConnectionTest extends AbstractConnectionTest
         $options['baseDn']              = 'ou=example,dc=org';
         $options['accountFilterFormat'] = '(&(uid=%s))';
         $options['bindRequiresDn']      = true;
-        $this->legacyLdapConnection = new LegacyLdapConnection($options);
+        $this->legacyLdapDriver = new LegacyLdapDriver($options);
 
         $username = 'bad_username';
         $password = 'password';
@@ -178,6 +178,6 @@ class LegacyLdapConnectionTest extends AbstractConnectionTest
                 ->method('ldap_get_entries')
                 ->will($this->returnValue($result));
 
-        $this->assertFalse($this->legacyLdapConnection->bind($user, $password));
+        $this->assertFalse($this->legacyLdapDriver->bind($user, $password));
     }
 }

@@ -9,18 +9,18 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * This class adapt ldap calls to Zend Framwork Ldap library functions.
+ * This class adapt ldap calls to Zend Framework Ldap library functions.
  * Also prevent information disclosure catching Zend Ldap Exceptions and passing
  * them to the logger.
  *
  * @since v2.0.0
  */
-class ZendLdapConnection implements LdapConnectionInterface
+class ZendLdapDriver implements LdapDriverInterface
 {
     /**
-     * @var Ldap $connection
+     * @var Ldap $driver
      */
-    private $connection;
+    private $driver;
 
     /**
      * @var LoggerInterface $logger
@@ -28,12 +28,12 @@ class ZendLdapConnection implements LdapConnectionInterface
     private $logger;
 
     /**
-     * @param Ldap            $connection Initializated Zend::Ldap Object
-     * @param LoggerInterface $logger     Optional logger for write debug messages.
+     * @param Ldap            $driver Initializated Zend::Ldap Object
+     * @param LoggerInterface $logger Optional logger for write debug messages.
      */
-    public function __construct(Ldap $connection, LoggerInterface $logger = null)
+    public function __construct(Ldap $driver, LoggerInterface $logger = null)
     {
-        $this->connection = $connection;
+        $this->driver = $driver;
         $this->logger = $logger;
     }
 
@@ -45,14 +45,14 @@ class ZendLdapConnection implements LdapConnectionInterface
         $this->logDebug(sprintf('ldap_search(%s, %s, %s)', $baseDn, $filter, $attributes));
 
         try {
-            $entries          = $this->connection->searchEntries($filter, $baseDn, Ldap::SEARCH_SCOPE_SUB, $attributes);
+            $entries          = $this->driver->searchEntries($filter, $baseDn, Ldap::SEARCH_SCOPE_SUB, $attributes);
             // searchEntries don't return 'count' key as specified by php native
             // function ldap_get_entries()
             $entries['count'] = count($entries);
         } catch (\Zend\Ldap\Exception $exception) {
             $this->zendExceptionHandler($exception);
 
-            throw new LdapConnectionException('An error occur with the search operation.');
+            throw new LdapDriverException('An error occur with the search operation.');
         }
 
         return $entries;
@@ -71,7 +71,7 @@ class ZendLdapConnection implements LdapConnectionInterface
 
         try {
             $this->logDebug(sprintf('ldap_bind(%s, ****)', $bind_rdn));
-            $bind = $this->connection->bind($bind_rdn, $password);
+            $bind = $this->driver->bind($bind_rdn, $password);
 
             return ($bind instanceof Ldap);
         } catch (\Zend\Ldap\Exception $exception) {

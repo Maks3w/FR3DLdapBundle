@@ -8,9 +8,9 @@ use FR3D\LdapBundle\Tests\TestUser;
 class LdapManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \FR3D\LdapBundle\Driver\LdapConnectionInterface
+     * @var \FR3D\LdapBundle\Driver\LdapDriverInterface
      */
-    protected $connection;
+    protected $driver;
 
     /**
      * @var \FR3D\LdapBundle\Model\UserManagerInterface
@@ -39,14 +39,14 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $this->connection = $this->getMock('FR3D\LdapBundle\Driver\LdapConnectionInterface');
+        $this->driver = $this->getMock('FR3D\LdapBundle\Driver\LdapDriverInterface');
 
         $this->userManager = $this->getMock('FR3D\LdapBundle\Model\UserManagerInterface');
         $this->userManager->expects($this->any())
                 ->method('createUser')
                 ->will($this->returnValue(new TestUser()));
 
-        $this->ldapManager = new LdapManager($this->connection, $this->userManager, $params);
+        $this->ldapManager = new LdapManager($this->driver, $this->userManager, $params);
     }
 
     /**
@@ -69,7 +69,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $this->ldapManager = new LdapManager($this->connection, $this->userManager, $params);
+        $this->ldapManager = new LdapManager($this->driver, $this->userManager, $params);
 
         $reflectionClass        = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
         $propertyLdapAttributes = $reflectionClass->getProperty('ldapAttributes');
@@ -92,7 +92,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
         $entry = array('count' => 1, array('dn'  => 'ou=group, dc=host, dc=foo', 'uid' => array('test_username')));
 
-        $this->connection->expects($this->once())
+        $this->driver->expects($this->once())
                 ->method('search')
                 ->with($this->equalTo('ou=Groups,dc=example,dc=com'), $this->equalTo('(&(attr0=value0)(uid=test_username))'), $this->equalTo(array('uid')))
                 ->will($this->returnValue($entry));
@@ -112,7 +112,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
         $entry = array('count' => 1, array('dn'  => 'ou=group, dc=host, dc=foo', 'uid' => array('test_username')));
 
-        $this->connection->expects($this->once())
+        $this->driver->expects($this->once())
                 ->method('search')
                 ->with($this->equalTo('ou=Groups,dc=example,dc=com'), $this->equalTo('(&(attr0=value0)(uid=test_username))'), $this->equalTo(array('uid')))
                 ->will($this->returnValue($entry));
@@ -170,7 +170,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     {
         $user = new TestUser();
 
-        $this->connection->expects($this->once())
+        $this->driver->expects($this->once())
                 ->method('bind')
                 ->with($user, $this->equalTo('password'))
                 ->will($this->returnValue(true));

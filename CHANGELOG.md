@@ -3,6 +3,9 @@ Changelog
 
 ### v2.0.0
 
+Ldap connection:
+- Connection component has been renamed to Driver.
+
 Ldap driver:
 - [Feature]  Added support for Zend Framework Ldap library
 - [Feature]  Now you could authenticate without DN if your LDAP support that.

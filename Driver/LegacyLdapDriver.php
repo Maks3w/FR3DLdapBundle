@@ -9,10 +9,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * This class use php-ldap native functions for manage an ldap directory.
  *
- * @deprecated v2.0.0 Deprecated in favour of ZendConnection
+ * @deprecated v2.0.0 Deprecated in favour of ZendLdapDriver
  * @since v1.0.0
  */
-final class LegacyLdapConnection implements LdapConnectionInterface
+final class LegacyLdapDriver implements LdapDriverInterface
 {
     private $params = array();
 
@@ -53,7 +53,7 @@ final class LegacyLdapConnection implements LdapConnectionInterface
      * {@inheritDoc}
      *
      * @uses connect()
-     * @throws LdapConnectionException
+     * @throws LdapDriverException
      */
     public function bind(UserInterface $user, $password)
     {
@@ -61,7 +61,7 @@ final class LegacyLdapConnection implements LdapConnectionInterface
             $bind_rdn = $user->getDn();
         } elseif (isset($this->params['bindRequiresDn']) && $this->params['bindRequiresDn']) {
             if (!isset($this->params['baseDn']) || !isset($this->params['accountFilterFormat'])) {
-                throw new LdapConnectionException('Param baseDn and accountFilterFormat is required if bindRequiresDn is true');
+                throw new LdapDriverException('Param baseDn and accountFilterFormat is required if bindRequiresDn is true');
             }
 
             $bind_rdn = $this->search($this->params['baseDn'], sprintf($this->params['accountFilterFormat'], $user->getUsername()));
@@ -108,7 +108,7 @@ final class LegacyLdapConnection implements LdapConnectionInterface
 
         if (isset($this->params['username'])) {
             if (!isset($this->params['password'])) {
-                throw new LdapConnectionException('You must set a password in config');
+                throw new LdapDriverException('You must set a password in config');
             }
 
             $bindress = @ldap_bind($ress, $this->params['username'], $this->params['password']);
@@ -117,7 +117,7 @@ final class LegacyLdapConnection implements LdapConnectionInterface
         }
 
         if (!$bindress) {
-            throw new LdapConnectionException('Unable to connect Ldap');
+            throw new LdapDriverException('Unable to connect Ldap');
         }
 
         $this->ldap_res = $ress;

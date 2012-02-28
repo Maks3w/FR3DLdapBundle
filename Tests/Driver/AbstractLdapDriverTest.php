@@ -6,7 +6,7 @@ require_once 'LDAPVirtual/LDAPVirtualInterface.php';
 require_once 'LDAPVirtual/zend-ldap_php-ldap_override.php';
 require_once 'LDAPVirtual/fr3d-ldapbundle-driver_php-ldap_override.php';
 
-abstract class AbstractConnectionTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractDriverTest extends \PHPUnit_Framework_TestCase
 {
 
     protected function setUp()

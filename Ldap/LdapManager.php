@@ -2,22 +2,22 @@
 
 namespace FR3D\LdapBundle\Ldap;
 
-use FR3D\LdapBundle\Driver\LdapConnectionInterface;
+use FR3D\LdapBundle\Driver\LdapDriverInterface;
 use FR3D\LdapBundle\Model\LdapUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 class LdapManager implements LdapManagerInterface
 {
-    private $connection;
+    private $driver;
     private $userManager;
     private $params = array();
     private $ldapAttributes = array();
     private $ldapUsernameAttr;
 
-    public function __construct(LdapConnectionInterface $connection, $userManager, array $params)
+    public function __construct(LdapDriverInterface $driver, $userManager, array $params)
     {
-        $this->connection = $connection;
+        $this->driver = $driver;
         $this->userManager = $userManager;
         $this->params = $params;
 
@@ -42,7 +42,7 @@ class LdapManager implements LdapManagerInterface
     public function findUserBy(array $criteria)
     {
         $filter  = $this->buildFilter($criteria);
-        $entries = $this->connection->search($this->params['baseDn'], $filter, $this->ldapAttributes);
+        $entries = $this->driver->search($this->params['baseDn'], $filter, $this->ldapAttributes);
         if ($entries['count'] > 1) {
             throw new \Exception('This search can only return a single user');
         }
@@ -105,7 +105,7 @@ class LdapManager implements LdapManagerInterface
      */
     public function bind(UserInterface $user, $password)
     {
-        return $this->connection->bind($user, $password);
+        return $this->driver->bind($user, $password);
     }
 
     /**

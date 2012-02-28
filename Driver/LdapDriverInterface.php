@@ -5,12 +5,12 @@ namespace FR3D\LdapBundle\Driver;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Connection interface.
- * Driver connections must implement this interface.
+ * Driver interface.
+ * Ldap drivers must implement this interface.
  *
  * @see http://www.php.net/ref.ldap.php
  */
-interface LdapConnectionInterface
+interface LdapDriverInterface
 {
 
     /**
@@ -21,7 +21,7 @@ interface LdapConnectionInterface
      *
      * @return boolean true on sucess or false on failure
      *
-     * @throws LdapConnectionException if some error occurs.
+     * @throws LdapDriverException if some error occurs.
      */
     function bind(UserInterface $user, $password);
 
@@ -39,7 +39,7 @@ interface LdapConnectionInterface
      *                       see {@link http://www.php.net/function.ldap-get-entries.php}
      *                       for array format examples.
      * 
-     * * @throws LdapConnectionException if some error occurs.
+     * * @throws LdapDriverException if some error occurs.
      */
     function search($baseDn, $filter, array $attributes = array());
 }
