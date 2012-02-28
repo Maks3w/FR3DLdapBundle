@@ -92,6 +92,10 @@ final class LegacyLdapConnection implements LdapConnectionInterface
 
         $ress = @ldap_connect($host, $this->params['port']);
 
+        if (isset($this->params['networkTimeout'])) {
+            ldap_set_option($ress, LDAP_OPT_NETWORK_TIMEOUT, $this->params['networkTimeout']);
+        }
+
         if (isset($this->params['useStartTls']) && (boolean) $this->params['useStartTls']) {
             ldap_start_tls($ress);
         }

@@ -43,6 +43,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('allowEmptyPassword')->end()
                             ->scalarNode('optReferrals')->end()
                             ->scalarNode('tryUsernameSplit')->end()
+                            ->scalarNode('networkTimeout')->end()
                         ->end()
                     ->end()
                     ->arrayNode('user')
