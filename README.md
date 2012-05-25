@@ -15,7 +15,10 @@ Features included:
 
 **Note:** This bundle cannot work as standalone at this moment and requires an User Manager like `FOSUserBundle`
 
-**Caution:** This bundles is developed in sync with [symfony's repository](https://github.com/symfony/symfony)
+**Versions and compatibilites:**
+- 1.5.x is compatible with Symfony 2.0.x and is recommended for stable projects.
+- 1.6.x is compatible with Symfony 2.1.x and has the same features than 1.5.x
+- 2.0.x is actually compatible with Symfony 2.0.x and have new features. This version is actually under development and is subject to changes.
 
 [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=master)](http://travis-ci.org/Maks3w/FR3DLdapBundle)
 
