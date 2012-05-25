@@ -7,48 +7,26 @@ This bundle is based on the original work of BorisMorel and adapted to use with 
 
 Install
 -------
-1. Download LdapBundle
-2. Configure the Autoloader
-3. Enable the Bundle
-4. Configure security.yml
-5. Configure config.yml
-6. Enable FOSUserBundle as User Provider
-7. Implement LdapUserInterface on your User Class
+1. Add FR3DLdapBundle in your composer.json
+2. Enable the Bundle
+3. Configure security.yml
+4. Configure config.yml
+5. Enable FOSUserBundle as User Provider
+6. Implement LdapUserInterface on your User Class
 
-### 1. Download LdapBundle
+### 1. Add FR3DLdapBundle in your composer.json
 
 Add this bundle to your ``vendor/`` dir:
 
-* Using the vendors script.
-
-      Add the following lines in your ``deps`` file::
-
-        [FR3DLdapBundle]
-            git=git://github.com/Maks3w/FR3DLdapBundle.git
-            target=/bundles/FR3D/LdapBundle
-            version=origin/1.6.x
-
-      Run the vendors script:
-
-            ./bin/vendors install
-
-* Using git submodules.
-
-        $ git submodule add -b 1.6.x git://github.com/Maks3w/FR3DLdapBundle.git vendor/bundles/FR3D/LdapBundle
-
-### 2. Configure the Autoloader
-
-``` php
-<?php
-// app/autoload.php
-
-$loader->registerNamespaces(array(
-     // ...
-    'FR3D' => __DIR__.'/../vendor/bundles',
-));
+```json
+{
+    "require": {
+        "fr3d/ldap-bundle": "1.6.*"
+    }
+}
 ```
 
-### 3. Enable the Bundle
+### 2. Enable the Bundle
 
 ``` php
 <?php
@@ -57,13 +35,13 @@ $loader->registerNamespaces(array(
 public function registerBundles()
 {
     $bundles = array(
-    // ...
-    new FR3D\LdapBundle\FR3DLdapBundle(),
+        // ...
+        new FR3D\LdapBundle\FR3DLdapBundle(),
     );
 }
 ```
 
-### 4. Configure security.yml
+### 3. Configure security.yml
 ``` yaml
 # app/config/security.yml
 
@@ -86,7 +64,7 @@ security:
       AcmeBundle\Acme\User\LdapUser: plaintext
 ```
 
-### 5. Configure config.yml
+### 4. Configure config.yml
 ``` yaml
 # app/config/config.yml
 fr3d_ldap:
@@ -113,7 +91,7 @@ fr3d_ldap:
 
 **You need to configure the parameters under the fr3d_ldap section.**
 
-### 6. Enable FOSUserBundle as User Provider
+### 5. Enable FOSUserBundle as User Provider
 
 In security.yml make a chain_provider with fos_userbundle before fr3d_ldapbundle
 
@@ -133,7 +111,7 @@ security:
 
 ```
 
-### 7. Implement LdapUserInterface on your User Class
+### 6. Implement LdapUserInterface on your User Class
 
 It's necesary implement `FR3D\LdapBundle\Model\LdapUserInterface` on your `User` for manipulate the ldap object Distinguished Name (DN)
 
