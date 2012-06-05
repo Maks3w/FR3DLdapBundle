@@ -42,7 +42,7 @@ class ZendLdapDriver implements LdapDriverInterface
      */
     public function search($baseDn, $filter, array $attributes = array())
     {
-        $this->logDebug(sprintf('ldap_search(%s, %s, %s)', $baseDn, $filter, $attributes));
+        $this->logDebug(sprintf('ldap_search(%s, %s, %s)', $baseDn, $filter, join(',', $attributes)));
 
         try {
             $entries          = $this->driver->searchEntries($filter, $baseDn, Ldap::SEARCH_SCOPE_SUB, $attributes);

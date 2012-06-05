@@ -36,7 +36,7 @@ final class LegacyLdapDriver implements LdapDriverInterface
             $this->connect();
         }
 
-        $this->logDebug(sprintf('ldap_search(%s, %s, %s)', $baseDn, $filter, $attributes));
+        $this->logDebug(sprintf('ldap_search(%s, %s, %s)', $baseDn, $filter, join(',', $attributes)));
         $search = ldap_search($this->ldap_res, $baseDn, $filter, $attributes);
 
         if ($search) {
