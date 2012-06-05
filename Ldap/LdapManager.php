@@ -4,6 +4,7 @@ namespace FR3D\LdapBundle\Ldap;
 
 use FR3D\LdapBundle\Driver\LdapConnectionInterface;
 use FR3D\LdapBundle\Model\LdapUserInterface;
+use FR3D\LdapBundle\Model\LdapUserRoleInterface;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 class LdapManager implements LdapManagerInterface
@@ -80,8 +81,6 @@ class LdapManager implements LdapManagerInterface
      * 
      * @param LdapUserInterface $user  user to hydrate
      * @param array             $entry ldap result
-     * 
-     * @return LdapUserInterface
      */
     protected function hydrate(LdapUserInterface $user, array $entry)
     {
@@ -95,7 +94,44 @@ class LdapManager implements LdapManagerInterface
             call_user_func(array($user, $attr['user_method']), $entry[$attr['ldap_attr']][0]);
         }
 
+        if ($user instanceof LdapUserRoleInterface && count($this->params['role'])) {
+            $this->addRoles($user, $entry);
+        }
+
         $user->setDn($entry['dn']);
+    }
+
+    /**
+     * Add roles based on role configuration
+     *
+     * @param LdapUserRoleInterface
+     * @param array $entry
+     * @return void
+     */
+    private function addRoles($user, $entry)
+    {
+        $filter = isset($this->params['role']['filter']) ? $this->params['role']['filter'] : '';
+
+        $entries = $this->connection->search(
+            $this->params['role']['baseDn'],
+            sprintf('(&%s(%s=%s))', $filter, $this->params['role']['userAttribute'], $entry['dn']),
+            array($this->params['role']['nameAttribute'])
+        );
+
+        for ($i = 0; $i < $entries['count']; $i++) {
+            $user->addRole(sprintf('ROLE_%s',
+               self::slugify($entries[$i][$this->params['role']['nameAttribute']][0])
+            ));
+        }
+    }
+
+    private static function slugify($role)
+    {
+        $role = preg_replace('/\W+/', '_', $role);
+        $role = trim($role, '_');
+        $role = strtoupper($role);
+
+        return $role;
     }
 
     /**
