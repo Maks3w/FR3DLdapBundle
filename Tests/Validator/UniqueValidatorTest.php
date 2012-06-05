@@ -17,9 +17,13 @@ use FR3D\LdapBundle\Tests\TestUser;
 
 class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var UniqueValidator */
     private $validator;
+    /** @var \FR3D\LdapBundle\Ldap\LdapManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     private $ldapManagerMock;
+    /** @var Unique */
     private $constraint;
+    /** @var TestUser */
     private $user;
 
     public function setUp()

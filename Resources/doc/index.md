@@ -113,7 +113,7 @@ fr3d_ldap:
     user:
         baseDn: ou=users, dc=host, dc=foo
         filter: (&(ObjectClass=Person))
-        attributes:          # Expecify ldap attributes mapping [ldap attribute, user object method]
+        attributes:          # Specify ldap attributes mapping [ldap attribute, user object method]
 #           - { ldap_attr: uid,  user_method: setUsername } # Default
 #           - { ldap_attr: cn,   user_method: setName }     # Optional
 #           - { ldap_attr: ...,  user_method: ... }         # Optional

@@ -9,7 +9,7 @@ use FR3D\LdapBundle\Tests\TestUser;
 class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \FR3D\LdapBundle\Ldap\LdapManager
+     * @var \FR3D\LdapBundle\Ldap\LdapManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $ldapManager;
 

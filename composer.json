@@ -3,32 +3,17 @@
     "type": "symfony-bundle",
     "description": "This package provide users and authentication services based on LDAP directories for Symfony2 framework",
     "keywords": ["ldap", "authentication"],
-    "version": "2.0.0-alpha3",
     "license": "MIT",
+    "homepage": "https://github.com/Maks3w/FR3DLdapBundle",
     "authors": [
         {
             "name": "Maks3w"
         }
     ],
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "zend/zf2",
-                "version": "2.0.0-beta3",
-                "source": {
-                    "type": "git",
-                    "url": "http://github.com/zendframework/zf2.git",
-                    "reference": "release-2.0.0beta3"
-                },
-                "autoload": {
-                    "psr-0": {
-                        "Zend\\": "library/"
-                    }
-                }
-            }
-        }
-    ],
+    "support": {
+        "issues": "https://github.com/Maks3w/FR3DLdapBundle/issues",
+        "source": "https://github.com/Maks3w/FR3DLdapBundle"
+    },
     "require": {
         "php": ">=5.3.2",
         "ext-ldap": "*",
@@ -37,17 +22,18 @@
         "symfony/security": "2.0.*",
         "symfony/security-bundle": "2.0.*"
     },
-    "recommend": {
+    "require-dev": {
         "symfony/class-loader": "2.0.*",
         "symfony/validator": "2.0.*"
     },
     "suggest": {
-        "zend/zf2": ">=2.0.0-beta3",
-        "symfony/framework-bundle": "2.0.*",
-        "friendsofsymfony/user-bundle": "*"
+        "symfony/validator": "Allow pre-validate for existing users before register new ones",
+        "friendsofsymfony/user-bundle": "Integrate authentication and management for DB users, useful for unmanaged LDAP servers"
     },
     "autoload": {
-        "psr-0": { "FR3D\\LdapBundle": "" }
+        "psr-0": {
+            "FR3D\\LdapBundle": ""
+        }
     },
     "target-dir": "FR3D/LdapBundle"
 }

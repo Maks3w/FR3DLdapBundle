@@ -10,7 +10,6 @@
          stopOnFailure="false"
          syntaxCheck="false"
          bootstrap="./Tests/bootstrap.php">
-
     <testsuites>
         <testsuite name="FR3DLdapBundle test suite">
             <directory suffix="Test.php">./Tests</directory>

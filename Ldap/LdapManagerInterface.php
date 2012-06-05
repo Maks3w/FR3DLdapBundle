@@ -11,7 +11,7 @@ interface LdapManagerInterface
      * Find a user by its username.
      *
      * @param string  $username
-     * @return UserInterface or null if user does not exist
+     * @return \Symfony\Component\Security\Core\User\UserInterface or null if user does not exist
      */
     function findUserByUsername($username);
 
@@ -19,7 +19,7 @@ interface LdapManagerInterface
      * Finds one user by the given criteria.
      *
      * @param array $criteria
-     * @return UserInterface
+     * @return \Symfony\Component\Security\Core\User\UserInterface
      */
     function findUserBy(array $criteria);
 
@@ -27,7 +27,7 @@ interface LdapManagerInterface
      * Bind the user on ldap
      *
      * @param UserInterface $user
-     * @param string password
+     * @param string        $password
      * @return Boolean
      */
     function bind(UserInterface $user, $password);
@@ -35,7 +35,7 @@ interface LdapManagerInterface
     /**
      * Escapes the given VALUES according to RFC 2254 so that they can be safely used in LDAP filters.
      *
-     * Any control characters with an ACII code < 32 as well as the characters with special meaning in
+     * Any control characters with an ASCII code < 32 as well as the characters with special meaning in
      * LDAP filters "*", "(", ")", and "\" (the backslash) are converted into the representation of a
      * backslash followed by two hex digits representing the hexadecimal value of the character.
      * @see Net_LDAP2_Util::escape_filter_value() from Benedikt Hallinger <beni@php.net>
