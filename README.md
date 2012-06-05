@@ -15,7 +15,7 @@ Features included:
 
 **Note:** This bundle cannot work as standalone at this moment and requires an User Manager like `FOSUserBundle`
 
-**Versions and compatibilites:**
+**Versions and compatibilities:**
 - 1.5.x is compatible with Symfony 2.0.x and is recommended for stable projects.
 - 1.6.x is compatible with Symfony 2.1.x and has the same features than 1.5.x
 - 2.0.x is actually compatible with Symfony 2.0.x and have new features. This version is actually under development and is subject to changes.

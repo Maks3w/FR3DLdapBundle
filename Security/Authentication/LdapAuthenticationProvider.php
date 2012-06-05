@@ -21,7 +21,7 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
     private $userProvider;
 
     /**
-     * @var LdapManager
+     * @var LdapManagerInterface
      */
     private $ldapManager;
 

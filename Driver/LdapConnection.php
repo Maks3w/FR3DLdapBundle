@@ -30,10 +30,10 @@ class LdapConnection implements LdapConnectionInterface
             $entries = ldap_get_entries($this->ldap_res, $search);
             if (is_array($entries)) {
                 return $entries;
-            } else {
-                return false;
             }
         }
+
+        return false;
     }
 
     public function bind($user_dn, $password)

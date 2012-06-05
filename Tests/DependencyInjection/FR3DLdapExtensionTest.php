@@ -8,6 +8,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
 {
 
+    /** @var ContainerBuilder */
+    public $container;
+
     public function testConfigurationNamespace()
     {
         $container = new ContainerBuilder();

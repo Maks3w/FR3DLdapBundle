@@ -58,9 +58,9 @@ class LdapManager implements LdapManagerInterface
 
     /**
      * Build Ldap filter
-     * 
-     * @param array $criteria
-     * 
+     *
+     * @param array  $criteria
+     * @param string $condition
      * @return string
      */
     private function buildFilter(array $criteria, $condition = '&')
@@ -109,7 +109,7 @@ class LdapManager implements LdapManagerInterface
     /**
      * Escapes the given VALUES according to RFC 2254 so that they can be safely used in LDAP filters.
      *
-     * Any control characters with an ACII code < 32 as well as the characters with special meaning in
+     * Any control characters with an ASCII code < 32 as well as the characters with special meaning in
      * LDAP filters "*", "(", ")", and "\" (the backslash) are converted into the representation of a
      * backslash followed by two hex digits representing the hexadecimal value of the character.
      * @see Net_LDAP2_Util::escape_filter_value() from Benedikt Hallinger <beni@php.net>

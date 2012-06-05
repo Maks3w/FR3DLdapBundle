@@ -8,12 +8,12 @@ use FR3D\LdapBundle\Tests\TestUser;
 class LdapManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \FR3D\LdapBundle\Driver\LdapConnectionInterface
+     * @var \FR3D\LdapBundle\Driver\LdapConnectionInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $connection;
 
     /**
-     * @var \FR3D\LdapBundle\Model\UserManagerInterface
+     * @var \FR3D\LdapBundle\Model\UserManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $userManager;
 
