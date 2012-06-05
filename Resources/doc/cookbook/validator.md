@@ -37,4 +37,4 @@ to the correct one.
 </constraint-mapping>
 ```
 
-NOTE: At the moment of write this receipe, the validator only can check uniqueness with the username attribute
+NOTE: At the moment of write this recipe, the validator only can check uniqueness with the username attribute

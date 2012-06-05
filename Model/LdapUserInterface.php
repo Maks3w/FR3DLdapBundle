@@ -5,16 +5,16 @@ namespace FR3D\LdapBundle\Model;
 interface LdapUserInterface
 {
     /**
-     * Set Ldap Distinguised Name
+     * Set Ldap Distinguished Name
      *
-     * @param string Distinguised Name
+     * @param string $dn Distinguished Name
      */
     function setDn($dn);
 
     /**
-     * Get Ldap Distinguised Name
+     * Get Ldap Distinguished Name
      *
-     * @return string Distinguised Name
+     * @return string Distinguished Name
      */
     function getDn();
 }
