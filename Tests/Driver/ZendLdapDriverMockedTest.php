@@ -5,6 +5,7 @@ namespace FR3D\LdapBundle\Tests\Driver;
 use FR3D\LdapBundle\Driver\ZendLdapDriver;
 use FR3D\LdapBundle\Tests\TestUser;
 use Zend\Ldap\Ldap;
+use Zend\Ldap\Exception\LdapException as ZendLdapException;
 
 /**
  * Test class for ZendLdapDriver.
@@ -60,7 +61,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expect, $this->zendLdapDriver->search($baseDn, $filter, $attributes));
     }
 
-    public function testBindByUsernameSucessfull()
+    public function testBindByUsernameSuccessful()
     {
         $username = 'test_username';
         $password = 'password';
@@ -85,7 +86,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
         $this->zend->expects($this->once())
                 ->method('bind')
                 ->with($this->equalTo($username), $this->equalTo($password))
-                ->will($this->throwException(new \Zend\Ldap\Exception($this->zend)));
+                ->will($this->throwException(new ZendLdapException($this->zend)));
 
         $this->assertFalse($this->zendLdapDriver->bind($user, $password));
     }
@@ -100,12 +101,12 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
         $this->zend->expects($this->once())
                 ->method('bind')
                 ->with($this->equalTo($username), $this->equalTo($password))
-                ->will($this->throwException(new \Zend\Ldap\Exception($this->zend)));
+                ->will($this->throwException(new ZendLdapException($this->zend)));
 
         $this->assertFalse($this->zendLdapDriver->bind($user, $password));
     }
 
-    public function testBindByDnSucessfull()
+    public function testBindByDnSuccessful()
     {
         $dn       = 'uid=test_username,ou=example,dc=com';
         $password = 'password';
@@ -130,12 +131,12 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
         $this->zend->expects($this->once())
                 ->method('bind')
                 ->with($this->equalTo($dn), $this->equalTo($password))
-                ->will($this->throwException(new \Zend\Ldap\Exception($this->zend)));
+                ->will($this->throwException(new ZendLdapException($this->zend)));
 
         $this->assertFalse($this->zendLdapDriver->bind($user, $password));
     }
 
-    public function testBindUserInterfaceByUsernameSucessfull()
+    public function testBindUserInterfaceByUsernameSuccessful()
     {
 
         $username = 'username';

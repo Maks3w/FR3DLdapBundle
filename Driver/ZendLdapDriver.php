@@ -3,7 +3,7 @@
 namespace FR3D\LdapBundle\Driver;
 
 use Zend\Ldap\Ldap;
-use Zend\Ldap\Exception;
+use Zend\Ldap\Exception\LdapException as ZendLdapException;
 use FR3D\LdapBundle\Model\LdapUserInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -28,7 +28,7 @@ class ZendLdapDriver implements LdapDriverInterface
     private $logger;
 
     /**
-     * @param Ldap            $driver Initializated Zend::Ldap Object
+     * @param Ldap            $driver Initialized Zend::Ldap Object
      * @param LoggerInterface $logger Optional logger for write debug messages.
      */
     public function __construct(Ldap $driver, LoggerInterface $logger = null)
@@ -49,7 +49,7 @@ class ZendLdapDriver implements LdapDriverInterface
             // searchEntries don't return 'count' key as specified by php native
             // function ldap_get_entries()
             $entries['count'] = count($entries);
-        } catch (\Zend\Ldap\Exception $exception) {
+        } catch (ZendLdapException $exception) {
             $this->zendExceptionHandler($exception);
 
             throw new LdapDriverException('An error occur with the search operation.');
@@ -61,7 +61,7 @@ class ZendLdapDriver implements LdapDriverInterface
     /**
      * {@inheritDoc}
      */
-    public function bind(UserInterface $user, $password = null)
+    public function bind(UserInterface $user, $password)
     {
         if ($user instanceof LdapUserInterface && $user->getDn()) {
             $bind_rdn = $user->getDn();
@@ -74,10 +74,8 @@ class ZendLdapDriver implements LdapDriverInterface
             $bind = $this->driver->bind($bind_rdn, $password);
 
             return ($bind instanceof Ldap);
-        } catch (\Zend\Ldap\Exception $exception) {
+        } catch (ZendLdapException $exception) {
             $this->zendExceptionHandler($exception);
-
-            return false;
         }
 
         return false;
@@ -86,13 +84,13 @@ class ZendLdapDriver implements LdapDriverInterface
     /**
      * Treat a Zend Ldap Exception
      * 
-     * @param \Zend\Ldap\Exception $exception
+     * @param ZendLdapException $exception
      */
-    protected function zendExceptionHandler(\Zend\Ldap\Exception $exception)
+    protected function zendExceptionHandler(ZendLdapException $exception)
     {
         switch ($exception->getCode()) {
             // Error level codes
-            case Exception::LDAP_SERVER_DOWN:
+            case ZendLdapException::LDAP_SERVER_DOWN:
                 if ($this->logger) {
                     $this->logger->err($exception->getMessage());
                 }
@@ -112,10 +110,8 @@ class ZendLdapDriver implements LdapDriverInterface
      */
     private function logDebug($message)
     {
-        if (!$this->logger) {
-            return;
+        if ($this->logger) {
+            $this->logger->debug($message);
         }
-
-        $this->logger->debug($message);
     }
 }

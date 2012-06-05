@@ -24,11 +24,13 @@
     },
     "require-dev": {
         "symfony/class-loader": "2.0.*",
-        "symfony/validator": "2.0.*"
+        "symfony/validator": "2.0.*",
+        "zendframework/zendframework": ">=2.0.0beta4"
     },
     "suggest": {
         "symfony/validator": "Allow pre-validate for existing users before register new ones",
-        "friendsofsymfony/user-bundle": "Integrate authentication and management for DB users, useful for unmanaged LDAP servers"
+        "friendsofsymfony/user-bundle": "Integrate authentication and management for DB users, useful for unmanaged LDAP servers",
+        "zendframework/zendframework": "A framework with a great LDAP component with CRUD features"
     },
     "autoload": {
         "psr-0": {
