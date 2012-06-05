@@ -3,13 +3,17 @@
     "type": "symfony-bundle",
     "description": "This package provide users and authentication services based on LDAP directories for Symfony2 framework",
     "keywords": ["ldap", "authentication"],
-    "version": "1.5.2",
     "license": "MIT",
+    "homepage": "https://github.com/Maks3w/FR3DLdapBundle",
     "authors": [
         {
             "name": "Maks3w"
         }
     ],
+    "support": {
+        "issues": "https://github.com/Maks3w/FR3DLdapBundle/issues",
+        "source": "https://github.com/Maks3w/FR3DLdapBundle"
+    },
     "require": {
         "php": ">=5.3.2",
         "ext-ldap": "*",
@@ -18,16 +22,23 @@
         "symfony/security": "2.0.*",
         "symfony/security-bundle": "2.0.*"
     },
-    "recommend": {
+    "require-dev": {
         "symfony/class-loader": "2.0.*",
         "symfony/validator": "2.0.*"
     },
     "suggest": {
-        "symfony/framework-bundle": "2.0.*",
-        "friendsofsymfony/user-bundle": "*"
+        "symfony/validator": "Allow pre-validate for existing users before register new ones",
+        "friendsofsymfony/user-bundle": "Integrate authentication and management for DB users, useful for unmanaged LDAP servers"
     },
     "autoload": {
-        "psr-0": { "FR3D\\LdapBundle": "" }
+        "psr-0": {
+            "FR3D\\LdapBundle": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.5.x-dev"
+        }
     },
     "target-dir": "FR3D/LdapBundle"
 }
