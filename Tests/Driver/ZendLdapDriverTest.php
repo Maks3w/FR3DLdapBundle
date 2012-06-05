@@ -92,7 +92,7 @@ class ZendLdapDriverTest extends AbstractDriverTest
         );
     }
 
-    public function testBindUserInterfaceByUsernameSucessfull()
+    public function testBindUserInterfaceByUsernameSuccessful()
     {
         global $ldapServer;
 

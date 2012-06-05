@@ -19,7 +19,7 @@ interface LdapDriverInterface
      * @param UserInterface $user     The user for authenticating the bind.
      * @param string        $password The password for authenticating the bind.
      *
-     * @return boolean true on sucess or false on failure
+     * @return boolean true on success or false on failure
      *
      * @throws LdapDriverException if some error occurs.
      */
@@ -38,8 +38,8 @@ interface LdapDriverInterface
      *                       multi-dimensional array on success and FALSE on error.
      *                       see {@link http://www.php.net/function.ldap-get-entries.php}
      *                       for array format examples.
-     * 
-     * * @throws LdapDriverException if some error occurs.
+     *
+     * @throws LdapDriverException if some error occurs.
      */
     function search($baseDn, $filter, array $attributes = array());
 }

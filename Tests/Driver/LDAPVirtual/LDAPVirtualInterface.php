@@ -1,5 +1,7 @@
 <?php
 
+namespace FR3D\LdapBundle\Tests\Driver\LDAPVirtual;
+
 interface LDAPVirtualInterface
 {
 

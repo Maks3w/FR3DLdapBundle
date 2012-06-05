@@ -43,10 +43,9 @@ final class LegacyLdapDriver implements LdapDriverInterface
             $entries = ldap_get_entries($this->ldap_res, $search);
             if (is_array($entries)) {
                 return $entries;
-            } else {
-                return false;
             }
         }
+        return false;
     }
 
     /**

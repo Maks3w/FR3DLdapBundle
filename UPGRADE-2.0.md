@@ -59,7 +59,7 @@ UPGRADE FROM 1.5 to 2.0
 
         Before:
 
-            <service id="lockermanager.ldap.ldap_manager" class="UC3MDelegEst\LockerManagerBundle\Ldap\LdapManager">
+            <service id="foo.ldap.ldap_manager" class="Foo\BarBundle\Ldap\LdapManager">
                 <argument type="service" id="fr3d_ldap.client" />
                 <argument type="service" id="fr3d_ldap.user_manager" />
                 <argument>%fr3d_ldap.ldap_manager.parameters%</argument>
@@ -67,7 +67,7 @@ UPGRADE FROM 1.5 to 2.0
 
         After:
 
-            <service id="lockermanager.ldap.ldap_manager" class="UC3MDelegEst\LockerManagerBundle\Ldap\LdapManager">
+            <service id="foo.ldap.ldap_manager" class="Foo\BarBundle\Ldap\LdapManager">
                 <argument type="service" id="fr3d_ldap.ldap_driver" />
                 <argument type="service" id="fr3d_ldap.user_manager" />
                 <argument>%fr3d_ldap.ldap_manager.parameters%</argument>
