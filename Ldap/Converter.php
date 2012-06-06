@@ -32,6 +32,7 @@ class Converter
                 $string = str_replace($char, '\\' . $hex, $string);
             }
         }
+
         return $string;
     }
 
@@ -49,6 +50,7 @@ class Converter
     public static function hex32ToAsc($string)
     {
         $string = preg_replace("/\\\([0-9A-Fa-f]{2})/e", "''.chr(hexdec('\\1')).''", $string);
+
         return $string;
     }
 }

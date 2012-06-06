@@ -2,7 +2,6 @@
 
 namespace FR3D\LdapBundle\Security\User;
 
-use FR3D\LdapBundle\Model\LdapUserInterface;
 use FR3D\LdapBundle\Ldap\LdapManagerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;

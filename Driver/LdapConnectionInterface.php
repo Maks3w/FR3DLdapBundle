@@ -13,7 +13,7 @@ interface LdapConnectionInterface
     /**
      * Bind to LDAP directory
      */
-    function bind($user_dn, $password);
+    public function bind($user_dn, $password);
 
-    function search($baseDn, $filter, array $attributes = array());
+    public function search($baseDn, $filter, array $attributes = array());
 }
