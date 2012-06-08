@@ -17,11 +17,11 @@ Install
 
 ### 1. Download LdapBundle
 
-Add this bundle to your ``vendor/`` dir:
+Add this bundle to your `vendor/` dir:
 
 * Using the vendors script.
 
-      Add the following lines in your ``deps`` file::
+      Add the following lines in your `deps` file::
 
         [FR3DLdapBundle]
             git=git://github.com/Maks3w/FR3DLdapBundle.git
@@ -69,13 +69,13 @@ public function registerBundles()
 security:
   firewalls:
     main:
-      pattern:          ^/
-      fr3d_ldap:        ~
+      pattern:    ^/
+      fr3d_ldap:  ~
       form_login:
           always_use_default_target_path: true
           default_target_path: /profile
-      logout:       true
-      anonymous:    true
+      logout:     true
+      anonymous:  true
 
   providers:
     fr3d_ldapbundle:
