@@ -3,7 +3,6 @@
 namespace FR3D\LdapBundle\Tests\Security\User;
 
 use FR3D\LdapBundle\Security\User\LdapUserProvider;
-use FR3D\LdapBundle\Ldap\LdapManagerInterface;
 use FR3D\LdapBundle\Tests\TestUser;
 
 class LdapUserProviderTest extends \PHPUnit_Framework_TestCase

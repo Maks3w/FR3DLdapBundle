@@ -43,11 +43,13 @@ class LdapConnection implements LdapConnectionInterface
         }
         if (!$user_dn) {
             $this->logInfo('You must bind with an ldap user_dn');
+
             return false;
         }
 
         if (!$password) {
             $this->logInfo('Password can not be null to bind');
+
             return false;
         }
 

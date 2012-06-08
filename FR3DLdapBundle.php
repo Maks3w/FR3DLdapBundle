@@ -14,8 +14,7 @@ class FR3DLdapBundle extends Bundle
             throw new \Exception("module php-ldap isn't install");
         }
     }
-    
-    /* Require Symfony > 2.1.x */
+
     public function build(ContainerBuilder $container)
     {
         parent::build($container);

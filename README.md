@@ -16,11 +16,10 @@ Features included:
 **Note:** This bundle cannot work as standalone at this moment and requires an User Manager like `FOSUserBundle`
 
 **Versions and compatibilities:**
-- 1.5.x is compatible with Symfony 2.0.x and is recommended for stable projects.
-- 1.6.x is compatible with Symfony 2.1.x and has the same features than 1.5.x
-- 2.0.x is actually compatible with Symfony 2.0.x and have new features. This version is actually under development and is subject to changes.
-
-[![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=master)](http://travis-ci.org/Maks3w/FR3DLdapBundle)
+- [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=1.5.x)](http://travis-ci.org/Maks3w/FR3DLdapBundle) `1.5.x` is compatible with Symfony 2.0.x and is recommended for stable projects.
+- [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=1.6.x)](http://travis-ci.org/Maks3w/FR3DLdapBundle) `1.6.x` is compatible with Symfony 2.1.x and has the same features than 1.5.x
+- [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=2.0.x)](http://travis-ci.org/Maks3w/FR3DLdapBundle) `2.0.x` is actually compatible with Symfony 2.0.x and have new features. This version is actually under development and is subject to changes.
+- [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=master)](http://travis-ci.org/Maks3w/FR3DLdapBundle) `Master` is, at this moment, synced with 1.5.x but I encourage you fix your installation to the 1.5.x version branch unless you like the risk.
 
 Documentation
 -------------
@@ -28,12 +27,12 @@ Documentation
 The bulk of the documentation is stored in the `Resources/doc/index.md`
 file in this bundle:
 
-[Read the Documentation](https://github.com/Maks3w/FR3DLdapBundle/blob/master/Resources/doc/index.md)
+[Read the Documentation](Resources/doc/index.md)
 
 Installation
 ------------
 
-All the installation instructions are located in [documentation](https://github.com/Maks3w/FR3DLdapBundle/blob/master/Resources/doc/index.md).
+All the installation instructions are located in [documentation](Resources/doc/index.md).
 
 License
 -------

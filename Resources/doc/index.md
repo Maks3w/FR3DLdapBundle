@@ -16,7 +16,7 @@ Install
 
 ### 1. Add FR3DLdapBundle in your composer.json
 
-Add this bundle to your ``vendor/`` dir:
+Add this bundle to your `vendor/` dir:
 
 ```json
 {
@@ -48,13 +48,13 @@ public function registerBundles()
 security:
   firewalls:
     main:
-      pattern:          ^/
-      fr3d_ldap:        ~
+      pattern:    ^/
+      fr3d_ldap:  ~
       form_login:
           always_use_default_target_path: true
           default_target_path: /profile
-      logout:       true
-      anonymous:    true
+      logout:     true
+      anonymous:  true
 
   providers:
     fr3d_ldapbundle:

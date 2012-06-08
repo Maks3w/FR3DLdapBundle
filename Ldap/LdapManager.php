@@ -59,8 +59,8 @@ class LdapManager implements LdapManagerInterface
     /**
      * Build Ldap filter
      *
-     * @param array  $criteria
-     * @param string $condition
+     * @param  array  $criteria
+     * @param  string $condition
      * @return string
      */
     private function buildFilter(array $criteria, $condition = '&')
@@ -77,10 +77,10 @@ class LdapManager implements LdapManagerInterface
 
     /**
      * Hydrates an user entity with ldap attributes.
-     * 
+     *
      * @param LdapUserInterface $user  user to hydrate
      * @param array             $entry ldap result
-     * 
+     *
      * @return LdapUserInterface
      */
     protected function hydrate(LdapUserInterface $user, array $entry)
@@ -133,6 +133,7 @@ class LdapManager implements LdapManagerInterface
             }
             $values[$key] = $val;
         }
+
         return (count($values) == 1 && array_key_exists(0, $values)) ? $values[0] : $values;
     }
 
@@ -155,6 +156,7 @@ class LdapManager implements LdapManagerInterface
             // Translate hex code into ascii
             $values[$key] = Converter::hex32ToAsc($value);
         }
+
         return (count($values) == 1 && array_key_exists(0, $values)) ? $values[0] : $values;
     }
 }
