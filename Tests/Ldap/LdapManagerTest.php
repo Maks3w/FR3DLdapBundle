@@ -78,7 +78,6 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $propertyLdapUsernameAttr = $reflectionClass->getProperty('ldapUsernameAttr');
         $propertyLdapUsernameAttr->setAccessible(true);
 
-
         $this->assertEquals(array('uid', 'mail'), $propertyLdapAttributes->getValue($this->ldapManager));
         $this->assertEquals('uid', $propertyLdapUsernameAttr->getValue($this->ldapManager));
     }

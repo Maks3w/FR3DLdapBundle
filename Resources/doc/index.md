@@ -19,11 +19,11 @@ Install
 
 ### 1. Download LdapBundle
 
-Add this bundle to your ``vendor/`` dir:
+Add this bundle to your `vendor/` dir:
 
 * Using the vendors script.
 
-      Add the following lines in your ``deps`` file::
+      Add the following lines in your `deps` file::
 
         [zend]
             git=git://github.com/zendframework/zf2.git

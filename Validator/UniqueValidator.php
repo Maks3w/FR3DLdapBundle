@@ -44,7 +44,7 @@ class UniqueValidator extends ConstraintValidator
      * @param Constraint    $constraint The constrain for the validation
      *
      * @return Boolean Whether or not the value is valid
-     * 
+     *
      * @throws UnexpectedTypeException if $value is not instance of \Symfony\Component\Security\Core\User\UserInterface
      */
     public function isValid($value, Constraint $constraint)
@@ -56,9 +56,10 @@ class UniqueValidator extends ConstraintValidator
         $user = $this->ldapManager->findUserByUsername($value->getUsername());
 
         if ($user) {
-            $this->context->addViolation($constraint->message, array(
-                '%property%' => $constraint->property,
-            ), $value);
+            $this->setMessage($constraint->message, array(
+                '%property%' => $constraint->property
+            ));
+
             return false;
         }
 

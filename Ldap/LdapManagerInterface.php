@@ -10,24 +10,24 @@ interface LdapManagerInterface
     /**
      * Find a user by its username.
      *
-     * @param string  $username
-     * @return \Symfony\Component\Security\Core\User\UserInterface or null if user does not exist
+     * @param  string $username
+     * @return \Symfony\Component\Security\Core\User\UserInterface|null The user or null if the user does not exist
      */
-    function findUserByUsername($username);
+    public function findUserByUsername($username);
 
     /**
      * Finds one user by the given criteria.
      *
-     * @param array $criteria
+     * @param  array  $criteria
      * @return \Symfony\Component\Security\Core\User\UserInterface
      */
-    function findUserBy(array $criteria);
+    public function findUserBy(array $criteria);
 
     /**
      * Bind the user on ldap
      *
-     * @param UserInterface $user
-     * @param string        $password
+     * @param  UserInterface $user
+     * @param  string        $password
      * @return Boolean
      */
     function bind(UserInterface $user, $password);

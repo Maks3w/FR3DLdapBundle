@@ -59,8 +59,8 @@ class LdapManager implements LdapManagerInterface
     /**
      * Build Ldap filter
      *
-     * @param array  $criteria
-     * @param string $condition
+     * @param  array  $criteria
+     * @param  string $condition
      * @return string
      */
     private function buildFilter(array $criteria, $condition = '&')
@@ -77,10 +77,10 @@ class LdapManager implements LdapManagerInterface
 
     /**
      * Hydrates an user entity with ldap attributes.
-     * 
-     * @param UserInterface $user  user to hydrate
-     * @param array             $entry ldap result
-     * 
+     *
+     * @param  UserInterface $user  user to hydrate
+     * @param  array         $entry ldap result
+     *
      * @return UserInterface
      */
     protected function hydrate(UserInterface $user, array $entry)
@@ -116,7 +116,7 @@ class LdapManager implements LdapManagerInterface
      */
     public function getRolesForUsername($username)
     {
-        
+
     }
 
     /**
