@@ -163,6 +163,47 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers FR3D\LdapBundle\Ldap\LdapManager::hydrate
+     */
+    public function testHydrateArray()
+    {
+        $params = array(
+            'baseDn'     => 'ou=Groups,dc=example,dc=com',
+            'filter'     => '(attr0=value0)',
+            'attributes' => array(
+                array(
+                    'ldap_attr'   => 'roles',
+                    'user_method' => 'setRoles',
+                )
+            ),
+        );
+
+        $this->ldapManager = new LdapManager($this->connection, $this->userManager, $params);
+
+        $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
+        $method          = $reflectionClass->getMethod('hydrate');
+        $method->setAccessible(true);
+
+        $user = new TestUser();
+        $roles = array(
+            'count' => 3,
+            0 => 'ROLE1',
+            1 => 'ROLE2',
+            2 => 'ROLE3'
+        );
+
+        $entry = array(
+            'dn'       => 'ou=group, dc=host, dc=foo',
+            'roles'    => $roles,
+        );
+
+        $method->invoke($this->ldapManager, $user, $entry);
+
+        $this->assertEquals(array_slice($roles, 1), $user->getRoles());
+        $this->assertTrue($user->isEnabled());
+    }
+
+    /**
      * @covers FR3D\LdapBundle\Ldap\LdapManager::bind
      */
     public function testBind()
