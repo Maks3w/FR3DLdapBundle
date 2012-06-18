@@ -23,7 +23,7 @@ class LdapConnection implements LdapConnectionInterface
             $this->connect();
         }
 
-        $this->logDebug("ldap_search($this->ldap_res, $baseDn, $filter, $attributes)");
+        $this->logDebug(sprintf("ldap_search(%s, %s, %s, %s)", $this->ldap_res, $baseDn, $filter, json_encode($attributes)));
         $search = ldap_search($this->ldap_res, $baseDn, $filter, $attributes);
 
         if ($search) {
