@@ -95,11 +95,12 @@ class LdapManager implements LdapManagerInterface
             $ldapValue = $entry[$attr['ldap_attr']];
             $value = null;
 
-            if ($ldapValue['count'] == 1) {
+            if ((array_key_exists('count', $ldapValue) &&  $ldapValue['count'] == 1)
+                    || !array_key_exists('count', $ldapValue)) {
+
                 $value = $ldapValue[0];
-            }
-            else {
-                $value = array_slice($ldapValue, 1, $ldapValue['count']);
+            } else {
+                $value = array_slice($ldapValue, 1);
             }
 
             call_user_func(array($user, $attr['user_method']), $value);
