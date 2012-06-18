@@ -86,6 +86,11 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
         $this->locked = $locked;
     }
 
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+    }
+
     /**
      * {@inheritDoc}
      */
