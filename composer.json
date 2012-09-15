@@ -31,6 +31,12 @@
         "symfony/validator": "Allow pre-validate for existing users before register new ones",
         "friendsofsymfony/user-bundle": "Integrate authentication and management for DB users, useful for unmanaged LDAP servers"
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://packages.zendframework.com/"
+        }
+    ],
     "autoload": {
         "psr-0": {
             "FR3D\\LdapBundle": ""
