@@ -7,11 +7,11 @@ php:
 
 env:
   - SYMFONY_VERSION=2.1
-  - SYMFONY_VERSION=dev-master
+  - SYMFONY_VERSION=dev-master@dev COMPOSER_ROOT_VERSION=dev-master
 
 before_script:
-   - composer require symfony/framework-bundle:${SYMFONY_VERSION}
-   - composer install
+   - bash .travis.sh
+   - composer install --dev
 
 script:
    - phpunit
