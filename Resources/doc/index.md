@@ -5,56 +5,29 @@ LdapBundle provides a Ldap authentication system without the `apache mod_ldap`. 
 
 This bundle is based on the original work of BorisMorel and adapted for use with FOSUserBundle
 
-This bundle requires Zend Framework v2
+This bundle requires Zend Ldap v2
 
 Install
 -------
-1. Download LdapBundle
-2. Configure the Autoloader
-3. Enable the Bundle
-4. Configure security.yml
-5. Configure config.yml
-6. Enable FOSUserBundle as User Provider
+1. Add FR3DLdapBundle in your composer.json
+2. Enable the Bundle
+3. Configure security.yml
+4. Configure config.yml
+5. Enable FOSUserBundle as User Provider
 
-
-### 1. Download LdapBundle
+### 1. Add FR3DLdapBundle in your composer.json
 
 Add this bundle to your `vendor/` dir:
 
-* Using the vendors script.
-
-      Add the following lines in your `deps` file::
-
-        [zend]
-            git=git://github.com/zendframework/zf2.git
-
-        [FR3DLdapBundle]
-            git=git://github.com/Maks3w/FR3DLdapBundle.git
-            target=/bundles/FR3D/LdapBundle
-
-      Run the vendors script:
-
-            ./bin/vendors install
-
-* Using git submodules.
-
-        $ git submodule add git://github.com/Maks3w/FR3DLdapBundle.git vendor/bundles/FR3D/LdapBundle
-        $ git submodule add git://github.com/zendframework/zf2.git vendor/zend
-
-### 2. Configure the Autoloader
-
-``` php
-<?php
-// app/autoload.php
-
-$loader->registerNamespaces(array(
-     // ...
-    'FR3D' => __DIR__.'/../vendor/bundles',
-    'Zend' => __DIR__.'/../zend/library',
-));
+```json
+{
+    "require": {
+        "fr3d/ldap-bundle": "2.0.*"
+    }
+}
 ```
 
-### 3. Enable the Bundle
+### 2. Enable the Bundle
 
 ``` php
 <?php
@@ -63,26 +36,26 @@ $loader->registerNamespaces(array(
 public function registerBundles()
 {
     $bundles = array(
-    // ...
-    new FR3D\LdapBundle\FR3DLdapBundle(),
+        // ...
+        new FR3D\LdapBundle\FR3DLdapBundle(),
     );
 }
 ```
 
-### 4. Configure security.yml
+### 3. Configure security.yml
 ``` yaml
 # app/config/security.yml
 
 security:
   firewalls:
     main:
-      pattern:          ^/
-      fr3d_ldap:        ~
+      pattern:    ^/
+      fr3d_ldap:  ~
       form_login:
           always_use_default_target_path: true
           default_target_path: /profile
-      logout:       true
-      anonymous:    true
+      logout:     true
+      anonymous:  true
 
   providers:
     fr3d_ldapbundle:
@@ -90,12 +63,9 @@ security:
 
   encoders:
       AcmeBundle\Acme\User\LdapUser: plaintext
-
-  factories:
-    - "%kernel.root_dir%/../vendor/bundles/FR3D/LdapBundle/Resources/config/security_factories.xml"
 ```
 
-### 5. Configure config.yml
+### 4. Configure config.yml
 ``` yaml
 # app/config/config.yml
 fr3d_ldap:
@@ -124,7 +94,7 @@ fr3d_ldap:
 
 **You need to configure the parameters under the fr3d_ldap section.**
 
-### 6. Enable FOSUserBundle as User Provider
+### 5. Enable FOSUserBundle as User Provider
 
 In security.yml make a chain_provider with fos_userbundle before fr3d_ldapbundle
 
@@ -134,7 +104,8 @@ In security.yml make a chain_provider with fos_userbundle before fr3d_ldapbundle
 security:
     providers:
         chain_provider:
-            providers: [fos_userbundle, fr3d_ldapbundle]
+            chain:
+                providers: [fos_userbundle, fr3d_ldapbundle]
 
         fr3d_ldapbundle:
             id: fr3d_ldap.security.user.provider
@@ -149,4 +120,4 @@ security:
 Look the cookbook for another interesting things.
 
 - [Override Ldap Manager](cookbook/override_ldap-manager.md)
-- [Prevent guess registration with usernames already exists on LDAP](cookbook/validator.md)
+- [Prevent guess registration with a username that already exists on LDAP](cookbook/validator.md)

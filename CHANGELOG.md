@@ -3,13 +3,17 @@ Changelog
 
 ### v2.0.0
 
+Minimum Requirements:
+- Symfony 2.1 or greater
+- Zend LDAP 2.0 or greater
+
 Ldap connection:
 - Connection component has been renamed to Driver.
 
 Ldap driver:
 - [Feature]  Added support for Zend Framework Ldap library
 - [Feature]  Now you could authenticate without DN if your LDAP support that.
-- [BC Break] Default Ldap driver setted to Zend Ldap v2.
+- [BC Break] Default Ldap driver changed to Zend Ldap v2.
 - Old Ldap driver declared as deprecated and will be removed in next releases.
 - [BC Break] Renamed service `fr3d_ldap.client` to `fr3d_ldap.ldap_driver`
 - Added parameter `fr3d_ldap.ldap_driver.protocol.version` for specify LDAP

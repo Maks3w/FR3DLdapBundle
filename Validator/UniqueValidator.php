@@ -56,7 +56,7 @@ class UniqueValidator extends ConstraintValidator
         $user = $this->ldapManager->findUserByUsername($value->getUsername());
 
         if ($user) {
-            $this->setMessage($constraint->message, array(
+            $this->context->addViolation($constraint->message, array(
                 '%property%' => $constraint->property
             ));
 

@@ -55,7 +55,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Security\Core\Exception\UsernameNotFoundException
+     * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException
      */
     public function testRetrieveUserNotFound()
     {
@@ -93,7 +93,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Security\Core\Exception\BadCredentialsException
+     * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
      */
     public function testCheckAuthenticationKnownUserCredentialsChanged()
     {
@@ -134,7 +134,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Security\Core\Exception\BadCredentialsException
+     * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
      */
     public function testCheckAuthenticationUnknownUserBadCredentials()
     {
@@ -154,7 +154,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Security\Core\Exception\BadCredentialsException
+     * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
      */
     public function testCheckAuthenticationUnknownUserPasswordEmpty()
     {
@@ -178,4 +178,3 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         return $method;
     }
 }
-?>
