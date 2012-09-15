@@ -7,7 +7,6 @@ php:
 
 env:
   - SYMFONY_VERSION=2.1
-  - SYMFONY_VERSION=dev-master@dev COMPOSER_ROOT_VERSION=dev-master
 
 before_script:
    - bash .travis.sh
