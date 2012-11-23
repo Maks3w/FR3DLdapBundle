@@ -17,6 +17,14 @@ class LdapConnection implements LdapConnectionInterface
         $this->ldap_res = NULL;
     }
 
+    public function updateEntry($dn, $entry) {
+        if ($this->ldap_res == NULL) {
+            $this->connect();
+        }
+
+        ldap_modify ($this->ldap_res, $dn, $entry);
+    }
+
     public function search($baseDn, $filter, array $attributes = array())
     {
         if ($this->ldap_res == NULL) {
