@@ -1,10 +1,10 @@
 {
-    "name": "fr3d/ldap-bundle",
+    "name": "elcweb/ldap-bundle",
     "type": "symfony-bundle",
     "description": "This package provide users and authentication services based on LDAP directories for Symfony2 framework",
     "keywords": ["ldap", "authentication"],
     "license": "MIT",
-    "homepage": "https://github.com/Maks3w/FR3DLdapBundle",
+    "homepage": "https://github.com/Elcweb/FR3DLdapBundle",
     "authors": [
         {
             "name": "Maks3w"
