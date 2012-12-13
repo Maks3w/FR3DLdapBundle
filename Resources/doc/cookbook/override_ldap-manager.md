@@ -34,7 +34,7 @@ fr3d_ldap:
 
         <!-- ... -->
 
-        <service id="acme.ldap.ldap_manager" class=Acme\DemoBundle\Ldap\LdapManager">
+        <service id="acme.ldap.ldap_manager" class="Acme\DemoBundle\Ldap\LdapManager">
             <argument type="service" id="fr3d_ldap.client" />
             <argument type="service" id="fr3d_ldap.user_manager" />
             <argument>%fr3d_ldap.ldap_manager.parameters%</argument>
