@@ -56,7 +56,9 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
             $user = $this->userProvider->loadUserByUsername($username);
 
             if (!$user instanceof LdapUserInterface) {
-                throw new AuthenticationServiceException('The user provider must return a LdapUserInterface object.');
+                $e = new AuthenticationServiceException($repositoryProblem->getMessage(), 0, $repositoryProblem);
+                $e->setToken($token);
+                throw $e;
             }
 
             return $user;
