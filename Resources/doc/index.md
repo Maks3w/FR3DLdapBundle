@@ -74,7 +74,7 @@ fr3d_ldap:
 #       port:                389    # Optional
 #       username:            foo    # Optional
 #       password:            bar    # Optional
-#       bindRequiredDn       true   # Optional
+#       bindRequiresDn:      true   # Optional
 #       baseDn:              ou=users, dc=host, dc=foo   # Optional
 #       accountFilterFormat: (&(uid=%s)) # Optional. sprintf format %s will be the username
 #       optReferrals:        false  # Optional
