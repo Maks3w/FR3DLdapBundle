@@ -20,7 +20,7 @@ use FR3D\LdapBundle\Ldap\LdapManagerInterface;
 /**
  * UniqueValidator
  */
-class UniqueValidator extends ConstraintValidator
+Abstract class UniqueValidator extends ConstraintValidator
 {
     /**
      * @var LdapManagerInterface
