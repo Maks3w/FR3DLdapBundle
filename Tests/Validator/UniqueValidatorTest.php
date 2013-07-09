@@ -19,6 +19,8 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /** @var UniqueValidator */
     private $validator;
+    /** @var ExecutionContext|\PHPUnit_Framework_MockObject_MockObject */
+    private $validatorContext;
     /** @var \FR3D\LdapBundle\Ldap\LdapManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     private $ldapManagerMock;
     /** @var Unique */
@@ -28,36 +30,43 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $context = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')
+        $this->validatorContext = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')
                 ->disableOriginalConstructor()
                 ->getMock();
 
         $this->ldapManagerMock = $this->getMock('FR3D\LdapBundle\Ldap\LdapManagerInterface');
         $this->constraint = new Unique(array('username'));
         $this->validator = new UniqueValidator($this->ldapManagerMock);
-        $this->validator->initialize($context);
+        $this->validator->initialize($this->validatorContext);
 
         $this->user = new TestUser();
     }
 
-    public function testFalseOnDuplicateUserProperty()
+    public function testViolationsOnDuplicateUserProperty()
     {
         $this->ldapManagerMock->expects($this->once())
                 ->method('findUserByUsername')
                 ->will($this->returnValue($this->user))
                 ->with($this->equalTo($this->user->getUsername()));
 
-        $this->assertFalse($this->validator->isValid($this->user, $this->constraint));
+        $this->validatorContext->expects($this->once())
+                ->method('addViolation')
+                ->with($this->constraint->message, array('%property%' => $this->constraint->property));
+
+        $this->validator->validate($this->user, $this->constraint);
     }
 
-    public function testTrueOnUniqueUserProperty()
+    public function testNoViolationsOnUniqueUserProperty()
     {
         $this->ldapManagerMock->expects($this->once())
                 ->method('findUserByUsername')
                 ->will($this->returnValue(null))
                 ->with($this->equalTo($this->user->getUsername()));
 
-        $this->assertTrue($this->validator->isValid($this->user, $this->constraint));
+        $this->validatorContext->expects($this->never())
+                ->method('addViolation');
+
+        $this->validator->validate($this->user, $this->constraint);
     }
 
     /**
@@ -65,6 +74,6 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadType()
     {
-        $this->validator->isValid('bad_type', $this->constraint);
+        $this->validator->validate('bad_type', $this->constraint);
     }
 }

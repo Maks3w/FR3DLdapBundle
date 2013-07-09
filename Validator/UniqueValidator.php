@@ -41,13 +41,11 @@ class UniqueValidator extends ConstraintValidator
      * Checks if the passed value is valid.
      *
      * @param UserInterface $value      The value that should be validated
-     * @param Constraint    $constraint The constrain for the validation
-     *
-     * @return Boolean Whether or not the value is valid
+     * @param Constraint    $constraint The constraint for the validation
      *
      * @throws UnexpectedTypeException if $value is not instance of \Symfony\Component\Security\Core\User\UserInterface
      */
-    public function isValid($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint)
     {
         if (!$value instanceof UserInterface) {
             throw new UnexpectedTypeException($value, 'Symfony\Component\Security\Core\User\UserInterface');
@@ -59,10 +57,6 @@ class UniqueValidator extends ConstraintValidator
             $this->context->addViolation($constraint->message, array(
                 '%property%' => $constraint->property
             ));
-
-            return false;
         }
-
-        return true;
     }
 }
