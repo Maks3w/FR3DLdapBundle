@@ -19,7 +19,7 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /** @var UniqueValidator */
     private $validator;
-    /** @var ExecutionContext */
+    /** @var ExecutionContext|\PHPUnit_Framework_MockObject_MockObject */
     private $validatorContext;
     /** @var \FR3D\LdapBundle\Ldap\LdapManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     private $ldapManagerMock;
@@ -49,9 +49,11 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue($this->user))
                 ->with($this->equalTo($this->user->getUsername()));
 
-        $this->validator->validate($this->user, $this->constraint);
+        $this->validatorContext->expects($this->once())
+                ->method('addViolation')
+                ->with($this->constraint->message, array('%property%' => $this->constraint->property));
 
-        $this->assertEquals(1, $this->validatorContext->getViolations()->count());
+        $this->validator->validate($this->user, $this->constraint);
     }
 
     public function testNoViolationsOnUniqueUserProperty()
@@ -61,9 +63,10 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue(null))
                 ->with($this->equalTo($this->user->getUsername()));
 
+        $this->validatorContext->expects($this->never())
+                ->method('addViolation');
+
         $this->validator->validate($this->user, $this->constraint);
-        
-        $this->assertEquals(0, $this->validatorContext->getViolations()->count());
     }
 
     /**
