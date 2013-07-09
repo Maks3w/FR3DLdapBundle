@@ -20,7 +20,7 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
     /** @var UniqueValidator */
     private $validator;
     /** @var ExecutionContext */
-    private $context;
+    private $validatorContext;
     /** @var \FR3D\LdapBundle\Ldap\LdapManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     private $ldapManagerMock;
     /** @var Unique */
@@ -30,14 +30,14 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->context = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')
+        $this->validatorContext = $this->getMockBuilder('Symfony\Component\Validator\ExecutionContext')
                 ->disableOriginalConstructor()
                 ->getMock();
 
         $this->ldapManagerMock = $this->getMock('FR3D\LdapBundle\Ldap\LdapManagerInterface');
         $this->constraint = new Unique(array('username'));
         $this->validator = new UniqueValidator($this->ldapManagerMock);
-        $this->validator->initialize($this->context);
+        $this->validator->initialize($this->validatorContext);
 
         $this->user = new TestUser();
     }
@@ -51,7 +51,7 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
 
         $this->validator->validate($this->user, $this->constraint);
 
-        $this->assertEquals(1, $this->context->getViolations()->count());
+        $this->assertEquals(1, $this->validatorContext->getViolations()->count());
     }
 
     public function testNoViolationsOnUniqueUserProperty()
@@ -63,7 +63,7 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
 
         $this->validator->validate($this->user, $this->constraint);
         
-        $this->assertEquals(0, $this->context->getViolations()->count());
+        $this->assertEquals(0, $this->validatorContext->getViolations()->count());
     }
 
     /**
