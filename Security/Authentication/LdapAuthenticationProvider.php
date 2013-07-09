@@ -58,7 +58,13 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
         } catch (UsernameNotFoundException $notFound) {
             throw $notFound;
         } catch (\Exception $repositoryProblem) {
-            throw new AuthenticationServiceException($repositoryProblem->getMessage(), $token, 0, $repositoryProblem);
+            if (Kernel::MINOR_VERSION <= 1) {
+                throw new AuthenticationServiceException($repositoryProblem->getMessage(), $token, (int)$repositoryProblem->getCode(), $repositoryProblem);
+            } else {
+                $e = new AuthenticationServiceException($repositoryProblem->getMessage(), (int)$repositoryProblem->getCode(), $repositoryProblem);
+                $e->setToken($token);
+                throw $e;
+            }
         }
     }
 
