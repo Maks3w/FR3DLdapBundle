@@ -121,3 +121,4 @@ Look the cookbook for another interesting things.
 
 - [Override Ldap Manager](cookbook/override_ldap-manager.md)
 - [Prevent guess registration with a username that already exists on LDAP](cookbook/validator.md)
+- [Example configuration for Active Directory](cookbook/active-directory.md)
