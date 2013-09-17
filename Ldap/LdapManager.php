@@ -9,11 +9,11 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 class LdapManager implements LdapManagerInterface
 {
-    private $driver;
-    private $userManager;
-    private $params = array();
-    private $ldapAttributes = array();
-    private $ldapUsernameAttr;
+    protected $driver;
+    protected $userManager;
+    protected $params = array();
+    protected $ldapAttributes = array();
+    protected $ldapUsernameAttr;
 
     public function __construct(LdapDriverInterface $driver, $userManager, array $params)
     {
@@ -63,7 +63,7 @@ class LdapManager implements LdapManagerInterface
      * @param  string $condition
      * @return string
      */
-    private function buildFilter(array $criteria, $condition = '&')
+    protected function buildFilter(array $criteria, $condition = '&')
     {
         $criteria = self::escapeValue($criteria);
         $filters = array();
