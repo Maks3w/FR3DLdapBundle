@@ -11,15 +11,15 @@ class LdapManager implements LdapManagerInterface
 {
     protected $driver;
     protected $userManager;
-    protected $params = array();
+    protected $params         = array();
     protected $ldapAttributes = array();
     protected $ldapUsernameAttr;
 
     public function __construct(LdapDriverInterface $driver, $userManager, array $params)
     {
-        $this->driver = $driver;
+        $this->driver      = $driver;
         $this->userManager = $userManager;
-        $this->params = $params;
+        $this->params      = $params;
 
         foreach ($this->params['attributes'] as $attr) {
             $this->ldapAttributes[] = $attr['ldap_attr'];
@@ -50,7 +50,14 @@ class LdapManager implements LdapManagerInterface
         if ($entries['count'] == 0) {
             return false;
         }
-        $user = $this->userManager->createUser();
+
+        $user = null;
+        if (array_key_exists($this->ldapUsernameAttr, $criteria))
+            $user = $this->userManager->findUserByUsername($criteria[$this->ldapUsernameAttr]);
+
+        if ($user === null)
+            $user = $this->userManager->createUser();
+
         $this->hydrate($user, $entries[0]);
 
         return $user;
@@ -65,8 +72,8 @@ class LdapManager implements LdapManagerInterface
      */
     protected function buildFilter(array $criteria, $condition = '&')
     {
-        $criteria = self::escapeValue($criteria);
-        $filters = array();
+        $criteria  = self::escapeValue($criteria);
+        $filters   = array();
         $filters[] = $this->params['filter'];
         foreach ($criteria as $key => $value) {
             $filters[] = sprintf('(%s=%s)', $key, $value);
@@ -93,9 +100,9 @@ class LdapManager implements LdapManagerInterface
 
         foreach ($this->params['attributes'] as $attr) {
             $ldapValue = $entry[$attr['ldap_attr']];
-            $value = null;
+            $value     = null;
 
-            if (!array_key_exists('count', $ldapValue) ||  $ldapValue['count'] == 1) {
+            if (!array_key_exists('count', $ldapValue) || $ldapValue['count'] == 1) {
                 $value = $ldapValue[0];
             } else {
                 $value = array_slice($ldapValue, 1);
@@ -125,7 +132,7 @@ class LdapManager implements LdapManagerInterface
      */
     public function getRolesForUsername($username)
     {
-
+        
     }
 
     /**
@@ -151,7 +158,7 @@ class LdapManager implements LdapManagerInterface
             // ASCII < 32 escaping
             $val = Converter::ascToHex32($val);
             if (null === $val) {
-                $val          = '\0';  // apply escaped "null" if string is empty
+                $val = '\0';  // apply escaped "null" if string is empty
             }
             $values[$key] = $val;
         }
