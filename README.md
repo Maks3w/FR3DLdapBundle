@@ -1,4 +1,4 @@
-FR3DLdapBundle
+FR3DLdapBundles
 ==============
 
 The FR3DLdapBundle adds support for provide and/or authenticate users with a
