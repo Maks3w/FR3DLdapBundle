@@ -69,24 +69,52 @@ security:
 ``` yaml
 # app/config/config.yml
 fr3d_ldap:
-    driver:
-        host:                your.host.foo
-#       port:                389    # Optional
-#       username:            foo    # Optional
-#       password:            bar    # Optional
-#       bindRequiresDn:      true   # Optional
-#       baseDn:              ou=users, dc=host, dc=foo   # Optional
-#       accountFilterFormat: (&(uid=%s)) # Optional. sprintf format %s will be the username
-#       optReferrals:        false  # Optional
-#       useSsl:              true   # Enable SSL negotiation. Optional
-#       useStartTls:         true   # Enable TLS negotiation. Optional
-    user:
-        baseDn: ou=users, dc=host, dc=foo
-        filter: (&(ObjectClass=Person))
-        attributes:          # Specify ldap attributes mapping [ldap attribute, user object method]
-#           - { ldap_attr: uid,  user_method: setUsername } # Default
-#           - { ldap_attr: cn,   user_method: setName }     # Optional
-#           - { ldap_attr: ...,  user_method: ... }         # Optional
+    domains:
+        # First domain
+        server1:
+            driver:
+                host:                your.first.host.foo
+                port:                389    # Optional
+            #   username:            foo    # Optional
+            #   password:            bar    # Optional
+            #   bindRequiresDn:      true   # Optional
+            #   baseDn:              ou=users, dc=host, dc=foo   # Optional
+            #   accountFilterFormat: (&(uid=%s)) # Optional. sprintf format %s will be the username
+            #   optReferrals:        false  # Optional
+            #   useSsl:              true   # Enable SSL negotiation. Optional
+            #   useStartTls:         true   # Enable TLS negotiation. Optional
+            user:
+                baseDn: ou=users, dc=host, dc=foo
+                filter: (&(ObjectClass=Person))
+                # Specify ldap attributes mapping [ldap attribute, user object method]
+                attributes:
+                #   - { ldap_attr: uid,  user_method: setUsername } # Default
+                #   - { ldap_attr: cn,   user_method: setName }     # Optional
+                #   - { ldap_attr: ...,  user_method: ... }         # Optional
+        # Second domain
+        server2:
+            driver:
+                host:                your.second.host.foo
+                port:                389    # Optional
+            #   username:            foo    # Optional
+            #   password:            bar    # Optional
+            #   bindRequiresDn:      true   # Optional
+            #   baseDn:              ou=users, dc=host, dc=foo   # Optional
+            #   accountFilterFormat: (&(uid=%s)) # Optional. sprintf format %s will be the username
+            #   optReferrals:        false  # Optional
+            #   useSsl:              true   # Enable SSL negotiation. Optional
+            #   useStartTls:         true   # Enable TLS negotiation. Optional
+            user:
+                baseDn: ou=users, dc=host, dc=foo
+                filter: (&(ObjectClass=Person))
+                # Specify ldap attributes mapping [ldap attribute, user object method]
+                attributes:
+                #   - { ldap_attr: uid,  user_method: setUsername } # Default
+                #   - { ldap_attr: cn,   user_method: setName }     # Optional
+                #   - { ldap_attr: ...,  user_method: ... }         # Optional
+        # N domain
+#       serverN:
+#       ...
 #   service:
 #       user_manager: fos_user.user_manager          # Overrides default user manager
 #       ldap_manager: fr3d_ldap.ldap_manager.default # Overrides default ldap manager
@@ -122,3 +150,4 @@ Look the cookbook for another interesting things.
 - [Override Ldap Manager](cookbook/override_ldap-manager.md)
 - [Prevent guess registration with a username that already exists on LDAP](cookbook/validator.md)
 - [Example configuration for Active Directory](cookbook/active-directory.md)
+- [Example configuration with an open LDAP (testathon)](cookbook/testathon.md)

@@ -13,7 +13,7 @@
         <service id="fr3d_ldap.ldap_manager.default" class="%fr3d_ldap.ldap_manager.class%">
             <argument type="service" id="fr3d_ldap.ldap_driver" />
             <argument type="service" id="fr3d_ldap.user_manager" />
-            <argument>%fr3d_ldap.ldap_manager.parameters%</argument>
+            <argument>%fr3d_ldap.domains.parameters%</argument>
         </service>
 
     </services>

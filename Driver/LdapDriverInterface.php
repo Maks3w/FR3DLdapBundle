@@ -14,6 +14,13 @@ interface LdapDriverInterface
 {
 
     /**
+     * Initialize the driver (new options)
+     * 
+     * @param array $options          New options to connect.
+     */
+    public function init(array $options);    
+    
+    /**
      * Bind to LDAP directory
      *
      * @param UserInterface $user     The user for authenticating the bind.

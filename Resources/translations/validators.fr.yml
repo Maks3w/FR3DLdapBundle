@@ -1,0 +1,3 @@
+dol_ldap:
+    username:
+        already_used: Cet identifiant est déjà utilisé

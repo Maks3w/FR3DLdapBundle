@@ -37,7 +37,7 @@ fr3d_ldap:
         <service id="acme.ldap.ldap_manager" class=Acme\DemoBundle\Ldap\LdapManager">
             <argument type="service" id="fr3d_ldap.client" />
             <argument type="service" id="fr3d_ldap.user_manager" />
-            <argument>%fr3d_ldap.ldap_manager.parameters%</argument>
+            <argument>%fr3d_ldap.domains.parameters%</argument>
         </service>
 
         <!-- ... -->
@@ -45,6 +45,19 @@ fr3d_ldap:
     </services>
 
 </container>
+````
+
+If you prefer YAML :
+
+```` yml
+# src/Acme/DemoBundle/Resources/config/services.yml
+parameters:
+  acme.ldap.ldap_manager.class: Acme\DemoBundle\Ldap\LdapManager
+
+services:
+  acme.ldap.ldap_manager:
+    class: '%acme.ldap.ldap_manager.class%'
+    arguments: [ '@fr3d_ldap.ldap_driver', '@fr3d_ldap.user_manager', '%fr3d_ldap.domains.parameters%' ]
 ````
 
 **Extends LdapManager and customize him**

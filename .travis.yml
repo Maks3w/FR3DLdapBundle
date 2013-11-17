@@ -13,8 +13,8 @@ env:
 
 before_script:
    - bash .travis.sh
-   - composer install --dev
+   - wget http://getcomposer.org/composer.phar
+   - php composer.phar install --prefer-source
 
-script:
-   - phpunit
+script: phpunit --configuration phpunit.travis.xml
 
