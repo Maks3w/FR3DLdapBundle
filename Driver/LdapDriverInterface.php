@@ -18,8 +18,8 @@ interface LdapDriverInterface
      * 
      * @param array $options          New options to connect.
      */
-    public function init(array $options);    
-    
+    public function init(array $options);
+
     /**
      * Bind to LDAP directory
      *

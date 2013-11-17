@@ -27,8 +27,7 @@ class FR3DLdapExtension extends Extension
         $container->setAlias('fr3d_ldap.ldap_manager', $config['service']['ldap_manager']);
         $container->setAlias('fr3d_ldap.ldap_driver', $config['service']['ldap_driver']);
 
-        foreach ($config['domains'] as &$domain)
-        {
+        foreach ($config['domains'] as &$domain) {
             if (!isset($domain['driver']['baseDn'])) {
                 $domain['driver']['baseDn'] = $domain['user']['baseDn'];
             }

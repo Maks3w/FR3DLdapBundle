@@ -9,10 +9,10 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 class LdapManager implements LdapManagerInterface
 {
+
     protected $driver;
     protected $userManager;
     protected $paramSets = array();
-
     protected $params = array();
     protected $ldapAttributes = array();
     protected $ldapUsernameAttr;
@@ -29,18 +29,13 @@ class LdapManager implements LdapManagerInterface
      */
     public function bind(UserInterface $user, $password)
     {
-        if ( !empty($this->params) )
-        {
+        if (!empty($this->params)) {
             return $this->driver->bind($user, $password);
-        }
-        else
-        {
-            foreach ( $this->paramSets as $paramSet )
-            {
+        } else {
+            foreach ($this->paramSets as $paramSet) {
                 $this->driver->init($paramSet['driver']);
 
-                if ( false !== $this->driver->bind($user, $password) )
-                {
+                if (false !== $this->driver->bind($user, $password)) {
                     $this->params = $paramSet['user'];
                     $this->setLdapAttr();
 
@@ -48,33 +43,28 @@ class LdapManager implements LdapManagerInterface
                 }
             }
         }
-        
+
         return false;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public function findUserByUsername($username)
     {
-        if ( !empty($this->params) )
-        {
+        if (!empty($this->params)) {
             return $this->findUserBy(array($this->ldapUsernameAttr => $username));
-        }
-        else
-        {
-            foreach ( $this->paramSets as $paramSet )
-            {
+        } else {
+            foreach ($this->paramSets as $paramSet) {
                 $this->driver->init($paramSet['driver']);
                 $this->params = $paramSet['user'];
                 $this->setLdapAttr();
-                
+
                 $user = $this->findUserBy(array($this->ldapUsernameAttr => $username));
-                if ( false !== $user && $user instanceof UserInterface )
-                {
+                if (false !== $user && $user instanceof UserInterface) {
                     return $user;
                 }
-                
+
                 $this->params = array();
                 $this->setLdapAttr();
             }
@@ -86,9 +76,8 @@ class LdapManager implements LdapManagerInterface
      */
     public function findUserBy(array $criteria)
     {
-        if ( !empty($this->params) )
-        {
-            $filter  = $this->buildFilter($criteria);
+        if (!empty($this->params)) {
+            $filter = $this->buildFilter($criteria);
             $entries = $this->driver->search($this->params['baseDn'], $filter, $this->ldapAttributes);
             if ($entries['count'] > 1) {
                 throw new \Exception('This search can only return a single user');
@@ -101,18 +90,14 @@ class LdapManager implements LdapManagerInterface
             $this->hydrate($user, $entries[0]);
 
             return $user;
-        }
-        else
-        {
-            foreach ( $this->paramSets as $paramSet )
-            {
+        } else {
+            foreach ($this->paramSets as $paramSet) {
                 $this->driver->init($paramSet['driver']);
                 $this->params = $paramSet['user'];
                 $this->setLdapAttr();
 
                 $user = $this->findUserBy($criteria);
-                if ( false !== $user && $user instanceof UserInterface )
-                {
+                if (false !== $user && $user instanceof UserInterface) {
                     return $user;
                 }
 
@@ -127,16 +112,13 @@ class LdapManager implements LdapManagerInterface
      */
     private function setLdapAttr()
     {
-        if ( isset($this->params['attributes']) )
-        {
+        if (isset($this->params['attributes'])) {
             foreach ($this->params['attributes'] as $attr) {
                 $this->ldapAttributes[] = $attr['ldap_attr'];
             }
 
             $this->ldapUsernameAttr = $this->ldapAttributes[0];
-        }
-        else
-        {
+        } else {
             $this->ldapAttributes = array();
             $this->ldapUsernameAttr = null;
         }
@@ -153,8 +135,7 @@ class LdapManager implements LdapManagerInterface
     {
         $criteria = self::escapeValue($criteria);
         $filters = array();
-        if ( isset($this->params['filter']) )
-        {
+        if (isset($this->params['filter'])) {
             $filters[] = $this->params['filter'];
         }
         foreach ($criteria as $key => $value) {
@@ -184,7 +165,7 @@ class LdapManager implements LdapManagerInterface
             $ldapValue = $entry[$attr['ldap_attr']];
             $value = null;
 
-            if (!array_key_exists('count', $ldapValue) ||  $ldapValue['count'] == 1) {
+            if (!array_key_exists('count', $ldapValue) || $ldapValue['count'] == 1) {
                 $value = $ldapValue[0];
             } else {
                 $value = array_slice($ldapValue, 1);
@@ -206,7 +187,7 @@ class LdapManager implements LdapManagerInterface
      */
     public function getRolesForUsername($username)
     {
-
+        
     }
 
     /**
