@@ -14,7 +14,8 @@ class LegacyLdapDriverTest extends AbstractDriverTest
 
     protected function setUp()
     {
-        $this->legacyLdapDriver = new LegacyLdapDriver($this->getOptions());
+        $this->legacyLdapDriver = new LegacyLdapDriver();
+        $this->legacyLdapDriver->init($this->getOptions());
 
         parent::setUp();
     }
@@ -113,7 +114,8 @@ class LegacyLdapDriverTest extends AbstractDriverTest
         $options['baseDn']              = 'ou=example,dc=org';
         $options['accountFilterFormat'] = '(&(uid=%s))';
         $options['bindRequiresDn']      = true;
-        $this->legacyLdapDriver = new LegacyLdapDriver($options);
+        $this->legacyLdapDriver = new LegacyLdapDriver();
+        $this->legacyLdapDriver->init($options);
 
         $baseDn = 'ou=example,dc=org';
         $filter = '(&(uid=test_username))';
@@ -159,7 +161,8 @@ class LegacyLdapDriverTest extends AbstractDriverTest
         $options['baseDn']              = 'ou=example,dc=org';
         $options['accountFilterFormat'] = '(&(uid=%s))';
         $options['bindRequiresDn']      = true;
-        $this->legacyLdapDriver = new LegacyLdapDriver($options);
+        $this->legacyLdapDriver = new LegacyLdapDriver();
+        $this->legacyLdapDriver->init($options);
 
         $username = 'bad_username';
         $password = 'password';

@@ -96,21 +96,21 @@ fr3d_ldap:
             driver:
                 host:                your.second.host.foo
                 port:                389    # Optional
-            #   username:            foo    # Optional
-            #   password:            bar    # Optional
+            #   username:            derp   # Optional
+            #   password:            hello  # Optional
             #   bindRequiresDn:      true   # Optional
-            #   baseDn:              ou=users, dc=host, dc=foo   # Optional
+            #   baseDn:              ou=buddies, dc=company, dc=com   # Optional
             #   accountFilterFormat: (&(uid=%s)) # Optional. sprintf format %s will be the username
             #   optReferrals:        false  # Optional
             #   useSsl:              true   # Enable SSL negotiation. Optional
             #   useStartTls:         true   # Enable TLS negotiation. Optional
             user:
-                baseDn: ou=users, dc=host, dc=foo
-                filter: (&(ObjectClass=Person))
+                baseDn: ou=buddies, dc=company, dc=com
+                filter: (&(ObjectClass=Buddy))
                 # Specify ldap attributes mapping [ldap attribute, user object method]
                 attributes:
-                #   - { ldap_attr: uid,  user_method: setUsername } # Default
-                #   - { ldap_attr: cn,   user_method: setName }     # Optional
+                #   - { ldap_attr: guid, user_method: setUsername } # Default
+                #   - { ldap_attr: name, user_method: setName }     # Optional
                 #   - { ldap_attr: ...,  user_method: ... }         # Optional
         # N domain
 #       serverN:

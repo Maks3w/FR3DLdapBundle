@@ -4,7 +4,7 @@ Open LDAP (testathon)
 Here's an example configuration for authentificating against the open LDAP Testathon
 
 ``` yaml
-dol_ldap:
+fr3d_ldap:
     domains:
         # Testathon
         testathon:
