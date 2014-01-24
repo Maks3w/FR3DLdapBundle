@@ -1,6 +1,8 @@
 FR3DLdapBundle
 ==============
 
+OPENVIEW note: this fork has been made to solve some problems we had with the legacy driver.
+
 The FR3DLdapBundle adds support for provide and/or authenticate users with a
 LDAP Directory in Symfony2.
 

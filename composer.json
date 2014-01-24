@@ -1,40 +1,23 @@
 {
-    "name": "fr3d/ldap-bundle",
+    "name": "openview/ldap-bundle",
     "type": "symfony-bundle",
-    "description": "This package provide users and authentication services based on LDAP directories for Symfony2 framework",
-    "keywords": ["ldap", "authentication"],
+    "description": "Pacchetto per autenticazione Ldap",
     "license": "MIT",
-    "homepage": "https://github.com/Maks3w/FR3DLdapBundle",
-    "authors": [
-        {
-            "name": "Maks3w"
-        }
-    ],
-    "support": {
-        "issues": "https://github.com/Maks3w/FR3DLdapBundle/issues",
-        "source": "https://github.com/Maks3w/FR3DLdapBundle"
+    "homepage": "https://github.com/OPENVIEW-DEV/FR3DLdapBundle",
+    "version": "2.0.1",
+    "author": {
+        "name": "Openview",
+        "url": "http://www.openview.it"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/OPENVIEW-DEV/FR3DLdapBundle.git"
+    }, 
     "require": {
-        "php": ">=5.3.2",
-        "ext-ldap": "*",
-        "symfony/config": ">=2.1",
-        "symfony/dependency-injection": ">=2.1",
-        "symfony/security": ">=2.1",
-        "symfony/security-bundle": ">=2.1",
-        "zendframework/zend-ldap": ">=2.0"
-    },
-    "require-dev": {
-        "symfony/class-loader": ">=2.1",
-        "symfony/validator": ">=2.1"
-    },
-    "suggest": {
-        "symfony/validator": "Allow pre-validate for existing users before register new ones",
-        "friendsofsymfony/user-bundle": "Integrate authentication and management for DB users, useful for unmanaged LDAP servers"
+        "php": ">=5.3.2"
     },
     "autoload": {
-        "psr-0": {
-            "FR3D\\LdapBundle": ""
-        }
+        "psr-0": { "Openview\\LdapBundle": "" }
     },
-    "target-dir": "FR3D/LdapBundle"
+    "target-dir": "Openview/LdapBundle"
 }

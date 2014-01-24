@@ -90,24 +90,28 @@ class LdapManager implements LdapManagerInterface
         if ($user instanceof AdvancedUserInterface) {
             $user->setEnabled(true);
         }
-
+        //print_r($entry); exit;
         foreach ($this->params['attributes'] as $attr) {
-            $ldapValue = $entry[$attr['ldap_attr']];
+            $ldapValue = $entry[strtolower($attr['ldap_attr']) ];
             $value = null;
-
-            if (!array_key_exists('count', $ldapValue) ||  $ldapValue['count'] == 1) {
-                $value = $ldapValue[0];
-            } else {
-                $value = array_slice($ldapValue, 1);
+            if (is_array($ldapValue)) {
+                if (!array_key_exists('count', $ldapValue) || $ldapValue['count'] == 1) {
+                    $value = $ldapValue[0];
+                } else {
+                    $value = array_slice($ldapValue, 1);
+                }
+                call_user_func(array($user, $attr['user_method']), $value);
             }
-
-            call_user_func(array($user, $attr['user_method']), $value);
         }
+
+        $entry['mail'] = $entry['samaccountname'][0]."@noemail.it";
+        call_user_func(array($user, 'setEmail'),  $entry['mail'] );
 
         if ($user instanceof LdapUserInterface) {
             $user->setDn($entry['dn']);
         }
     }
+    
 
     /**
      * {@inheritDoc}
