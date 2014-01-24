@@ -56,7 +56,7 @@ final class LegacyLdapDriver implements LdapDriverInterface
      */
     public function bind(UserInterface $user, $password)
     {
-        if ($user instanceof LdapUserInterface && $user->getDn()) {
+        /*if ($user instanceof LdapUserInterface && $user->getDn()) {
             $bind_rdn = $user->getDn();
         } elseif (isset($this->params['bindRequiresDn']) && $this->params['bindRequiresDn']) {
             if (!isset($this->params['baseDn']) || !isset($this->params['accountFilterFormat'])) {
@@ -71,6 +71,14 @@ final class LegacyLdapDriver implements LdapDriverInterface
             }
         } else {
             $bind_rdn = $user->getUsername();
+        }*/
+        
+        
+        $bind_rdn = $this->search($this->params['baseDn'], 'samaccountname=' . $user->getUsername());
+        if (1 == $bind_rdn['count']) {
+            $bind_rdn = $bind_rdn[0]['dn'];
+        } else {
+            $bind_rdn = $user->getDn();
         }
 
 
@@ -80,6 +88,8 @@ final class LegacyLdapDriver implements LdapDriverInterface
 
         $this->logDebug(sprintf('ldap_bind(%s, ****)', $bind_rdn));
         return @ldap_bind($this->ldap_res, $bind_rdn, $password);
+
+        return false;
     }
 
     private function connect()
