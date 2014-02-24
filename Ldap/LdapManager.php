@@ -103,7 +103,7 @@ class LdapManager implements LdapManagerInterface
                 $value = array_slice($ldapValue, 1);
             }
 
-            call_user_func(array($user, $attr['user_method']), $value);
+            call_user_func(array($user, $attr['user_method']), $value, $this->userManager);
         }
 
         $user->setDn($entry['dn']);
