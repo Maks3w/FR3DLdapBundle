@@ -70,11 +70,11 @@ class LdapConnection implements LdapConnectionInterface
         }
 
         if (isset($this->params['version']) && $this->params['version'] !== null) {
-            ldap_set_option($ress, LDAP_OPT_PROTOCOL_VERSION, $this->params['version']);
+            ldap_set_option($ress, LDAP_OPT_PROTOCOL_VERSION, (int) $this->params['version']);
         }
 
         if (isset($this->params['optReferrals']) && $this->params['optReferrals'] !== null) {
-            ldap_set_option($ress, LDAP_OPT_REFERRALS, $this->params['optReferrals']);
+            ldap_set_option($ress, LDAP_OPT_REFERRALS, (bool) $this->params['optReferrals']);
         }
 
         if (isset($this->params['username']) && $this->params['version'] !== null) {
