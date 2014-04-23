@@ -68,3 +68,4 @@ class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($user, $this->userProvider->refreshUser($user));
     }
 }
+?>

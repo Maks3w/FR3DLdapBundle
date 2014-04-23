@@ -78,8 +78,8 @@ class LdapManager implements LdapManagerInterface
     /**
      * Hydrates an user entity with ldap attributes.
      *
-     * @param UserInterface $user  user to hydrate
-     * @param array         $entry ldap result
+     * @param  UserInterface $user  user to hydrate
+     * @param  array         $entry ldap result
      *
      * @return UserInterface
      */
@@ -120,7 +120,7 @@ class LdapManager implements LdapManagerInterface
     /**
      * Get a list of roles for the username.
      *
-     * @param  string $username
+     * @param string $username
      * @return array
      */
     public function getRolesForUsername($username)
@@ -139,7 +139,7 @@ class LdapManager implements LdapManagerInterface
      * @author Benedikt Hallinger <beni@php.net>
      *
      * @param  string|array $values Array of values to escape
-     * @return array        Array $values, but escaped
+     * @return array Array $values, but escaped
      */
     public static function escapeValue($values = array())
     {
@@ -168,7 +168,7 @@ class LdapManager implements LdapManagerInterface
      * @author Benedikt Hallinger <beni@php.net>
      *
      * @param  string|array $values Array of values to escape
-     * @return array        Array $values, but unescaped
+     * @return array Array $values, but unescaped
      */
     public static function unescapeValue($values = array())
     {

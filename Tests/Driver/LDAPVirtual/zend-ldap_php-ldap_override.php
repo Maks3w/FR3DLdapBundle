@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file override default PHP Ldap functions for the specified namespace
+ * This file override default PHP Ldap functions for the specified namespace 
  */
 
 namespace Zend\Ldap;

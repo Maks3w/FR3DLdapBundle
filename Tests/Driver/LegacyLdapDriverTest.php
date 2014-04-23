@@ -100,6 +100,7 @@ class LegacyLdapDriverTest extends AbstractLdapDriverTest
                 ->with($this->equalTo($username), $this->equalTo($password))
                 ->will($this->returnValue(true));
 
+
         $this->assertTrue($this->legacyLdapDriver->bind($user, $password));
     }
 
@@ -145,6 +146,7 @@ class LegacyLdapDriverTest extends AbstractLdapDriverTest
                 ->method('ldap_bind')
                 ->with($this->equalTo($entry['dn']), $this->equalTo($password))
                 ->will($this->returnValue(true));
+
 
         $this->assertTrue($this->legacyLdapDriver->bind($user, $password));
     }

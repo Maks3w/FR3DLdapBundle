@@ -67,7 +67,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->validate()
-                    ->ifTrue(function ($v) {
+                    ->ifTrue(function($v) {
                                 return $v['driver']['useSsl'] && $v['driver']['useStartTls'];
                             })
                     ->thenInvalid('The useSsl and useStartTls options are mutually exclusive.')

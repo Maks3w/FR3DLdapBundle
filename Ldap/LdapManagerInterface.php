@@ -10,7 +10,7 @@ interface LdapManagerInterface
     /**
      * Find a user by its username.
      *
-     * @param  string                                                   $username
+     * @param  string $username
      * @return \Symfony\Component\Security\Core\User\UserInterface|null The user or null if the user does not exist
      */
     public function findUserByUsername($username);
@@ -18,7 +18,7 @@ interface LdapManagerInterface
     /**
      * Finds one user by the given criteria.
      *
-     * @param  array                                               $criteria
+     * @param  array  $criteria
      * @return \Symfony\Component\Security\Core\User\UserInterface
      */
     public function findUserBy(array $criteria);
@@ -30,7 +30,7 @@ interface LdapManagerInterface
      * @param  string        $password
      * @return Boolean
      */
-    public function bind(UserInterface $user, $password);
+    function bind(UserInterface $user, $password);
 
     /**
      * Escapes the given VALUES according to RFC 2254 so that they can be safely used in LDAP filters.
@@ -42,7 +42,7 @@ interface LdapManagerInterface
      * @link http://pear.php.net/package/Net_LDAP2
      *
      * @param  string|array $values Array of values to escape
-     * @return array        Array $values, but escaped
+     * @return array Array $values, but escaped
      */
     public static function escapeValue($values = array());
 
@@ -54,7 +54,7 @@ interface LdapManagerInterface
      * @link http://pear.php.net/package/Net_LDAP2
      *
      * @param  string|array $values Array of values to escape
-     * @return array        Array $values, but unescaped
+     * @return array Array $values, but unescaped
      */
     public static function unescapeValue($values = array());
 }

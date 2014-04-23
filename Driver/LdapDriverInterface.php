@@ -23,7 +23,7 @@ interface LdapDriverInterface
      *
      * @throws LdapDriverException if some error occurs.
      */
-    public function bind(UserInterface $user, $password);
+    function bind(UserInterface $user, $password);
 
     /**
      * Search LDAP tree
@@ -35,11 +35,11 @@ interface LdapDriverInterface
      *                                   empty then will return all attributes
      *                                   and their associated values.
      * @return array|boolean Returns a complete result information in a
-     *                                  multi-dimensional array on success and FALSE on error.
-     *                                  see {@link http://www.php.net/function.ldap-get-entries.php}
-     *                                  for array format examples.
+     *                       multi-dimensional array on success and FALSE on error.
+     *                       see {@link http://www.php.net/function.ldap-get-entries.php}
+     *                       for array format examples.
      *
      * @throws LdapDriverException if some error occurs.
      */
-    public function search($baseDn, $filter, array $attributes = array());
+    function search($baseDn, $filter, array $attributes = array());
 }

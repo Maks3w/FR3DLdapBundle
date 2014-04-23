@@ -2,6 +2,8 @@
 
 namespace FR3D\LdapBundle\Model;
 
+use FR3D\LdapBundle\Model\LdapUserInterface;
+
 interface UserManagerInterface
 {
 
