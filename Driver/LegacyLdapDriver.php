@@ -45,6 +45,7 @@ final class LegacyLdapDriver implements LdapDriverInterface
                 return $entries;
             }
         }
+
         return false;
     }
 
@@ -73,12 +74,12 @@ final class LegacyLdapDriver implements LdapDriverInterface
             $bind_rdn = $user->getUsername();
         }
 
-
         if (null === $this->ldap_res) {
             $this->connect();
         }
 
         $this->logDebug(sprintf('ldap_bind(%s, ****)', $bind_rdn));
+
         return @ldap_bind($this->ldap_res, $bind_rdn, $password);
     }
 
