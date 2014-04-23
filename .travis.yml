@@ -9,8 +9,8 @@ php:
   - hhvm
 
 matrix:
-   allow_failures:
-       - php: hhvm
+  allow_failures:
+    - php: hhvm
 
 env:
   - SYMFONY_VERSION=2.1.*
@@ -19,8 +19,11 @@ env:
   - SYMFONY_VERSION=2.4.*
 
 before_script:
-   - bash .travis.sh
-   - composer selfupdate
-   - composer install --dev --no-interaction
+  - bash .travis.sh
+  - wget http://get.sensiolabs.org/php-cs-fixer.phar
+  - composer selfupdate
+  - composer install --dev --no-interaction
 
-script: ./vendor/bin/phpunit --coverage-text
+script:
+  - php php-cs-fixer.phar -v --level=psr2 fix .
+  - ./vendor/bin/phpunit --coverage-text
