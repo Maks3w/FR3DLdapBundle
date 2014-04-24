@@ -25,5 +25,5 @@ before_script:
   - composer install --dev --no-interaction
 
 script:
-  - php php-cs-fixer.phar -v --level=psr2 fix .
   - ./vendor/bin/phpunit --coverage-text
+  - php php-cs-fixer.phar --dry-run -v --level=psr2 fix .
