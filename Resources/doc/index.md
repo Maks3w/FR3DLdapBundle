@@ -111,7 +111,7 @@ security:
             id: fr3d_ldap.security.user.provider
 
         fos_userbundle:
-            id: fos_user.user_manager
+            id: fos_user.user_provider.username
 
 ```
 
