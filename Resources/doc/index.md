@@ -1,13 +1,13 @@
 LdapBundle
 ==========
 
-LdapBundle provides a Ldap authentication system without the `apache mod_ldap`.
-He use `php-ldap` package with a form to authenticate the users.
-LdapBundle also can be used for the authorization. He retrieves the  Ldap users' roles.
+LdapBundle provides a Ldap authentication system without Apache's `mod_ldap` module.
+It uses the `php-ldap` package with a form to authenticate the users.
+LdapBundle can also be used for the authorization process. It retrieves the Ldap users' roles.
 
 This bundle is based on the original work of BorisMorel and adapted for use with FOSUserBundle
 
-This bundle requires Zend Ldap v2
+This bundle requires Zend Ldap v2.
 
 Install
 -------
