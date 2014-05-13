@@ -98,7 +98,7 @@ fr3d_ldap:
 
 ### 5. Enable FOSUserBundle as User Provider
 
-In security.yml make a chain_provider with fos_userbundle before fr3d_ldapbundle
+In security.yml make a `chain_provider` with `fos_userbundle` before `fr3d_ldapbundle` .
 
 ``` yaml
 # app/config/security.yml
