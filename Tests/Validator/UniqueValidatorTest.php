@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace FR3D\LdapBundle\Tests\Validation;
+namespace FR3D\LdapBundle\Tests\Validator;
 
 use FR3D\LdapBundle\Validator\UniqueValidator;
 use FR3D\LdapBundle\Validator\Unique;

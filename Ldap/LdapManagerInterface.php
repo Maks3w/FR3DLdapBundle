@@ -30,7 +30,7 @@ interface LdapManagerInterface
      * @param  string        $password
      * @return Boolean
      */
-    function bind(UserInterface $user, $password);
+    public function bind(UserInterface $user, $password);
 
     /**
      * Escapes the given VALUES according to RFC 2254 so that they can be safely used in LDAP filters.

@@ -49,7 +49,7 @@ final class LegacyLdapDriver implements LdapDriverInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @uses connect()
      * @throws LdapDriverException

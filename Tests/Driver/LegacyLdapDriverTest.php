@@ -5,7 +5,7 @@ namespace FR3D\LdapBundle\Tests\Driver;
 use FR3D\LdapBundle\Driver\LegacyLdapDriver;
 use FR3D\LdapBundle\Tests\TestUser;
 
-class LegacyLdapDriverTest extends AbstractDriverTest
+class LegacyLdapDriverTest extends AbstractLdapDriverTest
 {
     /**
      * @var LegacyLdapDriver

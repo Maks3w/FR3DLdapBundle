@@ -38,7 +38,7 @@ class ZendLdapDriver implements LdapDriverInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function search($baseDn, $filter, array $attributes = array())
     {
@@ -59,7 +59,7 @@ class ZendLdapDriver implements LdapDriverInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function bind(UserInterface $user, $password)
     {
@@ -83,7 +83,7 @@ class ZendLdapDriver implements LdapDriverInterface
 
     /**
      * Treat a Zend Ldap Exception
-     * 
+     *
      * @param ZendLdapException $exception
      */
     protected function zendExceptionHandler(ZendLdapException $exception)
@@ -105,7 +105,7 @@ class ZendLdapDriver implements LdapDriverInterface
 
     /**
      * Log debug messages if the logger is set.
-     * 
+     *
      * @param string $message
      */
     private function logDebug($message)
