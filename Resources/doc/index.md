@@ -1,11 +1,13 @@
 LdapBundle
 ==========
 
-LdapBundle provides a Ldap authentication system without the `apache mod_ldap`. He use `php-ldap` package with a form to authenticate the users. LdapBundle also can be used for the authorization. He retrieves the  Ldap users' roles.
+LdapBundle provides a Ldap authentication system without Apache's `mod_ldap` module.
+It uses the `php-ldap` package with a form to authenticate the users.
+LdapBundle can also be used for the authorization process. It retrieves the Ldap users' roles.
 
 This bundle is based on the original work of BorisMorel and adapted for use with FOSUserBundle
 
-This bundle requires Zend Ldap v2
+This bundle requires Zend Ldap v2.
 
 Install
 -------
@@ -96,7 +98,7 @@ fr3d_ldap:
 
 ### 5. Enable FOSUserBundle as User Provider
 
-In security.yml make a chain_provider with fos_userbundle before fr3d_ldapbundle
+In security.yml make a `chain_provider` with `fos_userbundle` before `fr3d_ldapbundle` .
 
 ``` yaml
 # app/config/security.yml
@@ -117,8 +119,8 @@ security:
 
 ### Cookbook
 
-Look the cookbook for another interesting things.
+Look the cookbook for other interesting things.
 
 - [Override Ldap Manager](cookbook/override_ldap-manager.md)
-- [Prevent guess registration with a username that already exists on LDAP](cookbook/validator.md)
+- [Prevent registration with a username that already exists on LDAP](cookbook/validator.md)
 - [Example configuration for Active Directory](cookbook/active-directory.md)
