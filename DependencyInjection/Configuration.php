@@ -63,6 +63,7 @@ class Configuration implements ConfigurationInterface
                                     ->end()
                                 ->end()
                             ->end()
+                            ->booleanNode('update')->defaultFalse()->end()
                         ->end()
                     ->end()
                 ->end()

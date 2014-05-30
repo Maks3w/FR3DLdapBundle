@@ -22,7 +22,9 @@
             <argument /> <!-- Provider-key -->
             <argument /> <!-- User provider service -->
             <argument type="service" id="fr3d_ldap.ldap_manager" />
+            <argument type="service" id="fr3d_ldap.user_manager" />
             <argument>%security.authentication.hide_user_not_found%</argument>
+            <argument>%fr3d_ldap.ldap_manager.update_user%</argument>
         </service>
 
     </services>

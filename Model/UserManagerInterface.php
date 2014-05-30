@@ -3,10 +3,10 @@
 namespace FR3D\LdapBundle\Model;
 
 use FR3D\LdapBundle\Model\LdapUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 interface UserManagerInterface
 {
-
     /**
      * Creates an empty user instance.
      *
@@ -22,4 +22,13 @@ interface UserManagerInterface
      * @return LdapUserInterface|null
      */
     public function findUserByUsername($username);
+
+    /**
+     * Updates a user.
+     *
+     * @param UserInterface $user
+     *
+     * @return void
+     */
+    public function updateUser(UserInterface $user);
 }
