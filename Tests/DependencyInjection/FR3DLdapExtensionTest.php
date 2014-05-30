@@ -141,6 +141,7 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
                         'user_method' => 'setUsername',
                     ),
                 ),
+                'update' => false,
             ),
             'service'     => array(
                 'user_manager' => 'fos_user.user_manager',

@@ -25,6 +25,11 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     protected $ldapManager;
 
     /**
+     * @var \FR3D\LdapBundle\Model\UserManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $userManager;
+
+    /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
@@ -34,9 +39,12 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $providerKey                = 'provider_key';
         $this->userProvider         = $this->getMock('Symfony\Component\Security\Core\User\UserProviderInterface');
         $this->ldapManager          = $this->getMock('FR3D\LdapBundle\Ldap\LdapManagerInterface');
+        $this->userManager          = $this->getMock('FR3D\LdapBundle\Model\UserManagerInterface');
         $hideUserNotFoundExceptions = false;
 
-        $this->ldapAuthenticationProvider = new LdapAuthenticationProvider($userChecker, $providerKey, $this->userProvider, $this->ldapManager, $hideUserNotFoundExceptions);
+        $updateUser = false;
+
+        $this->ldapAuthenticationProvider = new LdapAuthenticationProvider($userChecker, $providerKey, $this->userProvider, $this->ldapManager, $this->userManager, $hideUserNotFoundExceptions, $updateUser);
     }
 
     public function testRetrieveUser()
