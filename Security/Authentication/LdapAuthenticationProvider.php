@@ -68,7 +68,7 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
             if (Kernel::MINOR_VERSION <= 1) {
                 throw new AuthenticationServiceException($repositoryProblem->getMessage(), $token, 0, $repositoryProblem);
             } else {
-                $e = throw new AuthenticationServiceException($repositoryProblem->getMessage(), 0, $repositoryProblem);
+                $e = new AuthenticationServiceException($repositoryProblem->getMessage(), 0, $repositoryProblem);
                 $e->setToken($token);
                 throw $e;
             }
