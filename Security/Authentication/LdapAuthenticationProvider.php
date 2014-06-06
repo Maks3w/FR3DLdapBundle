@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\HttpKernel\Kernel;
 
 class LdapAuthenticationProvider extends UserAuthenticationProvider
 {
@@ -63,7 +64,14 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
         } catch (UsernameNotFoundException $notFound) {
             throw $notFound;
         } catch (\Exception $repositoryProblem) {
-            throw new AuthenticationServiceException($repositoryProblem->getMessage(), $token, 0, $repositoryProblem);
+            // Symfony 2.2 compatibility hack
+            if (Kernel::MINOR_VERSION <= 1) {
+                throw new AuthenticationServiceException($repositoryProblem->getMessage(), $token, 0, $repositoryProblem);
+            } else {
+                $e = new AuthenticationServiceException($repositoryProblem->getMessage(), 0, $repositoryProblem);
+                $e->setToken($token);
+                throw $e;
+            }
         }
     }
 

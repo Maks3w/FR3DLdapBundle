@@ -17,14 +17,14 @@
     "require": {
         "php": ">=5.3.2",
         "ext-ldap": "*",
-        "symfony/config": "2.1.*",
-        "symfony/dependency-injection": "2.1.*",
-        "symfony/security": "2.1.*",
-        "symfony/security-bundle": "2.1.*"
+        "symfony/config": "*",
+        "symfony/dependency-injection": "*",
+        "symfony/security": "*",
+        "symfony/security-bundle": "*"
     },
     "require-dev": {
-        "symfony/class-loader": "2.1.*",
-        "symfony/validator": "2.1.*"
+        "symfony/class-loader": "*",
+        "symfony/validator": "*"
     },
     "suggest": {
         "symfony/validator": "Allow pre-validate for existing users before register new ones",
