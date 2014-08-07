@@ -92,7 +92,7 @@ class LdapManager implements LdapManagerInterface
         }
 
         foreach ($this->params['attributes'] as $attr) {
-            $ldapValue = $entry[$attr['ldap_attr']];
+            $ldapValue = (array) $entry[$attr['ldap_attr']];
             $value = null;
 
             if ((array_key_exists('count', $ldapValue) &&  $ldapValue['count'] == 1)
