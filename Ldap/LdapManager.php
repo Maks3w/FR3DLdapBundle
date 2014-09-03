@@ -93,10 +93,10 @@ class LdapManager implements LdapManagerInterface
 
         foreach ($this->params['attributes'] as $attr) {
             if (array_key_exists($attr['ldap_attr'], $entry)) {
-                $ldapValue = !array_key_exists($attr['ldap_attr'], $entry) ? $entry[$attr['ldap_attr']];
+                $ldapValue = $entry[$attr['ldap_attr']];
                 $value = null;
 
-                if (!array_key_exists('count', $ldapValue) || $ldapValue['count'] == 1) {
+                if (!array_key_exists('count', $ldapValue) ||  $ldapValue['count'] == 1) {
                     $value = $ldapValue[0];
                 } else {
                     $value = array_slice($ldapValue, 1);
@@ -104,7 +104,6 @@ class LdapManager implements LdapManagerInterface
             } else {
                 $value = null;
             }
-
             call_user_func(array($user, $attr['user_method']), $value);
         }
 

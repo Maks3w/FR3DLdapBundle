@@ -164,6 +164,13 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testHydrate()
     {
+        $this->params['attributes'][] = array(
+            'ldap_attr'   => 'mail',
+            'user_method' => 'setEmail',
+        );
+
+        $this->ldapManager = new LdapManager($this->driver, $this->userManager, $this->params);
+
         $username = 'test_username';
 
         $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
@@ -185,6 +192,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($username, $user->getUsername());
         $this->assertTrue($user->isEnabled());
+        $this->assertNull($user->getEmail());
     }
 
     /**
