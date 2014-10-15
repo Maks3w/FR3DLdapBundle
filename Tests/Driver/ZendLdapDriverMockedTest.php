@@ -52,7 +52,6 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
             $entry,
         );
 
-
         $this->zend->expects($this->once())
                 ->method('searchEntries')
                 ->with($this->equalTo($filter), $this->equalTo($baseDn), $this->equalTo(Ldap::SEARCH_SCOPE_SUB), $this->equalTo($attributes))

@@ -162,7 +162,7 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
 
     private function assertHasDefinition($id)
     {
-        $this->assertTrue(($this->container->hasDefinition($id) ? : $this->container->hasAlias($id)), sprintf('%s definition is not set', $id));
+        $this->assertTrue(($this->container->hasDefinition($id) ?: $this->container->hasAlias($id)), sprintf('%s definition is not set', $id));
     }
 
     protected function tearDown()
