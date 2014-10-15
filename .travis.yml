@@ -7,13 +7,14 @@ php:
   - 5.5
 
 env:
-  - SYMFONY_VERSION=2.1
-  - SYMFONY_VERSION=2.2
-  - SYMFONY_VERSION=2.3
+  - SYMFONY_VERSION=2.1.*
+  - SYMFONY_VERSION=2.2.*
+  - SYMFONY_VERSION=2.3.*
 
 before_script:
-   - bash .travis.sh
-   - composer install --dev
+   # Travis doesn't have the ldap extension
+   - sed -i'.tmp' '/ext-ldap/d' composer.json
+   - composer require --dev symfony/symfony:${SYMFONY_VERSION}
 
 script:
    - phpunit
