@@ -23,7 +23,7 @@ interface LdapDriverInterface
      *
      * @throws LdapDriverException if some error occurs.
      */
-    function bind(UserInterface $user, $password);
+    public function bind(UserInterface $user, $password);
 
     /**
      * Search LDAP tree
@@ -41,5 +41,5 @@ interface LdapDriverInterface
      *
      * @throws LdapDriverException if some error occurs.
      */
-    function search($baseDn, $filter, array $attributes = array());
+    public function search($baseDn, $filter, array $attributes = array());
 }

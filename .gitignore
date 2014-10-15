@@ -1,10 +1,4 @@
 composer.lock
 phpunit.xml
-Tests/autoload.php
-
-.idea
-nbproject
-catalog.xml
 
 vendor/*
-!vendor/vendors.php
