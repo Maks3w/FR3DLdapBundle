@@ -25,6 +25,7 @@
     },
     "require-dev": {
         "fabpot/php-cs-fixer": "*",
+        "phpunit/phpunit": "~4",
         "symfony/class-loader": ">=2.1",
         "symfony/validator": ">=2.1"
     },
