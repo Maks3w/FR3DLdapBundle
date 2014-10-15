@@ -24,6 +24,7 @@
         "zendframework/zend-ldap": ">=2.0"
     },
     "require-dev": {
+        "fabpot/php-cs-fixer": "*",
         "symfony/class-loader": ">=2.1",
         "symfony/validator": ">=2.1"
     },
