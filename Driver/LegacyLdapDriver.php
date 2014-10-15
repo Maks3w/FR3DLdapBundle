@@ -119,11 +119,11 @@ final class LegacyLdapDriver implements LdapDriverInterface
             }
 
             ErrorHandler::start(E_WARNING);
-            $bindress = @ldap_bind($ress, $this->params['username'], $this->params['password']);
+            $bindress = ldap_bind($ress, $this->params['username'], $this->params['password']);
             ErrorHandler::stop();
         } else {
             ErrorHandler::start(E_WARNING);
-            $bindress = @ldap_bind($ress);
+            $bindress = ldap_bind($ress);
             ErrorHandler::stop();
         }
 
