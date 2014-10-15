@@ -9,7 +9,7 @@ use Zend\Ldap\Ldap;
 /**
  * Test class for ZendLdapDriver.
  */
-class ZendLdapDriverTest extends AbstractDriverTest
+class ZendLdapDriverTest extends AbstractLdapDriverTest
 {
     /**
      * @var \Zend\Ldap\Ldap
