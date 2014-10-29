@@ -13,7 +13,6 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     private $enabled;
     private $locked;
     private $dn;
-    private $email;
     private $roles = array();
 
     public function setUsername($username)
@@ -130,22 +129,6 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     public function getDn()
     {
         return $this->dn;
-    }
-
-    /**
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
     }
 
     /**

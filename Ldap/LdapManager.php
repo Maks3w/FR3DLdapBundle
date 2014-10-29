@@ -92,18 +92,19 @@ class LdapManager implements LdapManagerInterface
         }
 
         foreach ($this->params['attributes'] as $attr) {
-            if (array_key_exists($attr['ldap_attr'], $entry)) {
-                $ldapValue = $entry[$attr['ldap_attr']];
-                $value = null;
-
-                if (!array_key_exists('count', $ldapValue) ||  $ldapValue['count'] == 1) {
-                    $value = $ldapValue[0];
-                } else {
-                    $value = array_slice($ldapValue, 1);
-                }
-            } else {
-                $value = null;
+            if (!array_key_exists($attr['ldap_attr'], $entry)) {
+                continue;
             }
+
+            $ldapValue = $entry[$attr['ldap_attr']];
+            $value = null;
+
+            if (!array_key_exists('count', $ldapValue) ||  $ldapValue['count'] == 1) {
+                $value = $ldapValue[0];
+            } else {
+                $value = array_slice($ldapValue, 1);
+            }
+
             call_user_func(array($user, $attr['user_method']), $value);
         }
 
