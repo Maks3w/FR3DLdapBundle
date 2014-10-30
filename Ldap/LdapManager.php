@@ -92,6 +92,10 @@ class LdapManager implements LdapManagerInterface
         }
 
         foreach ($this->params['attributes'] as $attr) {
+            if (!array_key_exists($attr['ldap_attr'], $entry)) {
+                continue;
+            }
+
             $ldapValue = $entry[$attr['ldap_attr']];
             $value = null;
 
