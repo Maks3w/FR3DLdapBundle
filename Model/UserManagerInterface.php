@@ -11,13 +11,4 @@ interface UserManagerInterface
      * @return LdapUserInterface
      */
     public function createUser();
-
-    /**
-     * Find a user by his username.
-     *
-     * @param string $username
-     *
-     * @return LdapUserInterface|null
-     */
-    public function findUserByUsername($username);
 }
