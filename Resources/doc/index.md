@@ -16,7 +16,6 @@ Install
 3. Configure security.yml
 4. Configure config.yml
 5. Enable FOSUserBundle as User Provider
-6. Extend your User Entity
 
 ### 1. Add FR3DLdapBundle in your composer.json
 
@@ -92,7 +91,7 @@ fr3d_ldap:
         attributes:          # Specify ldap attributes mapping [ldap attribute, user object method]
 #           - { ldap_attr: uid,  user_method: setUsername } # Default
 #           - { ldap_attr: cn,   user_method: setName }     # Optional
-#           - { ldap_attr: mail. user_method: setEmail }    # If you are using FOS User Bundle this is a needed Field
+
 #           - { ldap_attr: ...,  user_method: ... }         # Optional
 #   service:
 #       user_manager: fos_user.user_manager          # Overrides default user manager
@@ -122,56 +121,15 @@ security:
 
 ```
 
-### 6. Extend your User Class
+Make sure to set all needed fields when creating the user otherwise you will get an exception. This can easily be done in the config.yml
 
-In your User Entity add the LDAP Interface and 2 Properties
-
-``` php
-<?php
-// AcmeBundle\Acme\User\LdapUser:
-
-namespace AcmeBundle\Acme\User\Entity;
-
-use FOS\UserBundle\Model\User as BaseUser;
-use Doctrine\ORM\Mapping as ORM;
-use FR3D\LdapBundle\Model\LdapUserInterface;
-
-/**
- * @ORM\Entity
- * @ORM\Table(name="fos_user")
- */
-class User extends BaseUser implements LdapUserInterface
-{
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
-    private $dn;
-
-    public function __construct()
-    {
-        parent::__construct();
-        // your own logic
-
-    }
-    public function getId()
-    {
-        return $this->id;
-    }
-
-
-    public function setDn($dn)
-    {
-        $this->dn = $dn;
-    }
-    public function getDn()
-    {
-        return $this->dn;
-    }
-}
+``` yaml
+# app/config/config.yml
+fr3d_ldap:
+    ...
+    user:
+      - { ldap_attr: uid,  user_method: setUsername }
+      - { ldap_attr: mail. user_method: setEmail }
 ```
 
 ### Cookbook
