@@ -129,7 +129,7 @@ fr3d_ldap:
     ...
     user:
       - { ldap_attr: uid,  user_method: setUsername }
-      - { ldap_attr: mail. user_method: setEmail }
+      - { ldap_attr: mail, user_method: setEmail }
 ```
 
 ### Cookbook
