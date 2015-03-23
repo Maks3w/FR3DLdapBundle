@@ -34,8 +34,8 @@ fr3d_ldap:
 
         <!-- ... -->
 
-        <service id="acme.ldap.ldap_manager" class=Acme\DemoBundle\Ldap\LdapManager">
-            <argument type="service" id="fr3d_ldap.client" />
+        <service id="acme.ldap.ldap_manager" class="Acme\DemoBundle\Ldap\LdapManager">
+            <argument type="service" id="fr3d_ldap.ldap_driver" />
             <argument type="service" id="fr3d_ldap.user_manager" />
             <argument>%fr3d_ldap.ldap_manager.parameters%</argument>
         </service>
@@ -56,11 +56,11 @@ fr3d_ldap:
 namespace Acme\DemoBundle\Ldap;
 
 use FR3D\LdapBundle\Ldap\LdapManager as BaseLdapManager;
-use FR3D\LdapBundle\Model\LdapUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class LdapManager extends BaseLdapManager
 {
-    protected function hydrate(LdapUserInterface $user, array $entry)
+    protected function hydrate(UserInterface $user, array $entry)
     {
         parent::hydrate($user, $entry);
 
