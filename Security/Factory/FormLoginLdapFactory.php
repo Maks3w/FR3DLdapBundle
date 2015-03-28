@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 
-class LdapFactory implements SecurityFactoryInterface
+class FormLoginLdapFactory implements SecurityFactoryInterface
 {
     public function create(ContainerBuilder $container, $id, $config, $userProviderId, $defaultEntryPointId)
     {

@@ -67,6 +67,17 @@ security:
       AcmeBundle\Acme\User\LdapUser: plaintext
 ```
 
+**Optional you can also enable basic authentication**
+``` yaml
+# app/config/security.yml
+
+security:
+  firewalls:
+    api:
+      pattern:    ^/api
+      fr3d_ldap_httpbasic: ~
+```
+
 ### 4. Configure config.yml
 ``` yaml
 # app/config/config.yml
