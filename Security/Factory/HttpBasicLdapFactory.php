@@ -17,7 +17,7 @@ class HttpBasicLdapFactory implements SecurityFactoryInterface
 
         // entry point
         $entryPointId = $this->createEntryPoint($container, $id, $config, $defaultEntryPointId);
-        
+
         // authentication listener
         $listenerId = $this->createListener($container, $id, $config, $entryPointId);
 
@@ -68,7 +68,7 @@ class HttpBasicLdapFactory implements SecurityFactoryInterface
 
         return $listenerId;
     }
-    
+
     protected function createEntryPoint($container, $id, $config, $defaultEntryPoint)
     {
         if (null !== $defaultEntryPoint) {
@@ -84,4 +84,3 @@ class HttpBasicLdapFactory implements SecurityFactoryInterface
         return $entryPointId;
     }
 }
-
