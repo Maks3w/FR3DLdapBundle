@@ -20,10 +20,7 @@ Features include:
 
 **Versions and compatibilities:**
 
-- [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=1.5.x)](http://travis-ci.org/Maks3w/FR3DLdapBundle) `1.5.x` is compatible with Symfony 2.0.x and is recommended for stable projects.
-- [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=1.6.x)](http://travis-ci.org/Maks3w/FR3DLdapBundle) `1.6.x` is compatible with Symfony 2.1.x and has the same features than 1.5.x
-- [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=2.0.x)](http://travis-ci.org/Maks3w/FR3DLdapBundle) `2.0.x` is compatible with Symfony 2.1.x and has new features. This version is actually under development and is subject to changes.
-- [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=master)](http://travis-ci.org/Maks3w/FR3DLdapBundle) `Master` is, at this moment, synced with 1.5.x but I encourage fix your installation to the 1.5.x version branch unless you like the risk.
+- [![Build Status](https://secure.travis-ci.org/Noles/FR3DLdapBundle.png?branch=master)](http://travis-ci.org/Noles/FR3DLdapBundle) `Master` is compatible with Symfony 2.3 and higher. This version is actually under development and is subject to changes.
 
 Documentation
 -------------
