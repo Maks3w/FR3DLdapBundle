@@ -105,6 +105,55 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
     }
 
+    public function testRoleMemberOfConfiguration()
+    {
+        $config = $this->getDefaultConfig();
+        $config['user']['role']['memberOf']['dnSuffixFilter'] = 'ou=Roles,dc=example,dc=com';
+
+        $this->container = new ContainerBuilder();
+        $extension = new FR3DLdapExtension();
+
+        $extension->load(array($config), $this->container);
+
+        $this->assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
+        $this->assertEquals($config['user'], $this->container->getParameter('fr3d_ldap.ldap_manager.parameters'));
+    }
+
+    public function testRoleSearchConfiguration()
+    {
+        $config = $this->getDefaultConfig();
+        $config['user']['role']['search']['baseDn'] = 'ou=Roles,dc=example,dc=com';
+        $config['user']['role']['search']['nameAttribute'] = 'cn';
+        $config['user']['role']['search']['userDnAttribute'] = 'member';
+        $config['user']['role']['search']['userId'] = 'dn';
+
+        $this->container = new ContainerBuilder();
+        $extension = new FR3DLdapExtension();
+
+        $extension->load(array($config), $this->container);
+
+        $this->assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
+        $this->assertEquals($config['user'], $this->container->getParameter('fr3d_ldap.ldap_manager.parameters'));
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     */
+    public function testRoleAllSetConfiguration()
+    {
+        $config = $this->getDefaultConfig();
+        $config['user']['role']['memberOf']['dnSuffixFilter'] = 'ou=Roles,dc=example,dc=com';
+        $config['user']['role']['search']['baseDn'] = 'ou=Roles,dc=example,dc=com';
+
+        $this->container = new ContainerBuilder();
+        $extension = new FR3DLdapExtension();
+
+        $extension->load(array($config), $this->container);
+
+        $this->assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
+        $this->assertEquals($config['user'], $this->container->getParameter('fr3d_ldap.ldap_manager.parameters'));
+    }
+
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */

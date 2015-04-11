@@ -42,6 +42,11 @@ class LdapManager implements LdapManagerInterface
     public function findUserBy(array $criteria)
     {
         $filter  = $this->buildFilter($criteria);
+
+        if (isset($this->params['role']['memberOf'])) {
+            $this->ldapAttributes[] = 'memberof';
+        }
+
         $entries = $this->driver->search($this->params['baseDn'], $filter, $this->ldapAttributes);
         if ($entries['count'] > 1) {
             throw new \Exception('This search can only return a single user');
@@ -107,6 +112,14 @@ class LdapManager implements LdapManagerInterface
             }
 
             call_user_func(array($user, $attr['user_method']), $value);
+        }
+
+        if (isset($this->params['role']['memberOf'])) {
+            $this->addRolesFromMemberof($user, $entry);
+        }
+
+        if (isset($this->params['role']['search'])) {
+            $this->addRolesViaSearch($user, $entry);
         }
 
         if ($user instanceof LdapUserInterface) {
@@ -193,5 +206,61 @@ class LdapManager implements LdapManagerInterface
         }
 
         return (count($values) == 1 && array_key_exists(0, $values)) ? $values[0] : $values;
+    }
+
+    /**
+     * Add roles based on role configuration from user memberOf attribute.
+     *
+     * @param UserInterface
+     * @param array $entry
+     */
+    private function addRolesFromMemberof($user, $entry)
+    {
+        if (isset($entry['memberof'])) {
+            foreach ($entry['memberof'] as $role) {
+                $dnSuffixFilter = $this->params['role']['memberOf']['dnSuffixFilter'];
+
+                if ($roleName = preg_replace("/^cn=(.*), $dnSuffixFilter/", '$1', $role)) {
+                    $user->addRole(sprintf('ROLE_%s',
+                        self::slugify($roleName)
+                    ));
+                }
+            }
+        }
+    }
+
+    /**
+     * Add roles based on role configuration via ldap search.
+     *
+     * @param UserInterface
+     * @param array $entry
+     */
+    private function addRolesViaSearch($user, $entry)
+    {
+        $userIdFunction = sprintf('get%s', ucfirst($this->params['role']['search']['userId']));
+        if (!method_exists($user, $userIdFunction)) {
+            throw new \Exception('NameAttribute for User unknown.');
+        }
+
+        $filter = isset($this->params['role']['search']['filter']) ? $this->params['role']['search']['filter'] : '';
+        $entries = $this->driver->search(
+            $this->params['role']['search']['baseDn'],
+            sprintf('(&%s(%s=%s))', $filter, $this->params['role']['search']['userDnAttribute'], $user->{$userIdFunction}()),
+            array($this->params['role']['search']['nameAttribute'])
+        );
+        for ($i = 0; $i < $entries['count']; $i++) {
+            $user->addRole(sprintf('ROLE_%s',
+                self::slugify($entries[$i][$this->params['role']['search']['nameAttribute']])
+            ));
+        }
+    }
+
+    private static function slugify($role)
+    {
+        $role = preg_replace('/\W+/', '_', $role);
+        $role = trim($role, '_');
+        $role = strtoupper($role);
+
+        return $role;
     }
 }
