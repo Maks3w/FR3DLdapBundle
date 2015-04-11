@@ -256,7 +256,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->params['role'] = array(
                 'memberOf' => array(
-                    'dnSuffixFilter'   => 'ou=Roles, dc=example, dc=com',
+                    'dnSuffixFilter'   => 'ou=Roles,dc=example,dc=com',
                 ),
         );
 
@@ -274,7 +274,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
                 0       => $username,
             ),
             'memberof' => array(
-                0       => 'cn=Admin, ou=Roles, dc=example, dc=com',
+                0       => 'cn=Admin,ou=Roles,dc=example,dc=com',
             ),
         );
         $roles = array('ROLE_ADMIN', 'ROLE_USER');

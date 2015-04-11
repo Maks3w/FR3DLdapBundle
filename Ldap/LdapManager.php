@@ -220,9 +220,9 @@ class LdapManager implements LdapManagerInterface
             foreach ($entry['memberof'] as $role) {
                 $dnSuffixFilter = $this->params['role']['memberOf']['dnSuffixFilter'];
 
-                if ($roleName = preg_replace("/^cn=(.*), $dnSuffixFilter/", '$1', $role)) {
+                if (preg_match("/^cn=(.*),$dnSuffixFilter/", $role, $roleName)) {
                     $user->addRole(sprintf('ROLE_%s',
-                        self::slugify($roleName)
+                        self::slugify($roleName[1])
                     ));
                 }
             }
