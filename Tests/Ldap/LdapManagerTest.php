@@ -4,6 +4,7 @@ namespace FR3D\LdapBundle\Tests\Ldap;
 
 use FR3D\LdapBundle\Ldap\LdapManager;
 use FR3D\LdapBundle\Tests\TestUser;
+use FR3D\LdapBundle\Model\LdapUser;
 
 class LdapManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -47,7 +48,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $this->userManager = $this->getMock('FR3D\LdapBundle\Model\UserManagerInterface');
         $this->userManager->expects($this->any())
             ->method('createUser')
-            ->will($this->returnValue(new TestUser()));
+            ->will($this->returnValue(new LdapUser()));
 
         $this->ldapManager = new LdapManager($this->driver, $this->userManager, $this->params);
     }
@@ -113,7 +114,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     {
         $username = 'test_username';
 
-        $user = new TestUser();
+        $user = new LdapUser();
         $user->setUsername($username);
 
         $entries = array(
@@ -170,7 +171,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $method          = $reflectionClass->getMethod('hydrate');
         $method->setAccessible(true);
 
-        $user = new TestUser();
+        $user = new LdapUser();
 
         $entry = array(
             'dn'    => 'ou=group, dc=host, dc=foo',
@@ -196,7 +197,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $method          = $reflectionClass->getMethod('hydrate');
         $method->setAccessible(true);
 
-        $user = new TestUser();
+        $user = new LdapUser();
 
         $entry = array(
             'dn'    => 'ou=group, dc=host, dc=foo',
@@ -252,7 +253,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     {
         $password = 'password';
 
-        $user = new TestUser();
+        $user = new LdapUser();
 
         $this->driver->expects($this->once())
             ->method('bind')

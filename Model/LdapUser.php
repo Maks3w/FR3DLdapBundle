@@ -5,11 +5,13 @@ namespace FR3D\LdapBundle\Model;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
- * Simple user object
- *
+ * Simple user object.
  */
 class LdapUser implements LdapUserInterface, AdvancedUserInterface
 {
+    const ROLE_DEFAULT = 'ROLE_USER';
+    const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+
     /**
      * @var string
      */
@@ -34,24 +36,31 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
      * @var string
      */
     protected $emailCanonical;
-    
+
     /**
-     * @var boolean
+     * @var bool
      */
     protected $enabled;
     /**
-     * The salt to use for hashing
+     * The salt to use for hashing.
      *
      * @var string
      */
     protected $salt;
-    
+
     /**
-     * @var boolean
+     * Encrypted password. Must be persisted.
+     *
+     * @var string
+     */
+    protected $password;
+
+    /**
+     * @var bool
      */
     protected $locked;
     /**
-     * @var boolean
+     * @var bool
      */
     protected $expired;
 
@@ -59,9 +68,9 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
      * @var array
      */
     protected $roles;
-    
+
     /**
-     * @var boolean
+     * @var bool
      */
     protected $credentialsExpired;
 
@@ -74,19 +83,19 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
         $this->roles = array();
         $this->credentialsExpired = false;
     }
-    
+
     /**
      * {@inheritDoc}
      */
-    public function getDn() 
+    public function getDn()
     {
-        return $this->dn;  
+        return $this->dn;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setDn($dn) 
+    public function setDn($dn)
     {
         $this->dn = $dn;
     }
@@ -104,13 +113,13 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
 
         return $this;
     }
-    
+
     /**
      * Removes sensitive data from the user.
      */
     public function eraseCredentials()
     {
-       //Password not saved
+        //Password not saved
     }
 
     public function getUsername()
@@ -122,7 +131,7 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
     {
         return $this->usernameCanonical;
     }
-    
+
     public function getSalt()
     {
         return $this->salt;
@@ -137,20 +146,20 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
     {
         return $this->emailCanonical;
     }
-    
+
     /**
      * Gets the encrypted password normally.
-     * Not available via ldap
+     * Not available via ldap.
      *
      * @return string empty
      */
     public function getPassword()
     {
-        return "";
+        return '';
     }
 
     /**
-     * Returns the user roles
+     * Returns the user roles.
      *
      * @return array The roles
      */
@@ -158,9 +167,9 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
     {
         $roles = $this->roles;
 
-        foreach ($this->getGroups() as $group) {
-            $roles = array_merge($roles, $group->getRoles());
-        }
+        //foreach ($this->getGroups() as $group) {
+        //    $roles = array_merge($roles, $group->getRoles());
+        //}
 
         // we need to make sure to have at least one role
         $roles[] = static::ROLE_DEFAULT;
@@ -178,37 +187,36 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
      *
      * @param string $role
      *
-     * @return boolean
+     * @return bool
      */
     public function hasRole($role)
     {
         return in_array(strtoupper($role), $this->getRoles(), true);
     }
-    
+
     public function isAccountNonExpired()
     {
         if (true === $this->expired) {
             return false;
         }
-        if (null !== $this->expiresAt && $this->expiresAt->getTimestamp() < time()) {
-            return false;
-        }
+
         return true;
     }
-    
+
     public function isAccountNonLocked()
     {
         return !$this->locked;
     }
-    
+
     public function isCredentialsNonExpired()
     {
         if (true === $this->credentialsExpired) {
             return false;
         }
+
         return true;
     }
-    
+
     public function isEnabled()
     {
         return $this->enabled;
@@ -242,15 +250,16 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
 
         return $this;
     }
-    
+
     /**
-     * @param boolean $boolean
+     * @param bool $boolean
      *
      * @return User
      */
     public function setCredentialsExpired($boolean)
     {
         $this->credentialsExpired = $boolean;
+
         return $this;
     }
 
@@ -267,10 +276,18 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
 
         return $this;
     }
-    
+
     public function setEnabled($boolean)
     {
         $this->enabled = (Boolean) $boolean;
+
+        return $this;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
         return $this;
     }
 

@@ -13,7 +13,7 @@ class LdapUserManagerTest extends \PHPUnit_Framework_TestCase
      * @var \FR3D\LdapBundle\Model\LdapUserInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $ldapUser;
-    
+
     /**
      * @var LdapUserManager
      */
@@ -30,7 +30,7 @@ class LdapUserManagerTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->ldapUser = $this->getMock('FR3D\LdapBundle\Model\LdapUserInterface');
-        
+
         $this->ldapUserManager = new LdapUserManager($this->params);
     }
 
@@ -55,6 +55,6 @@ class LdapUserManagerTest extends \PHPUnit_Framework_TestCase
     {
         $ldapUser = $this->ldapUserManager->createUser();
 
-        $this->assertInstanceOf('FR3D\LdapBundle\Model\LdapUser', new $ldapUser);
+        $this->assertInstanceOf('FR3D\LdapBundle\Model\LdapUser', new $ldapUser());
     }
 }

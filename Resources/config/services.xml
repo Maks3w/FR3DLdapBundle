@@ -6,7 +6,7 @@
 
     <parameters>
         <parameter key="fr3d_ldap.ldap_manager.class">FR3D\LdapBundle\Ldap\LdapManager</parameter>
-        <parameter key="fr3d_ldap.ldap_manager.class">FR3D\LdapBundle\Model\UserManager</parameter>
+        <parameter key="fr3d_ldap.user_manager.class">FR3D\LdapBundle\Model\LdapUserManager</parameter>
     </parameters>
 
     <services>
@@ -16,7 +16,7 @@
             <argument type="service" id="fr3d_ldap.user_manager" />
             <argument>%fr3d_ldap.ldap_manager.parameters%</argument>
         </service>
-        
+
         <service id="fr3d_ldap.user_manager.default" class="%fr3d_ldap.user_manager.class%">
             <argument>%fr3d_ldap.user_manager.parameters%</argument>
         </service>

@@ -7,38 +7,35 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface as SecurityUserInterface;
 
 /**
- * Simple User Manager implementation 
- *
+ * Simple User Manager implementation.
  */
 class LdapUserManager implements UserManagerInterface
 {
     protected $params = array();
-    
+
     /**
      * Constructor.
-     *
      */
     public function __construct(array $params)
     {
         $this->params = $params;
-        
     }
 
     /**
-     * Returns an empty user instance
+     * Returns an empty user instance.
      *
      * @return UserInterface
      */
     public function createUser()
     {
         $class = $this->params['user_class'];
-        $user = new $class;
+        $user = new $class();
 
         return $user;
     }
 
     /**
-     * Refreshed a user by User Instance
+     * Refreshed a user by User Instance.
      *
      * Throws UnsupportedUserException if a User Instance is given which is not
      * managed by this UserManager (so another Manager could try managing it)

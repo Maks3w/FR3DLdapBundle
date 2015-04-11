@@ -70,14 +70,14 @@ class Configuration implements ConfigurationInterface
                             })
                     ->thenInvalid('The useSsl and useStartTls options are mutually exclusive.')
                 ->end();
-                            
+
         $this->addManagerSection($rootNode);
 
         $this->addServiceSection($rootNode);
 
         return $treeBuilder;
     }
-    
+
     private function addManagerSection(ArrayNodeDefinition $node)
     {
         $node
