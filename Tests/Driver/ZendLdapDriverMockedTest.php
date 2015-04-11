@@ -4,8 +4,8 @@ namespace FR3D\LdapBundle\Tests\Driver;
 
 use FR3D\LdapBundle\Driver\ZendLdapDriver;
 use FR3D\LdapBundle\Tests\TestUser;
-use Zend\Ldap\Ldap;
 use Zend\Ldap\Exception\LdapException as ZendLdapException;
+use Zend\Ldap\Ldap;
 
 /**
  * Test class for ZendLdapDriver.
@@ -29,7 +29,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         if (!function_exists('ldap_connect')) {
-            $this->markTestSkipped("PHP LDAP extension not loaded");
+            $this->markTestSkipped('PHP LDAP extension not loaded');
         }
 
         $this->zend = $this->getMockBuilder('Zend\Ldap\Ldap')
@@ -137,7 +137,6 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
 
     public function testBindUserInterfaceByUsernameSuccessful()
     {
-
         $username = 'username';
         $password = 'password';
         $user     = $this->getMock('Symfony\Component\Security\Core\User\UserInterface');

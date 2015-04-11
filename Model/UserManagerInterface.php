@@ -4,7 +4,6 @@ namespace FR3D\LdapBundle\Model;
 
 interface UserManagerInterface
 {
-
     /**
      * Creates an empty user instance.
      *

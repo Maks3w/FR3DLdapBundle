@@ -17,8 +17,8 @@ before_script:
    - composer require --dev symfony/symfony:${SYMFONY_VERSION}
 
 script:
-   - vendor/bin/php-cs-fixer fix -v --fixers=-phpdoc_params --dry-run .
-   - phpunit
+   - vendor/bin/phpunit
+   - if [[ $TRAVIS_PHP_VERSION='5.6' && SYMFONY_VERSION='2.3.*' ]]; then vendor/bin/php-cs-fixer fix -v --dry-run; fi
 
 matrix:
   fast_finish: true

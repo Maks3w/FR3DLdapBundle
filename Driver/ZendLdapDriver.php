@@ -2,11 +2,11 @@
 
 namespace FR3D\LdapBundle\Driver;
 
-use Zend\Ldap\Ldap;
-use Zend\Ldap\Exception\LdapException as ZendLdapException;
 use FR3D\LdapBundle\Model\LdapUserInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Zend\Ldap\Exception\LdapException as ZendLdapException;
+use Zend\Ldap\Ldap;
 
 /**
  * This class adapt ldap calls to Zend Framework Ldap library functions.
@@ -18,12 +18,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class ZendLdapDriver implements LdapDriverInterface
 {
     /**
-     * @var Ldap $driver
+     * @var Ldap
      */
     private $driver;
 
     /**
-     * @var LoggerInterface $logger
+     * @var LoggerInterface
      */
     private $logger;
 
@@ -42,7 +42,7 @@ class ZendLdapDriver implements LdapDriverInterface
      */
     public function search($baseDn, $filter, array $attributes = array())
     {
-        $this->logDebug(sprintf('ldap_search(%s, %s, %s)', $baseDn, $filter, join(',', $attributes)));
+        $this->logDebug(sprintf('ldap_search(%s, %s, %s)', $baseDn, $filter, implode(',', $attributes)));
 
         try {
             $entries          = $this->driver->searchEntries($filter, $baseDn, Ldap::SEARCH_SCOPE_SUB, $attributes);
@@ -82,7 +82,7 @@ class ZendLdapDriver implements LdapDriverInterface
     }
 
     /**
-     * Treat a Zend Ldap Exception
+     * Treat a Zend Ldap Exception.
      *
      * @param ZendLdapException $exception
      */

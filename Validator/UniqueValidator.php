@@ -11,14 +11,14 @@
 
 namespace FR3D\LdapBundle\Validator;
 
+use FR3D\LdapBundle\Ldap\LdapManagerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
-use Symfony\Component\Security\Core\User\UserInterface;
-use FR3D\LdapBundle\Ldap\LdapManagerInterface;
 
 /**
- * UniqueValidator
+ * UniqueValidator.
  */
 class UniqueValidator extends ConstraintValidator
 {
@@ -28,7 +28,7 @@ class UniqueValidator extends ConstraintValidator
     protected $ldapManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param LdapManagerInterface $ldapManager
      */

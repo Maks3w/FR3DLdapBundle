@@ -12,21 +12,20 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 interface LdapDriverInterface
 {
-
     /**
-     * Bind to LDAP directory
+     * Bind to LDAP directory.
      *
      * @param UserInterface $user     The user for authenticating the bind.
      * @param string        $password The password for authenticating the bind.
      *
-     * @return boolean true on success or false on failure
+     * @return bool true on success or false on failure
      *
      * @throws LdapDriverException if some error occurs.
      */
     public function bind(UserInterface $user, $password);
 
     /**
-     * Search LDAP tree
+     * Search LDAP tree.
      *
      * @param  string        $baseDn     The base DN for the directory.
      * @param  string        $filter     The search filter.
@@ -34,7 +33,8 @@ interface LdapDriverInterface
      *                                   'dn' is always returned. If array is
      *                                   empty then will return all attributes
      *                                   and their associated values.
-     * @return array|boolean Returns a complete result information in a
+     *
+     * @return array|bool Returns a complete result information in a
      *                       multi-dimensional array on success and FALSE on error.
      *                       see {@link http://www.php.net/function.ldap-get-entries.php}
      *                       for array format examples.

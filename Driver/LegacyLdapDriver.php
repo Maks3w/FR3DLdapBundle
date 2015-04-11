@@ -18,7 +18,7 @@ final class LegacyLdapDriver implements LdapDriverInterface
     private $params = array();
 
     /**
-     * @var integer $version Ldap Protocol version
+     * @var int Ldap Protocol version
      */
     private $version;
     private $logger;
@@ -37,7 +37,7 @@ final class LegacyLdapDriver implements LdapDriverInterface
             $this->connect();
         }
 
-        $this->logDebug(sprintf('ldap_search(%s, %s, %s)', $baseDn, $filter, join(',', $attributes)));
+        $this->logDebug(sprintf('ldap_search(%s, %s, %s)', $baseDn, $filter, implode(',', $attributes)));
         $search = ldap_search($this->ldap_res, $baseDn, $filter, $attributes);
 
         if ($search) {
@@ -54,6 +54,7 @@ final class LegacyLdapDriver implements LdapDriverInterface
      * {@inheritDoc}
      *
      * @uses connect()
+     *
      * @throws LdapDriverException
      */
     public function bind(UserInterface $user, $password)

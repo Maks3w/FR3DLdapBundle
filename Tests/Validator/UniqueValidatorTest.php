@@ -11,9 +11,9 @@
 
 namespace FR3D\LdapBundle\Tests\Validation;
 
-use FR3D\LdapBundle\Validator\UniqueValidator;
-use FR3D\LdapBundle\Validator\Unique;
 use FR3D\LdapBundle\Tests\TestUser;
+use FR3D\LdapBundle\Validator\Unique;
+use FR3D\LdapBundle\Validator\UniqueValidator;
 
 class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
 {
