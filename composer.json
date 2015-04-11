@@ -26,7 +26,7 @@
     "require-dev": {
         "fabpot/php-cs-fixer": "*",
         "phpunit/phpunit": "~4",
-        "symfony/validator": ">=2.1"
+        "symfony/validator": "~2.1"
     },
     "suggest": {
         "symfony/validator": "Allow pre-validate for existing users before register new ones",
