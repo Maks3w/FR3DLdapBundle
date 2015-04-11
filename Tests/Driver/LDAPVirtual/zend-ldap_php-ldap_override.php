@@ -3,6 +3,7 @@
 /**
  * This file override default PHP Ldap functions for the specified namespace.
  */
+
 namespace Zend\Ldap;
 
 /** @var \FR3D\LdapBundle\Tests\Driver\LDAPVirtual\LDAPVirtualInterface $ldapServer */
