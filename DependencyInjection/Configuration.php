@@ -70,10 +70,27 @@ class Configuration implements ConfigurationInterface
                             })
                     ->thenInvalid('The useSsl and useStartTls options are mutually exclusive.')
                 ->end();
+                            
+        $this->addManagerSection($rootNode);
 
         $this->addServiceSection($rootNode);
 
         return $treeBuilder;
+    }
+    
+    private function addManagerSection(ArrayNodeDefinition $node)
+    {
+        $node
+                ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('manager')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('user_class')->defaultValue('FR3D\LdapBundle\Model\LdapUser')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end();
     }
 
     private function addServiceSection(ArrayNodeDefinition $node)
@@ -84,7 +101,7 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('service')
                             ->addDefaultsIfNotSet()
                             ->children()
-                                ->scalarNode('user_manager')->defaultValue('fos_user.user_manager')->end()
+                                ->scalarNode('user_manager')->defaultValue('fr3d_ldap.user_manager.default')->end()
                                 ->scalarNode('ldap_manager')->defaultValue('fr3d_ldap.ldap_manager.default')->end()
                                 ->scalarNode('ldap_driver')->defaultValue('fr3d_ldap.ldap_driver.zend')->end()
                             ->end()

@@ -96,6 +96,8 @@ fr3d_ldap:
 #       accountCanonicalForm: 3 # ACCTNAME_FORM_BACKSLASH this is only needed if your users have to login with something like HOST\User
 #       accountDomainName: HOST
 #       accountDomainNameShort: HOST # if you use the Backslash form set both to Hostname than the Username will be converted to HOST\User
+    manager:
+        user_class: FR3D\LdapBundle\Model\LdapUser
     user:
         baseDn: ou=users, dc=host, dc=foo
         filter: (&(ObjectClass=Person))
