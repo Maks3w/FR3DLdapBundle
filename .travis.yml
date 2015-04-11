@@ -15,6 +15,7 @@ env:
   - SYMFONY_VERSION=2.7.*@dev
 
 before_script:
+  - php -m
   # Travis doesn't have the ldap extension
   - sed -i'.tmp' '/ext-ldap/d' composer.json
   - composer require --dev symfony/symfony:${SYMFONY_VERSION}
