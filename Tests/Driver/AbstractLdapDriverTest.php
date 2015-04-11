@@ -7,7 +7,6 @@ require_once 'LDAPVirtual/fr3d-ldapbundle-driver_php-ldap_override.php';
 
 abstract class AbstractLdapDriverTest extends \PHPUnit_Framework_TestCase
 {
-
     protected function setUp()
     {
         if (!function_exists('ldap_connect')) {

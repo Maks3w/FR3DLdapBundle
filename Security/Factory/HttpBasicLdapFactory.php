@@ -47,7 +47,7 @@ class HttpBasicLdapFactory implements SecurityFactoryInterface
     protected function createAuthProvider(ContainerBuilder $container, $id, $config, $userProviderId)
     {
         $provider = 'fr3d_ldap.security.authentication.provider';
-        $providerId = $provider . '.' . $id;
+        $providerId = $provider.'.'.$id;
 
         $container
             ->setDefinition($providerId, new DefinitionDecorator($provider))

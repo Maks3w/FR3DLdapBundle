@@ -7,15 +7,13 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * This class contains the configuration information for the bundle
+ * This class contains the configuration information for the bundle.
  *
  * This information is solely responsible for how the different configuration
  * sections are normalized, and merged.
- *
  */
 class Configuration implements ConfigurationInterface
 {
-
     /**
      * {@inheritDoc}
      */
@@ -54,7 +52,7 @@ class Configuration implements ConfigurationInterface
                                 ->defaultValue(array(
                                     array(
                                         'ldap_attr'   => 'uid',
-                                        'user_method' => 'setUsername')
+                                        'user_method' => 'setUsername', ),
                                     ))
                                 ->prototype('array')
                                     ->children()

@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use FR3D\LdapBundle\Ldap\LdapManagerInterface;
 
 /**
- * UniqueValidator
+ * UniqueValidator.
  */
 class UniqueValidator extends ConstraintValidator
 {
@@ -28,7 +28,7 @@ class UniqueValidator extends ConstraintValidator
     protected $ldapManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param LdapManagerInterface $ldapManager
      */
@@ -55,7 +55,7 @@ class UniqueValidator extends ConstraintValidator
 
         if ($user) {
             $this->context->addViolation($constraint->message, array(
-                '%property%' => $constraint->property
+                '%property%' => $constraint->property,
             ));
         }
     }

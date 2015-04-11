@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 /**
- * Provides users from Ldap
+ * Provides users from Ldap.
  */
 class LdapUserProvider implements UserProviderInterface
 {
@@ -60,7 +60,7 @@ class LdapUserProvider implements UserProviderInterface
     }
 
     /**
-     * Log a message into the logger if this exists
+     * Log a message into the logger if this exists.
      *
      * @param string $message
      */

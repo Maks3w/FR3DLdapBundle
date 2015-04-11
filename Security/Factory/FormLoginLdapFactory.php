@@ -39,7 +39,7 @@ class FormLoginLdapFactory implements SecurityFactoryInterface
     protected function createAuthProvider(ContainerBuilder $container, $id, $config, $userProviderId)
     {
         $provider = 'fr3d_ldap.security.authentication.provider';
-        $providerId = $provider . '.' . $id;
+        $providerId = $provider.'.'.$id;
 
         $container
             ->setDefinition($providerId, new DefinitionDecorator($provider))
@@ -58,7 +58,7 @@ class FormLoginLdapFactory implements SecurityFactoryInterface
         $listener->replaceArgument(4, $id);
         $listener->replaceArgument(5, $config);
 
-        $listenerId .= '.' . $id;
+        $listenerId .= '.'.$id;
         $container
             ->setDefinition($listenerId, $listener)
         ;

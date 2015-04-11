@@ -4,7 +4,6 @@ namespace FR3D\LdapBundle\Tests\Driver\LDAPVirtual;
 
 interface LDAPVirtualInterface
 {
-
     public function setTls($tls);
 
     public function setSsl($ssl);
