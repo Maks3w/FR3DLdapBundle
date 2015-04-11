@@ -45,7 +45,9 @@ This bundle is under the MIT license. See the complete license in the bundle:
 Reporting an issue or a feature request
 ---------------------------------------
 
-Issues and feature requests are tracked in the [GitHub issue tracker](https://github.com/Maks3w/FR3DLdapBundle/issues).
+Issues and feature requests are tracked in 
+- [GitHub issue tracker](https://github.com/Noles/FR3DLdapBundle/issues)
+- [Upstream GitHub issue tracker](https://github.com/Maks3w/FR3DLdapBundle/issues)
 
 When reporting a bug, it may be a good idea to reproduce it in a basic project
 built using the [Symfony Standard Edition](https://github.com/symfony/symfony-standard)
