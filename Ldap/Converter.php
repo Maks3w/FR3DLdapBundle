@@ -29,9 +29,9 @@ class Converter
             if (ord($char) < 32) {
                 $hex    = dechex(ord($char));
                 if (strlen($hex) == 1) {
-                    $hex    = '0'.$hex;
+                    $hex    = '0' . $hex;
                 }
-                $string = str_replace($char, '\\'.$hex, $string);
+                $string = str_replace($char, '\\' . $hex, $string);
             }
         }
 

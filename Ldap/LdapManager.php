@@ -4,8 +4,8 @@ namespace FR3D\LdapBundle\Ldap;
 
 use FR3D\LdapBundle\Driver\LdapDriverInterface;
 use FR3D\LdapBundle\Model\LdapUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class LdapManager implements LdapManagerInterface
 {
