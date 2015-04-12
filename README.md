@@ -16,7 +16,7 @@ Features include:
 - Customizable and extensible
 - Unit tested
 
-**Note:** This bundle cannot work as standalone at this moment and requires an User Manager (For ex: `FOSUserBundle`)
+**Note:** This bundle can work as standalone or combined with an User Manager (For ex: `FOSUserBundle`)
 
 **Versions and compatibilities:**
 

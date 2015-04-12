@@ -52,12 +52,39 @@ class Configuration implements ConfigurationInterface
                                 ->defaultValue(array(
                                     array(
                                         'ldap_attr'   => 'uid',
-                                        'user_method' => 'setUsername')
+                                        'user_method' => 'setUsername', ),
                                     ))
                                 ->prototype('array')
                                     ->children()
                                         ->scalarNode('ldap_attr')->isRequired()->cannotBeEmpty()->end()
                                         ->scalarNode('user_method')->isRequired()->cannotBeEmpty()->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                            ->arrayNode('role')
+                                ->validate()
+                                    ->ifTrue(function ($v) { return !empty($v['memberOf']) && !empty($v['search']); })
+                                    ->thenInvalid('Only either memberOf or search mode can be set')
+                                ->end()
+                                ->children()
+                                    ->arrayNode('memberOf')
+                                        ->children()
+                                            ->scalarNode('dnSuffixFilter')->isRequired()->cannotBeEmpty()->end()
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('search')
+                                        ->children()
+                                            ->scalarNode('baseDn')->isRequired()->cannotBeEmpty()->end()
+                                            ->scalarNode('filter')->end()
+                                            ->scalarNode('nameAttribute')->defaultValue('cn')->end()
+                                            ->scalarNode('userDnAttribute')->defaultValue('member')->end()
+                                            ->scalarNode('userId')->defaultValue('dn')
+                                                ->validate()
+                                                    ->ifNotInArray(array('dn', 'username'))
+                                                    ->thenInvalid('Only dn or username')
+                                                ->end()
+                                            ->end()
+                                        ->end()
                                     ->end()
                                 ->end()
                             ->end()
@@ -71,9 +98,26 @@ class Configuration implements ConfigurationInterface
                     ->thenInvalid('The useSsl and useStartTls options are mutually exclusive.')
                 ->end();
 
+        $this->addManagerSection($rootNode);
+
         $this->addServiceSection($rootNode);
 
         return $treeBuilder;
+    }
+
+    private function addManagerSection(ArrayNodeDefinition $node)
+    {
+        $node
+                ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('manager')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('user_class')->defaultValue('FR3D\LdapBundle\Model\LdapUser')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end();
     }
 
     private function addServiceSection(ArrayNodeDefinition $node)
@@ -84,7 +128,7 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('service')
                             ->addDefaultsIfNotSet()
                             ->children()
-                                ->scalarNode('user_manager')->defaultValue('fos_user.user_manager')->end()
+                                ->scalarNode('user_manager')->defaultValue('fr3d_ldap.user_manager.default')->end()
                                 ->scalarNode('ldap_manager')->defaultValue('fr3d_ldap.ldap_manager.default')->end()
                                 ->scalarNode('ldap_driver')->defaultValue('fr3d_ldap.ldap_driver.zend')->end()
                             ->end()

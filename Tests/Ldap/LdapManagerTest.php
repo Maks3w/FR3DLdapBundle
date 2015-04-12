@@ -3,6 +3,7 @@
 namespace FR3D\LdapBundle\Tests\Ldap;
 
 use FR3D\LdapBundle\Ldap\LdapManager;
+use FR3D\LdapBundle\Model\LdapUser;
 use FR3D\LdapBundle\Tests\TestUser;
 
 class LdapManagerTest extends \PHPUnit_Framework_TestCase
@@ -47,7 +48,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $this->userManager = $this->getMock('FR3D\LdapBundle\Model\UserManagerInterface');
         $this->userManager->expects($this->any())
             ->method('createUser')
-            ->will($this->returnValue(new TestUser()));
+            ->will($this->returnValue(new LdapUser()));
 
         $this->ldapManager = new LdapManager($this->driver, $this->userManager, $this->params);
     }
@@ -113,7 +114,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     {
         $username = 'test_username';
 
-        $user = new TestUser();
+        $user = new LdapUser();
         $user->setUsername($username);
 
         $entries = array(
@@ -170,7 +171,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $method          = $reflectionClass->getMethod('hydrate');
         $method->setAccessible(true);
 
-        $user = new TestUser();
+        $user = new LdapUser();
 
         $entry = array(
             'dn'    => 'ou=group, dc=host, dc=foo',
@@ -196,7 +197,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $method          = $reflectionClass->getMethod('hydrate');
         $method->setAccessible(true);
 
-        $user = new TestUser();
+        $user = new LdapUser();
 
         $entry = array(
             'dn'    => 'ou=group, dc=host, dc=foo',
@@ -246,13 +247,121 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers FR3D\LdapBundle\Ldap\LdapManager::hydrate
+     */
+    public function testHydrateWithMemberofRole()
+    {
+        $username = 'test_username';
+        $userDn = 'cn=Test Username, ou=group, dc=host, dc=foo';
+
+        $this->params['role'] = array(
+                'memberOf' => array(
+                    'dnSuffixFilter'   => 'ou=Roles,dc=example,dc=com',
+                ),
+        );
+
+        $this->ldapManager = new LdapManager($this->driver, $this->userManager, $this->params);
+
+        $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
+        $method          = $reflectionClass->getMethod('hydrate');
+        $method->setAccessible(true);
+
+        $entry = array(
+            'dn'    => $userDn,
+            'count' => 1,
+            'cn'   => array(
+                'count' => 1,
+                0       => $username,
+            ),
+            'memberof' => array(
+                0       => 'cn=Admin,ou=Roles,dc=example,dc=com',
+            ),
+        );
+        $roles = array('ROLE_ADMIN', 'ROLE_USER');
+
+        $user = new LdapUser();
+        $user->setUsername($username);
+        $user->setDn($userDn);
+
+        $method->invoke($this->ldapManager, $user, $entry);
+
+        $this->assertEquals($username, $user->getUsername());
+        $this->assertEquals($roles, $user->getRoles());
+        $this->assertTrue($user->isEnabled());
+    }
+
+    /**
+     * @covers FR3D\LdapBundle\Ldap\LdapManager::hydrate
+     */
+    public function testHydrateWithRoleSearch()
+    {
+        $username = 'test_username';
+        $userDn = 'cn=Test Username, ou=group, dc=host, dc=foo';
+
+        $this->params['role'] = array(
+                'search' => array(
+                    'baseDn'   => 'ou=Roles,dc=example,dc=com',
+                    'nameAttribute' => 'cn',
+                    'userDnAttribute' => 'member',
+                    'userId' => 'dn',
+                ),
+        );
+
+        $user = new LdapUser();
+        $user->setUsername($username);
+        $user->setDn($userDn);
+
+        $roleEntries = array(
+            'count' => 1,
+            array(
+                'dn'  => 'cn=Admin, ou=group, dc=host, dc=foo',
+                'cn'  => 'Admin',
+                'member' => array(
+                    'count' => 1,
+                    0       => $userDn,
+                ),
+            ),
+        );
+
+        $this->driver
+            ->expects($this->once())
+            ->method('search')
+            ->with($this->equalTo('ou=Roles,dc=example,dc=com'),
+                $this->equalTo(sprintf('(&(member=%s))', $userDn)),
+                $this->equalTo(array('cn')))
+            ->will($this->returnValue($roleEntries));
+
+        $this->ldapManager = new LdapManager($this->driver, $this->userManager, $this->params);
+
+        $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
+        $method          = $reflectionClass->getMethod('hydrate');
+        $method->setAccessible(true);
+
+        $entry = array(
+            'dn'    => $userDn,
+            'count' => 1,
+            'cn'   => array(
+                'count' => 1,
+                0       => $username,
+            ),
+        );
+        $roles = array('ROLE_ADMIN', 'ROLE_USER');
+
+        $method->invoke($this->ldapManager, $user, $entry);
+
+        $this->assertEquals($username, $user->getUsername());
+        $this->assertEquals($roles, $user->getRoles());
+        $this->assertTrue($user->isEnabled());
+    }
+
+    /**
      * @covers FR3D\LdapBundle\Ldap\LdapManager::bind
      */
     public function testBind()
     {
         $password = 'password';
 
-        $user = new TestUser();
+        $user = new LdapUser();
 
         $this->driver->expects($this->once())
             ->method('bind')

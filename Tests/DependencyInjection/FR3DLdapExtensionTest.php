@@ -40,8 +40,9 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertParameter($defaultConfig['driver'], 'fr3d_ldap.ldap_driver.parameters');
         $this->assertParameter($defaultConfig['user'], 'fr3d_ldap.ldap_manager.parameters');
+        $this->assertParameter($defaultConfig['manager'], 'fr3d_ldap.user_manager.parameters');
 
-        $this->assertAlias('fos_user.user_manager', 'fr3d_ldap.user_manager');
+        $this->assertAlias('fr3d_ldap.user_manager.default', 'fr3d_ldap.user_manager');
         $this->assertAlias('fr3d_ldap.ldap_manager.default', 'fr3d_ldap.ldap_manager');
         $this->assertAlias('fr3d_ldap.ldap_driver.zend', 'fr3d_ldap.ldap_driver');
     }
@@ -104,6 +105,55 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
     }
 
+    public function testRoleMemberOfConfiguration()
+    {
+        $config = $this->getDefaultConfig();
+        $config['user']['role']['memberOf']['dnSuffixFilter'] = 'ou=Roles,dc=example,dc=com';
+
+        $this->container = new ContainerBuilder();
+        $extension = new FR3DLdapExtension();
+
+        $extension->load(array($config), $this->container);
+
+        $this->assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
+        $this->assertEquals($config['user'], $this->container->getParameter('fr3d_ldap.ldap_manager.parameters'));
+    }
+
+    public function testRoleSearchConfiguration()
+    {
+        $config = $this->getDefaultConfig();
+        $config['user']['role']['search']['baseDn'] = 'ou=Roles,dc=example,dc=com';
+        $config['user']['role']['search']['nameAttribute'] = 'cn';
+        $config['user']['role']['search']['userDnAttribute'] = 'member';
+        $config['user']['role']['search']['userId'] = 'dn';
+
+        $this->container = new ContainerBuilder();
+        $extension = new FR3DLdapExtension();
+
+        $extension->load(array($config), $this->container);
+
+        $this->assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
+        $this->assertEquals($config['user'], $this->container->getParameter('fr3d_ldap.ldap_manager.parameters'));
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     */
+    public function testRoleAllSetConfiguration()
+    {
+        $config = $this->getDefaultConfig();
+        $config['user']['role']['memberOf']['dnSuffixFilter'] = 'ou=Roles,dc=example,dc=com';
+        $config['user']['role']['search']['baseDn'] = 'ou=Roles,dc=example,dc=com';
+
+        $this->container = new ContainerBuilder();
+        $extension = new FR3DLdapExtension();
+
+        $extension->load(array($config), $this->container);
+
+        $this->assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
+        $this->assertEquals($config['user'], $this->container->getParameter('fr3d_ldap.ldap_manager.parameters'));
+    }
+
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
@@ -141,8 +191,11 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
                     ),
                 ),
             ),
+            'manager' => array(
+                'user_class'     => 'FR3D\LdapBundle\Model\LdapUser',
+            ),
             'service'     => array(
-                'user_manager' => 'fos_user.user_manager',
+                'user_manager' => 'fr3d_ldap.user_manager.default',
                 'ldap_manager' => 'fr3d_ldap.ldap_manager.default',
                 'ldap_driver'  => 'fr3d_ldap.ldap_driver.zend',
             ),
