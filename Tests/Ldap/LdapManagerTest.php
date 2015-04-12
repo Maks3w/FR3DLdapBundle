@@ -3,8 +3,8 @@
 namespace FR3D\LdapBundle\Tests\Ldap;
 
 use FR3D\LdapBundle\Ldap\LdapManager;
-use FR3D\LdapBundle\Tests\TestUser;
 use FR3D\LdapBundle\Model\LdapUser;
+use FR3D\LdapBundle\Tests\TestUser;
 
 class LdapManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -381,7 +381,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     public function testEscapeValues()
     {
         $expected  = 't\28e,s\29t\2av\5cal\1eue';
-        $filterval = 't(e,s)t*v\\al'.chr(30).'ue';
+        $filterval = 't(e,s)t*v\\al' . chr(30) . 'ue';
         $this->assertEquals($expected, LdapManager::escapeValue($filterval));
         $this->assertEquals($expected, LdapManager::escapeValue(array($filterval)));
         $this->assertEquals(array($expected, $expected, $expected), LdapManager::escapeValue(array($filterval, $filterval, $filterval)));
@@ -389,7 +389,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testUnescapeValues()
     {
-        $expected  = 't(e,s)t*v\\al'.chr(30).'ue';
+        $expected  = 't(e,s)t*v\\al' . chr(30) . 'ue';
         $filterval = 't\28e,s\29t\2av\5cal\1eue';
         $this->assertEquals($expected, LdapManager::unescapeValue($filterval));
         $this->assertEquals($expected, LdapManager::unescapeValue(array($filterval)));
