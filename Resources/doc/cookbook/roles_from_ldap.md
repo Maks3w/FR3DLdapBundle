@@ -12,8 +12,8 @@ From memberOf attribute
 
 The memberOf overlay is known supported in ActiveDirectory or OpenLdap with enabled overlay.
 
-Further information for OpenLdap can be found in the OpenLdap documentation under "12.8. Reverse Group Membership Maintenance".
-[Overlays](http://www.openldap.org/doc/admin24/overlays.html)
+Further information for OpenLdap can be found in the [OpenLdap overlay documentation](http://www.openldap.org/doc/admin24/overlays.html) under "12.8. Reverse Group Membership Maintenance".
+
 
 ``` yaml
 fr3d_ldap:  
@@ -44,7 +44,6 @@ dn: cn=Admin,ou=Roles,dc=example,dc=com
 description: Admin Group
 gidNumber: 1001
 cn: Admin
-member: eif
 member: cn=Test User,ou=People,dc=example,dc=com
 objectClass: top
 objectClass: posixGroup
