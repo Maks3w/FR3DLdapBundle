@@ -1,46 +1,40 @@
 {
-    "name": "noles/ldap-bundle",
+    "name": "fr3d/ldap-bundle",
     "type": "symfony-bundle",
-    "description": "This package provide users and authentication services based on LDAP directories for Symfony2 framework. Original made by Maks3w",
+    "description": "This package provide users and authentication services based on LDAP directories for Symfony2 framework",
     "keywords": ["ldap", "authentication"],
     "license": "MIT",
-    "homepage": "https://github.com/Noles/FR3DLdapBundle",
+    "homepage": "https://github.com/Maks3w/FR3DLdapBundle",
     "authors": [
-        {
-            "name": "Noles"
-        },
         {
             "name": "Maks3w"
         }
     ],
     "support": {
-        "issues": "https://github.com/Noles/FR3DLdapBundle/issues",
-        "source": "https://github.com/Noles/FR3DLdapBundle"
+        "issues": "https://github.com/Maks3w/FR3DLdapBundle/issues",
+        "source": "https://github.com/Maks3w/FR3DLdapBundle"
     },
     "require": {
         "php": ">=5.3.2",
         "ext-ldap": "*",
-        "symfony/config": ">=2.1",
-        "symfony/dependency-injection": ">=2.1",
-        "symfony/security": ">=2.1",
-        "symfony/security-bundle": ">=2.1",
-        "zendframework/zend-ldap": ">=2.0"
+        "symfony/config": "~2.1",
+        "symfony/dependency-injection": "~2.1",
+        "symfony/security": "~2.1",
+        "symfony/security-bundle": "~2.1",
+        "zendframework/zend-ldap": "~2"
     },
     "require-dev": {
         "fabpot/php-cs-fixer": "*",
         "phpunit/phpunit": "~4",
-        "symfony/class-loader": ">=2.1",
-        "symfony/validator": ">=2.1",
-        "symfony/symfony": ">=2.3 <2.7"
+        "symfony/validator": "~2.1"
     },
     "suggest": {
         "symfony/validator": "Allow pre-validate for existing users before register new ones",
         "friendsofsymfony/user-bundle": "Integrate authentication and management for DB users, useful for unmanaged LDAP servers"
     },
     "autoload": {
-        "psr-0": {
-            "FR3D\\LdapBundle": ""
+        "psr-4": {
+            "FR3D\\LdapBundle\\": ""
         }
-    },
-    "target-dir": "FR3D/LdapBundle"
+    }
 }

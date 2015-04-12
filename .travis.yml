@@ -1,29 +1,24 @@
+sudo: false
+
 language: php
 
 php:
   - 5.4
   - 5.5
   - 5.6
+  - 7
   - hhvm
 
 env:
   - SYMFONY_VERSION=2.3.*
   - SYMFONY_VERSION=2.6.*
+  - SYMFONY_VERSION=2.7.*@dev
 
 before_script:
-   # Travis doesn't have the ldap extension
-   - sed -i'.tmp' '/ext-ldap/d' composer.json
-   - composer require --dev symfony/symfony:${SYMFONY_VERSION}
+  # Travis doesn't have the ldap extension
+  - sed -i'.tmp' '/ext-ldap/d' composer.json
+  - composer require --dev symfony/symfony:${SYMFONY_VERSION}
 
 script:
-   - vendor/bin/php-cs-fixer fix -v --fixers=-phpdoc_params --dry-run .
-   - phpunit
-
-matrix:
-  fast_finish: true
-  allow_failures:
-    - php: hhvm
-
-cache:
-  directories:
-    - $COMPOSER_CACHE_DIR
+  - vendor/bin/phpunit
+  - if [[ $TRAVIS_PHP_VERSION='5.6' && SYMFONY_VERSION=2.3.* ]]; then vendor/bin/php-cs-fixer fix -v --dry-run; fi

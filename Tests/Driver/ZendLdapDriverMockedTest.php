@@ -4,8 +4,8 @@ namespace FR3D\LdapBundle\Tests\Driver;
 
 use FR3D\LdapBundle\Driver\ZendLdapDriver;
 use FR3D\LdapBundle\Tests\TestUser;
-use Zend\Ldap\Ldap;
 use Zend\Ldap\Exception\LdapException as ZendLdapException;
+use Zend\Ldap\Ldap;
 
 /**
  * Test class for ZendLdapDriver.
