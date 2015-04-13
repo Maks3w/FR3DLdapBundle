@@ -11,8 +11,8 @@ FR3DLdapBundle requires Zend Ldap v2 and can be installed standalone or combined
 
 Install
 -------
-1. [Standalone install](install/standalone.md)
-2. [Combined with FOSUserBundle](install/combined_with_fosuser.md)
+* [Standalone install](install/standalone.md)
+* [Combined with FOSUserBundle](install/combined_with_fosuser.md)
 
 ### Cookbook
 

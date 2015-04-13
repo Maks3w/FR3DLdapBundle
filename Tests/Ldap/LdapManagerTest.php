@@ -256,25 +256,25 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->params['role'] = array(
                 'memberOf' => array(
-                    'dnSuffixFilter'   => 'ou=Roles,dc=example,dc=com',
+                    'dnSuffixFilter' => 'ou=Roles,dc=example,dc=com',
                 ),
         );
 
         $this->ldapManager = new LdapManager($this->driver, $this->userManager, $this->params);
 
         $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
-        $method          = $reflectionClass->getMethod('hydrate');
+        $method = $reflectionClass->getMethod('hydrate');
         $method->setAccessible(true);
 
         $entry = array(
-            'dn'    => $userDn,
+            'dn' => $userDn,
             'count' => 1,
-            'cn'   => array(
+            'cn' => array(
                 'count' => 1,
-                0       => $username,
+                0 => $username,
             ),
             'memberof' => array(
-                0       => 'cn=Admin,ou=Roles,dc=example,dc=com',
+                0 => 'cn=Admin,ou=Roles,dc=example,dc=com',
             ),
         );
         $roles = array('ROLE_ADMIN', 'ROLE_USER');
@@ -300,7 +300,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->params['role'] = array(
                 'search' => array(
-                    'baseDn'   => 'ou=Roles,dc=example,dc=com',
+                    'baseDn' => 'ou=Roles,dc=example,dc=com',
                     'nameAttribute' => 'cn',
                     'userDnAttribute' => 'member',
                     'userId' => 'dn',
@@ -314,11 +314,11 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $roleEntries = array(
             'count' => 1,
             array(
-                'dn'  => 'cn=Admin, ou=group, dc=host, dc=foo',
-                'cn'  => 'Admin',
+                'dn' => 'cn=Admin, ou=group, dc=host, dc=foo',
+                'cn' => 'Admin',
                 'member' => array(
                     'count' => 1,
-                    0       => $userDn,
+                    0 => $userDn,
                 ),
             ),
         );
@@ -334,15 +334,15 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $this->ldapManager = new LdapManager($this->driver, $this->userManager, $this->params);
 
         $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
-        $method          = $reflectionClass->getMethod('hydrate');
+        $method = $reflectionClass->getMethod('hydrate');
         $method->setAccessible(true);
 
         $entry = array(
-            'dn'    => $userDn,
+            'dn' => $userDn,
             'count' => 1,
-            'cn'   => array(
+            'cn' => array(
                 'count' => 1,
-                0       => $username,
+                0 => $username,
             ),
         );
         $roles = array('ROLE_ADMIN', 'ROLE_USER');

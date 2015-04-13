@@ -43,7 +43,7 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
      */
     public function getSalt()
     {
-        return;
+        return null;
     }
 
     /**
@@ -51,7 +51,7 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
      */
     public function eraseCredentials()
     {
-        return;
+        return null;
     }
 
     /**

@@ -1,5 +1,5 @@
 Role Ldap Lookup
-=====================
+================
 
 Currently two modes are supported for ldap role lookup
 
@@ -25,7 +25,7 @@ fr3d_ldap:
 
 
 Via ldap search
------------------------
+---------------
 
 ``` yaml
 fr3d_ldap:

@@ -1,5 +1,5 @@
 Standalone Installation
-==========
+=======================
 
 Install
 -------

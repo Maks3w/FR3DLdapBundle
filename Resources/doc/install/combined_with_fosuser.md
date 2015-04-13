@@ -1,5 +1,5 @@
 Combined install with FOSUserBundle
-==========
+===================================
 
 Install
 -------
