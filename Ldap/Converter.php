@@ -61,4 +61,20 @@ class Converter
 
         return $string;
     }
+
+    /**
+     * Convert string to symfony role schema.
+     *
+     * @param string $role
+     *
+     * @return string
+     */
+    public static function strToSymRoleSchema($role)
+    {
+        $role = preg_replace('/\W+/', '_', $role);
+        $role = trim($role, '_');
+        $role = strtoupper($role);
+
+        return $role;
+    }
 }

@@ -9,8 +9,9 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
  */
 class LdapUser implements LdapUserInterface, AdvancedUserInterface
 {
+    use UserRoleTrait;
+
     const ROLE_DEFAULT = 'ROLE_USER';
-    const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 
     /**
      * @var string
@@ -25,28 +26,12 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
     /**
      * @var string
      */
-    protected $usernameCanonical;
-
-    /**
-     * @var string
-     */
     protected $email;
-
-    /**
-     * @var string
-     */
-    protected $emailCanonical;
 
     /**
      * @var bool
      */
     protected $enabled;
-    /**
-     * The salt to use for hashing.
-     *
-     * @var string
-     */
-    protected $salt;
 
     /**
      * Encrypted password. Must be persisted.
@@ -76,7 +61,6 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
 
     public function __construct()
     {
-        $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
         $this->enabled = false;
         $this->locked = false;
         $this->expired = false;
@@ -127,24 +111,14 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
         return $this->username;
     }
 
-    public function getUsernameCanonical()
-    {
-        return $this->usernameCanonical;
-    }
-
     public function getSalt()
     {
-        return $this->salt;
+        return null;
     }
 
     public function getEmail()
     {
         return $this->email;
-    }
-
-    public function getEmailCanonical()
-    {
-        return $this->emailCanonical;
     }
 
     /**
@@ -218,11 +192,6 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
         return $this->enabled;
     }
 
-    public function isSuperAdmin()
-    {
-        return $this->hasRole(static::ROLE_SUPER_ADMIN);
-    }
-
     public function removeRole($role)
     {
         if (false !== $key = array_search(strtoupper($role), $this->roles, true)) {
@@ -236,13 +205,6 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
     public function setUsername($username)
     {
         $this->username = $username;
-
-        return $this;
-    }
-
-    public function setUsernameCanonical($usernameCanonical)
-    {
-        $this->usernameCanonical = $usernameCanonical;
 
         return $this;
     }
@@ -266,13 +228,6 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
         return $this;
     }
 
-    public function setEmailCanonical($emailCanonical)
-    {
-        $this->emailCanonical = $emailCanonical;
-
-        return $this;
-    }
-
     public function setEnabled($boolean)
     {
         $this->enabled = (Boolean) $boolean;
@@ -283,17 +238,6 @@ class LdapUser implements LdapUserInterface, AdvancedUserInterface
     public function setPassword($password)
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    public function setSuperAdmin($boolean)
-    {
-        if (true === $boolean) {
-            $this->addRole(static::ROLE_SUPER_ADMIN);
-        } else {
-            $this->removeRole(static::ROLE_SUPER_ADMIN);
-        }
 
         return $this;
     }

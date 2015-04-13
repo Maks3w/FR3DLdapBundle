@@ -114,12 +114,12 @@ class LdapManager implements LdapManagerInterface
             call_user_func(array($user, $attr['user_method']), $value);
         }
 
-        if (isset($this->params['role']['memberOf'])) {
-            $this->addRolesFromMemberof($user, $entry);
+        if (isset($this->params['role']['memberOf']) && isset($entry['memberof'])) {
+            $user->addRolesFromMemberof($entry['memberof'], $this->params['role']['memberOf']['dnSuffixFilter']);
         }
 
         if (isset($this->params['role']['search'])) {
-            $this->addRolesViaSearch($user, $entry);
+            $this->addRolesViaSearch($user);
         }
 
         if ($user instanceof LdapUserInterface) {
@@ -209,33 +209,11 @@ class LdapManager implements LdapManagerInterface
     }
 
     /**
-     * Add roles based on role configuration from user memberOf attribute.
-     *
-     * @param UserInterface
-     * @param array $entry
-     */
-    private function addRolesFromMemberof($user, $entry)
-    {
-        if (isset($entry['memberof'])) {
-            foreach ($entry['memberof'] as $role) {
-                $dnSuffixFilter = $this->params['role']['memberOf']['dnSuffixFilter'];
-
-                if (preg_match("/^cn=(.*),$dnSuffixFilter/", $role, $roleName)) {
-                    $user->addRole(sprintf('ROLE_%s',
-                        self::slugify($roleName[1])
-                    ));
-                }
-            }
-        }
-    }
-
-    /**
      * Add roles based on role configuration via ldap search.
      *
      * @param UserInterface
-     * @param array $entry
      */
-    private function addRolesViaSearch($user, $entry)
+    private function addRolesViaSearch($user)
     {
         $userIdFunction = sprintf('get%s', ucfirst($this->params['role']['search']['userId']));
         if (!method_exists($user, $userIdFunction)) {
@@ -250,17 +228,8 @@ class LdapManager implements LdapManagerInterface
         );
         for ($i = 0; $i < $entries['count']; $i++) {
             $user->addRole(sprintf('ROLE_%s',
-                self::slugify($entries[$i][$this->params['role']['search']['nameAttribute']])
+                Converter::strToSymRoleSchema($entries[$i][$this->params['role']['search']['nameAttribute']])
             ));
         }
-    }
-
-    private static function slugify($role)
-    {
-        $role = preg_replace('/\W+/', '_', $role);
-        $role = trim($role, '_');
-        $role = strtoupper($role);
-
-        return $role;
     }
 }
