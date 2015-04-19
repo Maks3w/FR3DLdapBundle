@@ -63,4 +63,13 @@ interface LdapManagerInterface
      * @return array Array $values, but unescaped
      */
     public static function unescapeValue($values = array());
+
+    /**
+     * Get a list of LdapGroups for the user.
+     *
+     * @param UserInterface $user
+     *
+     * @return array
+     */
+    public function getLdapGroupsForUser(UserInterface $user);
 }

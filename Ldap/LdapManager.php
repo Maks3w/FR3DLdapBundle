@@ -119,7 +119,8 @@ class LdapManager implements LdapManagerInterface
         }
 
         if (isset($this->params['role']['search'])) {
-            $this->addRolesViaSearch($user);
+            $ldapGroups = $this->getLdapGroupsForUser($user);
+            $user->addRolesFromLdapGroup($ldapGroups, $this->params['role']['search']['nameAttribute']);
         }
 
         if ($user instanceof LdapUserInterface) {
@@ -136,14 +137,27 @@ class LdapManager implements LdapManagerInterface
     }
 
     /**
-     * Get a list of roles for the username.
+     * Get a list of LdapGroups for the user.
      *
-     * @param string $username
+     * @param UserInterface $user
      *
      * @return array
      */
-    public function getRolesForUsername($username)
+    public function getLdapGroupsForUser(UserInterface $user)
     {
+        $userIdFunction = sprintf('get%s', ucfirst($this->params['role']['search']['userId']));
+        if (!method_exists($user, $userIdFunction)) {
+            throw new \Exception('NameAttribute for User unknown.');
+        }
+
+        $filter = isset($this->params['role']['search']['filter']) ? $this->params['role']['search']['filter'] : '';
+        $entries = $this->driver->search(
+            $this->params['role']['search']['baseDn'],
+            sprintf('(&%s(%s=%s))', $filter, $this->params['role']['search']['userDnAttribute'], $user->{$userIdFunction}()),
+            array($this->params['role']['search']['nameAttribute'])
+        );
+
+        return $entries;
     }
 
     /**
@@ -206,30 +220,5 @@ class LdapManager implements LdapManagerInterface
         }
 
         return (count($values) == 1 && array_key_exists(0, $values)) ? $values[0] : $values;
-    }
-
-    /**
-     * Add roles based on role configuration via ldap search.
-     *
-     * @param UserInterface
-     */
-    private function addRolesViaSearch($user)
-    {
-        $userIdFunction = sprintf('get%s', ucfirst($this->params['role']['search']['userId']));
-        if (!method_exists($user, $userIdFunction)) {
-            throw new \Exception('NameAttribute for User unknown.');
-        }
-
-        $filter = isset($this->params['role']['search']['filter']) ? $this->params['role']['search']['filter'] : '';
-        $entries = $this->driver->search(
-            $this->params['role']['search']['baseDn'],
-            sprintf('(&%s(%s=%s))', $filter, $this->params['role']['search']['userDnAttribute'], $user->{$userIdFunction}()),
-            array($this->params['role']['search']['nameAttribute'])
-        );
-        for ($i = 0; $i < $entries['count']; $i++) {
-            $user->addRole(sprintf('ROLE_%s',
-                Converter::strToSymRoleSchema($entries[$i][$this->params['role']['search']['nameAttribute']])
-            ));
-        }
     }
 }

@@ -27,6 +27,22 @@ trait UserRoleTrait
     }
 
     /**
+     * Add roles based on role configuration from ldap search.
+     *
+     * @param UserInterface
+     */
+    public function addRolesFromLdapGroup(array $ldapGroups, $nameAttribute)
+    {
+        foreach ($ldapGroups as $role) {
+            if (isset($role[$nameAttribute])) {
+                $this->addRole(sprintf('ROLE_%s',
+                    Converter::strToSymRoleSchema($role[$nameAttribute])
+                ));
+            }
+        }
+    }
+
+    /**
      * Adds a role to the user.
      *
      * @param string $role
