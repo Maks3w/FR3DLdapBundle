@@ -4,7 +4,7 @@ namespace FR3D\LdapBundle\Tests\Ldap;
 
 use FR3D\LdapBundle\Ldap\LdapManager;
 use FR3D\LdapBundle\Model\LdapUser;
-use FR3D\LdapBundle\Tests\TestUser;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 class LdapManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -185,7 +185,9 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $method->invoke($this->ldapManager, $user, $entry);
 
         $this->assertEquals($username, $user->getUsername());
-        $this->assertTrue($user->isEnabled());
+        if ($user instanceof AdvancedUserInterface) {
+            $this->assertTrue($user->isEnabled());
+        }
     }
 
     /**
@@ -221,12 +223,13 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $user  = new TestUser();
+        $user  = new LdapUser();
         $roles = array(
             'count' => 3,
-            0       => 'ROLE1',
-            1       => 'ROLE2',
-            2       => 'ROLE3',
+            0 => 'ROLE1',
+            1 => 'ROLE2',
+            2 => 'ROLE3',
+            3 => 'ROLE_USER',
         );
 
         $entry = array(
@@ -243,7 +246,9 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $method->invoke($this->ldapManager, $user, $entry);
 
         $this->assertEquals(array_slice($roles, 1), $user->getRoles());
-        $this->assertTrue($user->isEnabled());
+        if ($user instanceof AdvancedUserInterface) {
+            $this->assertTrue($user->isEnabled());
+        }
     }
 
     /**
@@ -287,7 +292,9 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($username, $user->getUsername());
         $this->assertEquals($roles, $user->getRoles());
-        $this->assertTrue($user->isEnabled());
+        if ($user instanceof AdvancedUserInterface) {
+            $this->assertTrue($user->isEnabled());
+        }
     }
 
     /**
@@ -351,7 +358,9 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($username, $user->getUsername());
         $this->assertEquals($roles, $user->getRoles());
-        $this->assertTrue($user->isEnabled());
+        if ($user instanceof AdvancedUserInterface) {
+            $this->assertTrue($user->isEnabled());
+        }
     }
 
     /**

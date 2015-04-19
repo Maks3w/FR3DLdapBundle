@@ -3,7 +3,7 @@
 namespace FR3D\LdapBundle\Tests\Driver;
 
 use FR3D\LdapBundle\Driver\ZendLdapDriver;
-use FR3D\LdapBundle\Tests\TestUser;
+use FR3D\LdapBundle\Model\LdapUser;
 use Zend\Ldap\Ldap;
 
 /**
@@ -67,7 +67,7 @@ class ZendLdapDriverTest extends AbstractLdapDriverTest
     {
         global $ldapServer;
 
-        $user = new TestUser();
+        $user = new LdapUser();
         $user->setUsername($bind_rdn);
 
         $ldapServer->expects($this->once())

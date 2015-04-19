@@ -2,8 +2,8 @@
 
 namespace FR3D\LdapBundle\Tests\Security\User;
 
+use FR3D\LdapBundle\Model\LdapUser;
 use FR3D\LdapBundle\Security\User\LdapUserProvider;
-use FR3D\LdapBundle\Tests\TestUser;
 
 class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +29,7 @@ class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
     public function testLoadUserByUsername()
     {
         $username = 'test_username';
-        $user     = new TestUser();
+        $user     = new LdapUser();
         $user->setUsername($username);
 
         $this->ldapManager->expects($this->once())
@@ -57,7 +57,7 @@ class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
     public function testRefreshUser()
     {
         $username = 'test_username';
-        $user     = new TestUser();
+        $user     = new LdapUser();
         $user->setUsername($username);
 
         $this->ldapManager->expects($this->once())

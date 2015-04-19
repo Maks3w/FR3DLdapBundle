@@ -2,8 +2,8 @@
 
 namespace FR3D\LdapBundle\Tests\Security\Authentication;
 
+use FR3D\LdapBundle\Model\LdapUser;
 use FR3D\LdapBundle\Security\Authentication\LdapAuthenticationProvider;
-use FR3D\LdapBundle\Tests\TestUser;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
@@ -43,7 +43,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     {
         $method   = $this->setMethodAccessible('retrieveUser');
         $username = 'test_username';
-        $user     = new TestUser();
+        $user     = new LdapUser();
         $token    = new UsernamePasswordToken($username, 'password', 'provider_key', array());
 
         $this->userProvider->expects($this->once())
@@ -76,7 +76,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $method   = $this->setMethodAccessible('checkAuthentication');
         $username = 'bad_username';
         $password = 'password';
-        $user     = new TestUser();
+        $user     = new LdapUser();
         $user->setUsername($username);
         $user->setPassword($password);
         $token    = new UsernamePasswordToken($username, $password, 'provider_key', array());
@@ -100,7 +100,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $method   = $this->setMethodAccessible('checkAuthentication');
         $username = 'bad_username';
         $password = 'other_password';
-        $user     = new TestUser();
+        $user     = new LdapUser();
         $user->setUsername($username);
         $user->setPassword($password);
         $token    = new UsernamePasswordToken($username, $password, 'provider_key', array());
@@ -119,7 +119,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $method   = $this->setMethodAccessible('checkAuthentication');
         $username = 'test_username';
         $password = 'password';
-        $user     = new TestUser();
+        $user     = new LdapUser();
         $user->setUsername($username);
         $token    = new UsernamePasswordToken($username, $password, 'provider_key', array());
 
@@ -141,7 +141,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $method   = $this->setMethodAccessible('checkAuthentication');
         $username = 'test_username';
         $password = 'bad_password';
-        $user     = new TestUser();
+        $user     = new LdapUser();
         $user->setUsername($username);
         $token    = new UsernamePasswordToken($username, $password, 'provider_key', array());
 
@@ -161,7 +161,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $method   = $this->setMethodAccessible('checkAuthentication');
         $username = 'test_username';
         $password = '';
-        $user     = new TestUser();
+        $user     = new LdapUser();
         $user->setUsername($username);
 
         $token = new UsernamePasswordToken($username, $password, 'provider_key', array());

@@ -3,7 +3,7 @@
 namespace FR3D\LdapBundle\Tests\Driver;
 
 use FR3D\LdapBundle\Driver\LegacyLdapDriver;
-use FR3D\LdapBundle\Tests\TestUser;
+use FR3D\LdapBundle\Model\LdapUser;
 
 class LegacyLdapDriverTest extends AbstractLdapDriverTest
 {
@@ -59,7 +59,7 @@ class LegacyLdapDriverTest extends AbstractLdapDriverTest
     {
         global $ldapServer;
 
-        $user = new TestUser();
+        $user = new LdapUser();
         $user->setUsername($bind_rdn);
 
         $ldapServer->expects($this->once())
@@ -119,7 +119,7 @@ class LegacyLdapDriverTest extends AbstractLdapDriverTest
 
         $username = 'test_username';
         $password = 'password';
-        $user     = new TestUser();
+        $user     = new LdapUser();
         $user->setUsername($username);
 
         $entry = array(
@@ -161,7 +161,7 @@ class LegacyLdapDriverTest extends AbstractLdapDriverTest
 
         $username = 'bad_username';
         $password = 'password';
-        $user     = new TestUser();
+        $user     = new LdapUser();
         $user->setUsername($username);
 
         $result = array(
