@@ -22,3 +22,4 @@ Look the cookbook for other interesting things.
 - [Prevent registration with a username that already exists on LDAP](cookbook/validator.md)
 - [Example configuration for Active Directory](cookbook/active-directory.md)
 - [Example configuration for Ldap Roles lookup](cookbook/roles_from_ldap.md)
+- [Example configuration for FosGroups Ldap lookup](cookbook/fosgroups_from_ldap.md)

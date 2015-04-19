@@ -252,9 +252,9 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers FR3D\LdapBundle\Ldap\LdapManager::hydrate
+     * @covers FR3D\LdapBundle\Ldap\LdapManager::hydrateRoles
      */
-    public function testHydrateWithMemberofRole()
+    public function testHydrateRolesWithMemberofRole()
     {
         $username = 'test_username';
         $userDn = 'cn=Test Username, ou=group, dc=host, dc=foo';
@@ -268,7 +268,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $this->ldapManager = new LdapManager($this->driver, $this->userManager, $this->params);
 
         $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
-        $method = $reflectionClass->getMethod('hydrate');
+        $method = $reflectionClass->getMethod('hydrateRoles');
         $method->setAccessible(true);
 
         $entry = array(
@@ -292,15 +292,12 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($username, $user->getUsername());
         $this->assertEquals($roles, $user->getRoles());
-        if ($user instanceof AdvancedUserInterface) {
-            $this->assertTrue($user->isEnabled());
-        }
     }
 
     /**
-     * @covers FR3D\LdapBundle\Ldap\LdapManager::hydrate
+     * @covers FR3D\LdapBundle\Ldap\LdapManager::hydrateRoles
      */
-    public function testHydrateWithRoleSearch()
+    public function testHydrateRolesWithRoleSearch()
     {
         $username = 'test_username';
         $userDn = 'cn=Test Username, ou=group, dc=host, dc=foo';
@@ -341,7 +338,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $this->ldapManager = new LdapManager($this->driver, $this->userManager, $this->params);
 
         $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
-        $method = $reflectionClass->getMethod('hydrate');
+        $method = $reflectionClass->getMethod('hydrateRoles');
         $method->setAccessible(true);
 
         $entry = array(
@@ -358,9 +355,6 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($username, $user->getUsername());
         $this->assertEquals($roles, $user->getRoles());
-        if ($user instanceof AdvancedUserInterface) {
-            $this->assertTrue($user->isEnabled());
-        }
     }
 
     /**

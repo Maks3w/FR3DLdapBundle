@@ -57,6 +57,7 @@ class LdapManager implements LdapManagerInterface
         }
         $user = $this->userManager->createUser();
         $this->hydrate($user, $entries[0]);
+        $this->hydrateRoles($user, $entries[0]);
 
         return $user;
     }
@@ -114,6 +115,21 @@ class LdapManager implements LdapManagerInterface
             call_user_func(array($user, $attr['user_method']), $value);
         }
 
+        if ($user instanceof LdapUserInterface) {
+            $user->setDn($entry['dn']);
+        }
+    }
+
+    /**
+     * Hydrates an user entity with roles from ldap.
+     *
+     * @param  UserInterface $user  user to hydrate
+     * @param  array         $entry ldap result
+     *
+     * @return UserInterface
+     */
+    protected function hydrateRoles(UserInterface $user, array $entry)
+    {
         if (isset($this->params['role']['memberOf']) && isset($entry['memberof'])) {
             $user->addRolesFromMemberof($entry['memberof'], $this->params['role']['memberOf']['dnSuffixFilter']);
         }
@@ -121,10 +137,6 @@ class LdapManager implements LdapManagerInterface
         if (isset($this->params['role']['search'])) {
             $ldapGroups = $this->getLdapGroupsForUser($user);
             $user->addRolesFromLdapGroup($ldapGroups, $this->params['role']['search']['nameAttribute']);
-        }
-
-        if ($user instanceof LdapUserInterface) {
-            $user->setDn($entry['dn']);
         }
     }
 
