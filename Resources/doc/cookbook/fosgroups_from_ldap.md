@@ -3,7 +3,7 @@ FosGroups Ldap Lookup
 
 The Roles Ldap Lookup methods can be adapted for FosUserBundle Groups to implement a more complicated permission system.
 
-This example should give an idea how this could be implement but without warranty or support.
+This example should give an idea how this could be implemented but without warranty or support.
 
 ### Configure FosUserBundle to use Groups
 Documentation can be found in FOSUserBundle/Resources/doc/groups.md
@@ -47,6 +47,8 @@ class LdapManager extends BaseLdapManager
     }
 }
 ````
+
+### Customize FosUserBundle and Group Entity
 
 **Extend FosUserBundle GroupManager and customize him**
 
