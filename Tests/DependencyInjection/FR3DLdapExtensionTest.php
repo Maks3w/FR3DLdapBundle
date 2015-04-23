@@ -134,6 +134,7 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
             'user'                => array(
                 'baseDn'     => 'ou=Persons,dc=example,dc=com',
                 'filter'     => '',
+                'usernameAttribute' => 'uid',
                 'attributes' => array(
                     array(
                         'ldap_attr'   => 'uid',

@@ -34,6 +34,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $this->params = array(
             'baseDn'     => 'ou=Groups,dc=example,dc=com',
             'filter'     => '(attr0=value0)',
+            'usernameAttribute' => 'uid',
             'attributes' => array(
                 array(
                     'ldap_attr'   => 'uid',
@@ -68,11 +69,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $propertyLdapAttributes = $reflectionClass->getProperty('ldapAttributes');
         $propertyLdapAttributes->setAccessible(true);
 
-        $propertyLdapUsernameAttr = $reflectionClass->getProperty('ldapUsernameAttr');
-        $propertyLdapUsernameAttr->setAccessible(true);
-
         $this->assertEquals(array('uid', 'mail'), $propertyLdapAttributes->getValue($this->ldapManager));
-        $this->assertEquals('uid', $propertyLdapUsernameAttr->getValue($this->ldapManager));
     }
 
     /**
@@ -88,8 +85,8 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('search')
             ->with($this->equalTo('ou=Groups,dc=example,dc=com'),
-                $this->equalTo('(&(attr0=value0)(uid=test_username))'),
-                $this->equalTo(array('uid')))
+                $this->equalTo('(&(attr0=value0)(uid=test_username))')
+            )
             ->will($this->returnValue($ldapResponse))
         ;
 
@@ -111,8 +108,8 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('search')
             ->with($this->equalTo('ou=Groups,dc=example,dc=com'),
-                $this->equalTo('(&(attr0=value0)(uid=test_username))'),
-                $this->equalTo(array('uid')))
+                $this->equalTo('(&(attr0=value0)(uid=test_username))')
+            )
             ->will($this->returnValue($ldapResponse))
         ;
 

@@ -5,6 +5,10 @@ Changelog
 Ldap driver:
 - [BC Break] Remove legacy Ldap driver declared as deprecated in 2.0.0.
 
+Config:
+- [BC Break] Added `fr3d_ldap.user.usernameAttribute` for indicate the attribute which holds the username.
+  Previously was the first entry in `attributes`
+
 ### v2.0.0
 
 Minimum Requirements:

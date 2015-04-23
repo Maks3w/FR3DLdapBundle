@@ -13,7 +13,6 @@ class LdapManager implements LdapManagerInterface
     protected $userManager;
     protected $params = array();
     protected $ldapAttributes = array();
-    protected $ldapUsernameAttr;
 
     public function __construct(LdapDriverInterface $driver, $userManager, array $params)
     {
@@ -24,8 +23,6 @@ class LdapManager implements LdapManagerInterface
         foreach ($this->params['attributes'] as $attr) {
             $this->ldapAttributes[] = $attr['ldap_attr'];
         }
-
-        $this->ldapUsernameAttr = $this->ldapAttributes[0];
     }
 
     /**
@@ -33,7 +30,7 @@ class LdapManager implements LdapManagerInterface
      */
     public function findUserByUsername($username)
     {
-        return $this->findUserBy(array($this->ldapUsernameAttr => $username));
+        return $this->findUserBy([$this->params['usernameAttribute'] => $username]);
     }
 
     /**
