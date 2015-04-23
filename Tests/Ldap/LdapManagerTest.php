@@ -82,16 +82,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     {
         $username = 'test_username';
 
-        $entries = array(
-            'count' => 1,
-            array(
-                'dn'  => 'ou=group, dc=host, dc=foo',
-                'uid' => array(
-                    'count' => 1,
-                    0       => $username,
-                ),
-            ),
-        );
+        $ldapResponse = $this->ldapResponse($username);
 
         $this->driver
             ->expects($this->once())
@@ -99,7 +90,8 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('ou=Groups,dc=example,dc=com'),
                 $this->equalTo('(&(attr0=value0)(uid=test_username))'),
                 $this->equalTo(array('uid')))
-            ->will($this->returnValue($entries));
+            ->will($this->returnValue($ldapResponse))
+        ;
 
         $resultUser = $this->ldapManager->findUserByUsername($username);
 
@@ -113,19 +105,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     {
         $username = 'test_username';
 
-        $user = new TestUser();
-        $user->setUsername($username);
-
-        $entries = array(
-            'count' => 1,
-            array(
-                'dn'  => 'ou=group, dc=host, dc=foo',
-                'uid' => array(
-                    'count' => 1,
-                    0       => $username,
-                ),
-            ),
-        );
+        $ldapResponse = $this->ldapResponse($username);
 
         $this->driver
             ->expects($this->once())
@@ -133,12 +113,13 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('ou=Groups,dc=example,dc=com'),
                 $this->equalTo('(&(attr0=value0)(uid=test_username))'),
                 $this->equalTo(array('uid')))
-            ->will($this->returnValue($entries));
+            ->will($this->returnValue($ldapResponse))
+        ;
 
         $criteria = array('uid' => 'test_username');
         $resultUser = $this->ldapManager->findUserBy($criteria);
 
-        $this->assertEquals($user->getUsername(), $resultUser->getUsername());
+        $this->assertEquals($username, $resultUser->getUsername());
     }
 
     /**
@@ -293,5 +274,28 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $escaped   = LdapManager::escapeValue($filter);
         $unescaped = LdapManager::unescapeValue($escaped);
         $this->assertEquals($filter, $unescaped);
+    }
+
+    /**
+     * @param $username
+     *
+     * @return array
+     */
+    protected function ldapResponse($username)
+    {
+        $entry = [
+            'dn' => 'ou=group, dc=host, dc=foo',
+            'uid' => [
+                'count' => 1,
+                0 => $username,
+            ],
+        ];
+
+        $entries = [
+            'count' => 1,
+            $entry,
+        ];
+
+        return $entries;
     }
 }
