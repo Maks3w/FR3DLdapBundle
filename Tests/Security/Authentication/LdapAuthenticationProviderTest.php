@@ -94,7 +94,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     public function testCheckAuthenticationKnownUser()
     {
         $method   = $this->setMethodAccessible('checkAuthentication');
-        $username = 'bad_username';
+        $username = 'username';
         $password = 'password';
         $user     = new TestUser();
         $user->setUsername($username);
