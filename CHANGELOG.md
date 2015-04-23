@@ -1,6 +1,10 @@
 Changelog
 =========
 
+### v3.0.0
+Ldap driver:
+- [BC Break] Remove legacy Ldap driver declared as deprecated in 2.0.0.
+
 ### v2.0.0
 
 Minimum Requirements:

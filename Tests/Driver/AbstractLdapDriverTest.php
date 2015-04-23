@@ -3,7 +3,6 @@
 namespace FR3D\LdapBundle\Tests\Driver;
 
 require_once 'LDAPVirtual/zend-ldap_php-ldap_override.php';
-require_once 'LDAPVirtual/fr3d-ldapbundle-driver_php-ldap_override.php';
 
 abstract class AbstractLdapDriverTest extends \PHPUnit_Framework_TestCase
 {
