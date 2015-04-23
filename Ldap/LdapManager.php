@@ -123,17 +123,6 @@ class LdapManager implements LdapManagerInterface
     }
 
     /**
-     * Get a list of roles for the username.
-     *
-     * @param string $username
-     *
-     * @return array
-     */
-    public function getRolesForUsername($username)
-    {
-    }
-
-    /**
      * Escapes the given VALUES according to RFC 2254 so that they can be safely used in LDAP filters.
      *
      * Any control characters with an ASCII code < 32 as well as the characters with special meaning in
