@@ -189,6 +189,26 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $method->invoke($this->ldapAuthenticationProvider, $user, $token);
     }
 
+    public function testCheckAuthenticationUnknownUserPasswordIs0()
+    {
+        $method   = $this->setMethodAccessible('checkAuthentication');
+        $username = 'test_username';
+        $password = '0';
+        $user     = new TestUser();
+        $user->setUsername($username);
+
+        $token = new UsernamePasswordToken($username, $password, 'provider_key', array());
+
+        $this->ldapManager->expects($this->once())
+            ->method('bind')
+            ->with($this->equalTo($user), $this->equalTo($password))
+            ->will($this->returnValue(true));
+
+        $method->invoke($this->ldapAuthenticationProvider, $user, $token);
+
+        $this->assertTrue(true);
+    }
+
     private function setMethodAccessible($name)
     {
         $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Security\Authentication\LdapAuthenticationProvider');

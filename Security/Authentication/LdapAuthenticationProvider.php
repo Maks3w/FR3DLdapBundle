@@ -76,7 +76,7 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
                 throw new BadCredentialsException('The credentials were changed from another session.');
             }
         } else {
-            if (!$presentedPassword = $token->getCredentials()) {
+            if ('' === ($presentedPassword = $token->getCredentials())) {
                 throw new BadCredentialsException('The presented password cannot be empty.');
             }
 
