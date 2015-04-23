@@ -31,7 +31,10 @@ class LdapUserProvider implements UserProviderInterface
 
         if (empty($user)) {
             $this->logInfo("User $username not found on ldap");
-            throw new UsernameNotFoundException(sprintf('User "%s" not found', $username));
+            $ex = new UsernameNotFoundException(sprintf('User "%s" not found', $username));
+            $ex->setUsername($username);
+
+            throw $ex;
         } else {
             $this->logInfo("User $username found on ldap");
         }
