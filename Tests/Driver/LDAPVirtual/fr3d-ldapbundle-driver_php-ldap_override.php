@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file override default PHP Ldap functions for the specified namespace.
  */
 
