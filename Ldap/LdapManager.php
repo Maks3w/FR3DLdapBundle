@@ -3,26 +3,24 @@
 namespace FR3D\LdapBundle\Ldap;
 
 use FR3D\LdapBundle\Driver\LdapDriverInterface;
-use FR3D\LdapBundle\Model\LdapUserInterface;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use FR3D\LdapBundle\Model\HydratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class LdapManager implements LdapManagerInterface
 {
     protected $driver;
-    protected $userManager;
     protected $params = array();
-    protected $ldapAttributes = array();
 
-    public function __construct(LdapDriverInterface $driver, $userManager, array $params)
+    /**
+     * @var HydratorInterface
+     */
+    protected $hydrator;
+
+    public function __construct(LdapDriverInterface $driver, HydratorInterface $hydrator, array $params)
     {
         $this->driver = $driver;
-        $this->userManager = $userManager;
         $this->params = $params;
-
-        foreach ($this->params['attributes'] as $attr) {
-            $this->ldapAttributes[] = $attr['ldap_attr'];
-        }
+        $this->hydrator = $hydrator;
     }
 
     /**
@@ -39,7 +37,7 @@ class LdapManager implements LdapManagerInterface
     public function findUserBy(array $criteria)
     {
         $filter  = $this->buildFilter($criteria);
-        $entries = $this->driver->search($this->params['baseDn'], $filter, $this->ldapAttributes);
+        $entries = $this->driver->search($this->params['baseDn'], $filter);
         if ($entries['count'] > 1) {
             throw new \Exception('This search can only return a single user');
         }
@@ -47,8 +45,7 @@ class LdapManager implements LdapManagerInterface
         if ($entries['count'] == 0) {
             return false;
         }
-        $user = $this->userManager->createUser();
-        $this->hydrate($user, $entries[0]);
+        $user = $this->hydrator->hydrate($entries[0]);
 
         return $user;
     }
@@ -71,44 +68,6 @@ class LdapManager implements LdapManagerInterface
         }
 
         return sprintf('(%s%s)', $condition, implode($filters));
-    }
-
-    /**
-     * Hydrates an user entity with ldap attributes.
-     *
-     * @param  UserInterface $user  user to hydrate
-     * @param  array         $entry ldap result
-     *
-     * @return UserInterface
-     */
-    protected function hydrate(UserInterface $user, array $entry)
-    {
-        $user->setPassword('');
-
-        if ($user instanceof AdvancedUserInterface) {
-            $user->setEnabled(true);
-        }
-
-        foreach ($this->params['attributes'] as $attr) {
-            if (!array_key_exists($attr['ldap_attr'], $entry)) {
-                continue;
-            }
-
-            $ldapValue = $entry[$attr['ldap_attr']];
-            $value = null;
-
-            if (!array_key_exists('count', $ldapValue) ||  $ldapValue['count'] == 1) {
-                $value = $ldapValue[0];
-            } else {
-                $value = array_slice($ldapValue, 1);
-            }
-
-            call_user_func(array($user, $attr['user_method']), $value);
-        }
-
-        if ($user instanceof LdapUserInterface) {
-            $user->setDn($entry['dn']);
-        }
     }
 
     /**

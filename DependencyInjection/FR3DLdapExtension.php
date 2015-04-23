@@ -22,7 +22,7 @@ class FR3DLdapExtension extends Extension
             $loader->load(sprintf('%s.xml', $basename));
         }
 
-        $container->setAlias('fr3d_ldap.user_manager', $config['service']['user_manager']);
+        $container->setAlias('fr3d_ldap.user_hydrator', $config['service']['user_hydrator']);
         $container->setAlias('fr3d_ldap.ldap_manager', $config['service']['ldap_manager']);
         $container->setAlias('fr3d_ldap.ldap_driver', $config['service']['ldap_driver']);
 

@@ -86,7 +86,7 @@ class Configuration implements ConfigurationInterface
                     ->arrayNode('service')
                         ->addDefaultsIfNotSet()
                         ->children()
-                            ->scalarNode('user_manager')->defaultValue('fos_user.user_manager')->end()
+                            ->scalarNode('user_hydrator')->defaultValue('fr3d_ldap.user_hydrator.default')->end()
                             ->scalarNode('ldap_manager')->defaultValue('fr3d_ldap.ldap_manager.default')->end()
                             ->scalarNode('ldap_driver')->defaultValue('fr3d_ldap.ldap_driver.zend')->end()
                         ->end()
