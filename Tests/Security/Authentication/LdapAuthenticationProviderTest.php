@@ -91,6 +91,25 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testRetrieveUserReturnsUserFromTokenOnReauthentication()
+    {
+        $method = $this->setMethodAccessible('retrieveUser');
+
+        $this->userProvider->expects($this->never())
+            ->method('loadUserByUsername');
+
+        $user = $this->getMock('Symfony\\Component\\Security\\Core\\User\\UserInterface');
+        $token = new UsernamePasswordToken($user, '', 'provider_key', array());
+
+        $result = $method->invoke(
+            $this->ldapAuthenticationProvider,
+            null,
+            $token
+        );
+
+        $this->assertSame($user, $result);
+    }
+
     public function testCheckAuthenticationKnownUser()
     {
         $method   = $this->setMethodAccessible('checkAuthentication');
@@ -114,6 +133,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
+     * @expectedExceptionMessage The credentials were changed from another session.
      */
     public function testCheckAuthenticationKnownUserCredentialsChanged()
     {
@@ -155,6 +175,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
+     * @expectedExceptionMessage The presented password is invalid.
      */
     public function testCheckAuthenticationUnknownUserBadCredentials()
     {
@@ -175,6 +196,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
+     * @expectedExceptionMessage The presented password cannot be empty.
      */
     public function testCheckAuthenticationUnknownUserPasswordEmpty()
     {
