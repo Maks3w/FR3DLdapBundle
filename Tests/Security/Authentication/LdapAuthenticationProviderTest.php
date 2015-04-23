@@ -5,6 +5,7 @@ namespace FR3D\LdapBundle\Tests\Security\Authentication;
 use FR3D\LdapBundle\Security\Authentication\LdapAuthenticationProvider;
 use FR3D\LdapBundle\Tests\TestUser;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
@@ -69,6 +70,25 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
                 ->will($this->throwException(new UsernameNotFoundException('')));
 
         $method->invoke($this->ldapAuthenticationProvider, $username, $token);
+    }
+
+    public function testRetrieveUserUnexpectedError()
+    {
+        $method   = $this->setMethodAccessible('retrieveUser');
+        $username = 'username';
+        $token    = new UsernamePasswordToken($username, 'password', 'provider_key', array());
+
+        $this->userProvider->expects($this->once())
+                ->method('loadUserByUsername')
+                ->with($this->equalTo($username))
+                ->will($this->throwException(new \Exception('')));
+
+        try {
+            $method->invoke($this->ldapAuthenticationProvider, $username, $token);
+            $this->fail('Expected Symfony\Component\Security\Core\Exception\AuthenticationServiceException to be thrown');
+        } catch (AuthenticationServiceException $authenticationException) {
+            $this->assertEquals($token, $authenticationException->getToken());
+        }
     }
 
     public function testCheckAuthenticationKnownUser()

@@ -3,7 +3,6 @@
 namespace FR3D\LdapBundle\Security\Authentication;
 
 use FR3D\LdapBundle\Ldap\LdapManagerInterface;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Security\Core\Authentication\Provider\UserAuthenticationProvider;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
@@ -59,13 +58,10 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
         } catch (UsernameNotFoundException $notFound) {
             throw $notFound;
         } catch (\Exception $repositoryProblem) {
-            if (Kernel::MINOR_VERSION <= 1) {
-                throw new AuthenticationServiceException($repositoryProblem->getMessage(), $token, (int) $repositoryProblem->getCode(), $repositoryProblem);
-            } else {
-                $e = new AuthenticationServiceException($repositoryProblem->getMessage(), (int) $repositoryProblem->getCode(), $repositoryProblem);
-                $e->setToken($token);
-                throw $e;
-            }
+            $e = new AuthenticationServiceException($repositoryProblem->getMessage(), (int) $repositoryProblem->getCode(), $repositoryProblem);
+            $e->setToken($token);
+
+            throw $e;
         }
     }
 
