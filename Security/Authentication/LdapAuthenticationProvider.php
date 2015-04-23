@@ -71,12 +71,19 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
     protected function checkAuthentication(UserInterface $user, UsernamePasswordToken $token)
     {
         $currentUser = $token->getUser();
+        $presentedPassword = $token->getCredentials();
         if ($currentUser instanceof UserInterface) {
-            if (!$this->ldapManager->bind($currentUser, $currentUser->getPassword())) {
+            if ('' === $presentedPassword) {
+                throw new BadCredentialsException(
+                    'The password in the token is empty. You may forgive turn off `erase_credentials` in your `security.yml`'
+                );
+            }
+
+            if (!$this->ldapManager->bind($currentUser, $presentedPassword)) {
                 throw new BadCredentialsException('The credentials were changed from another session.');
             }
         } else {
-            if ('' === ($presentedPassword = $token->getCredentials())) {
+            if ('' === $presentedPassword) {
                 throw new BadCredentialsException('The presented password cannot be empty.');
             }
 
