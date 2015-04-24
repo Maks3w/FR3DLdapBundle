@@ -12,6 +12,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class LegacyHydrator implements HydratorInterface
 {
+    use HydrateWithMapTrait;
+
     private $userManager;
 
     /**
@@ -36,21 +38,7 @@ class LegacyHydrator implements HydratorInterface
     {
         $user = $this->createUser();
 
-        foreach ($this->attributeMap as $attr) {
-            if (!array_key_exists($attr['ldap_attr'], $ldapUserAttributes)) {
-                continue;
-            }
-
-            $ldapValue = $ldapUserAttributes[$attr['ldap_attr']];
-
-            if (!array_key_exists('count', $ldapValue) ||  $ldapValue['count'] == 1) {
-                $value = $ldapValue[0];
-            } else {
-                $value = array_slice($ldapValue, 1);
-            }
-
-            call_user_func(array($user, $attr['user_method']), $value);
-        }
+        $this->hydrateUserWithAttributesMap($user, $ldapUserAttributes, $this->attributeMap);
 
         if ($user instanceof LdapUserInterface) {
             $user->setDn($ldapUserAttributes['dn']);
