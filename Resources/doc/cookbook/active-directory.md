@@ -3,7 +3,7 @@ Active Directory
 
 Here's an example configuration for authentificating against the Active Directory
 
-``` yaml
+```yaml
 fr3d_ldap:
     driver:
         host:         local.example.com
@@ -17,5 +17,4 @@ fr3d_ldap:
         filter: (&(ObjectClass=Person))
         attributes:
             - { ldap_attr: samaccountname,  user_method: setUsername }
-
-````
+```

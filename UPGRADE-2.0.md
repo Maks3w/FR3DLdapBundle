@@ -4,7 +4,7 @@ UPGRADE FROM 1.5 to 2.0
 * `config.yml` has changed:
 
     Before:
-    ```yml
+    ```yaml
     # app/config/config.yml
     fr3d_ldap:
         client:
@@ -12,7 +12,7 @@ UPGRADE FROM 1.5 to 2.0
     ```
 
     After:
-    ```yml
+    ```yaml
     # app/config/config.yml
     fr3d_ldap:
         driver:
@@ -22,7 +22,7 @@ UPGRADE FROM 1.5 to 2.0
 
 * If you want use the legacy (deprecated) old driver
 
-    ```yml
+    ```yaml
     # app/config/config.yml
     fr3d_ldap:
         #...

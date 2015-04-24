@@ -31,7 +31,7 @@ Add this bundle to your `vendor/` dir:
 
 ### 2. Enable the Bundle
 
-``` php
+```php
 <?php
 // app/AppKernel.php
 
@@ -45,7 +45,7 @@ public function registerBundles()
 ```
 
 ### 3. Configure security.yml
-``` yaml
+```yaml
 # app/config/security.yml
 
 security:
@@ -68,7 +68,7 @@ security:
 ```
 
 **Optional you can also enable basic authentication**
-``` yaml
+```yaml
 # app/config/security.yml
 
 security:
@@ -79,7 +79,7 @@ security:
 ```
 
 ### 4. Configure config.yml
-``` yaml
+```yaml
 # app/config/config.yml
 fr3d_ldap:
     driver:
@@ -116,7 +116,7 @@ fr3d_ldap:
 
 In security.yml make a `chain_provider` with `fos_userbundle` before `fr3d_ldapbundle` .
 
-``` yaml
+```yaml
 # app/config/security.yml
 
 security:
@@ -135,7 +135,7 @@ security:
 
 Make sure to set all needed fields when creating the user otherwise you will get an exception. This can easily be done in the config.yml
 
-``` yaml
+```yaml
 # app/config/config.yml
 fr3d_ldap:
     ...
