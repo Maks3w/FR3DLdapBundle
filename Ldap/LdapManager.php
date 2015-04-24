@@ -3,7 +3,7 @@
 namespace FR3D\LdapBundle\Ldap;
 
 use FR3D\LdapBundle\Driver\LdapDriverInterface;
-use FR3D\LdapBundle\Model\HydratorInterface;
+use FR3D\LdapBundle\Hydrator\HydratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class LdapManager implements LdapManagerInterface

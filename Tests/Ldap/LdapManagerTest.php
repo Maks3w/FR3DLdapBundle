@@ -1,9 +1,9 @@
 <?php
 
-namespace FR3D\LdapBundle\Tests\Ldap;
+namespace FR3D\LdapBundle\Tests\Hydrator;
 
+use FR3D\LdapBundle\Hydrator\HydratorInterface;
 use FR3D\LdapBundle\Ldap\LdapManager;
-use FR3D\LdapBundle\Model\HydratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class LdapManagerTest extends \PHPUnit_Framework_TestCase
@@ -42,7 +42,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->driver = $this->getMock('FR3D\LdapBundle\Driver\LdapDriverInterface');
 
-        $this->hydrator = $this->getMock('FR3D\LdapBundle\Model\HydratorInterface');
+        $this->hydrator = $this->getMock('FR3D\LdapBundle\Hydrator\HydratorInterface');
 
         $this->ldapManager = new LdapManager($this->driver, $this->hydrator, $this->params);
     }

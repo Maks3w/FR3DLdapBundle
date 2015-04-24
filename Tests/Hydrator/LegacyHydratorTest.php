@@ -1,9 +1,9 @@
 <?php
 
-namespace FR3D\LdapBundle\Tests\Model;
+namespace FR3D\LdapBundle\Tests\Hydrator;
 
 use FOS\UserBundle\Model\UserManagerInterface;
-use FR3D\LdapBundle\Model\LegacyHydrator;
+use FR3D\LdapBundle\Hydrator\LegacyHydrator;
 use FR3D\LdapBundle\Tests\TestUser;
 
 class LegacyHydratorTest extends AbstractHydratorTestCase

@@ -1,6 +1,6 @@
 <?php
 
-namespace FR3D\LdapBundle\Model;
+namespace FR3D\LdapBundle\Hydrator;
 
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;

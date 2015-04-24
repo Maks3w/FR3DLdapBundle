@@ -50,7 +50,7 @@ fr3d_ldap:
 
 namespace Acme\DemoBundle\Ldap;
 
-use FR3D\LdapBundle\Model\HydratorInterface;
+use FR3D\LdapBundle\Hydrator\HydratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class LdapManager implements HydratorInterface

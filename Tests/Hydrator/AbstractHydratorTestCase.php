@@ -1,8 +1,8 @@
 <?php
 
-namespace FR3D\LdapBundle\Tests\Model;
+namespace FR3D\LdapBundle\Tests\Hydrator;
 
-use FR3D\LdapBundle\Model\HydratorInterface;
+use FR3D\LdapBundle\Hydrator\HydratorInterface;
 
 abstract class AbstractHydratorTestCase extends \PHPUnit_Framework_TestCase
 {
