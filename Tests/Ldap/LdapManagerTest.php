@@ -1,6 +1,6 @@
 <?php
 
-namespace FR3D\LdapBundle\Tests\Hydrator;
+namespace FR3D\LdapBundle\Tests\Ldap;
 
 use FR3D\LdapBundle\Hydrator\HydratorInterface;
 use FR3D\LdapBundle\Ldap\LdapManager;
