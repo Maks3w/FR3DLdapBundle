@@ -2,7 +2,7 @@
 
 namespace FR3D\LdapBundle\Hydrator;
 
-use FR3D\LdapBundle\Model\LdapUserInterface;
+use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -11,41 +11,18 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @deprecated 3.0.0
  */
-class LegacyHydrator implements HydratorInterface
+final class LegacyHydrator extends AbstractHydrator
 {
-    use HydrateWithMapTrait;
-
-    private $userManager;
-
     /**
-     * @var string[]
+     * @var UserManagerInterface
      */
-    private $attributeMap;
+    private $userManager;
 
     public function __construct($userManager, array $attributeMap)
     {
+        parent::__construct($attributeMap);
+
         $this->userManager = $userManager;
-        $this->attributeMap = $attributeMap;
-    }
-
-    /**
-     * Populate an user with the data retrieved from LDAP.
-     *
-     * @param array $ldapUserAttributes
-     *
-     * @return UserInterface
-     */
-    public function hydrate(array $ldapUserAttributes)
-    {
-        $user = $this->createUser();
-
-        $this->hydrateUserWithAttributesMap($user, $ldapUserAttributes, $this->attributeMap);
-
-        if ($user instanceof LdapUserInterface) {
-            $user->setDn($ldapUserAttributes['dn']);
-        }
-
-        return $user;
     }
 
     /**
