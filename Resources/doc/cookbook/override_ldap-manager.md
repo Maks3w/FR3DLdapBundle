@@ -13,18 +13,18 @@ from Ldap.
 
 **Configure LdapBundle with your service**
 
-``` yaml
+```yaml
 # app/config/config.yml
 
 fr3d_ldap:
     # ...
     service:
         ldap_manager:  acme.ldap.ldap_manager
-````
+```
 
 **Setup the service in your own bundle**
 
-```` xml
+```xml
 <!-- src/Acme/DemoBundle/Resources/config/services.xml -->
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -45,11 +45,11 @@ fr3d_ldap:
     </services>
 
 </container>
-````
+```
 
 **Extends LdapManager and customize him**
 
-```` php
+```php
 // src/Acme/DemoBundle/Ldap/LdapManager.php
 <?php
 
@@ -69,4 +69,4 @@ class LdapManager extends BaseLdapManager
         $user->setEmailCanonical('');
     }
 }
-````
+```
