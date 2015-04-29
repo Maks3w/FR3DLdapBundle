@@ -28,7 +28,7 @@ interface LdapDriverInterface
      * Search LDAP tree.
      *
      * @param  string        $baseDn     The base DN for the directory.
-     * @param  string        $filter     The search filter.
+     * @param  string|array  $filter     The search filter.
      * @param  array         $attributes The array of the required attributes,
      *                                   'dn' is always returned. If array is
      *                                   empty then will return all attributes
