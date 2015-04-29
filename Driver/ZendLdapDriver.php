@@ -3,7 +3,7 @@
 namespace FR3D\LdapBundle\Driver;
 
 use FR3D\LdapBundle\Model\LdapUserInterface;
-use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Zend\Ldap\Exception\LdapException as ZendLdapException;
 use Zend\Ldap\Ldap;
@@ -92,7 +92,7 @@ class ZendLdapDriver implements LdapDriverInterface
             // Error level codes
             case ZendLdapException::LDAP_SERVER_DOWN:
                 if ($this->logger) {
-                    $this->logger->err($exception->getMessage());
+                    $this->logger->error($exception->getMessage());
                 }
                 break;
 
