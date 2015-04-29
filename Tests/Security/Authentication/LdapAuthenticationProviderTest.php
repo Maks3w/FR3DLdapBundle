@@ -117,7 +117,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $password = 'password';
         $user     = new TestUser();
         $user->setUsername($username);
-        $user->setPassword($password);
+
         $token    = new UsernamePasswordToken($username, $password, 'provider_key', array());
         $token->setUser($user);
 
@@ -131,6 +131,28 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(true);
     }
 
+    public function testCheckAuthenticationWhenTokenNeedsReauthenticationWorksWithoutOriginalCredentials()
+    {
+        $method = $this->setMethodAccessible('checkAuthentication');
+        $username = 'username';
+        $password = 'password';
+        $user = new TestUser();
+        $user->setUsername($username);
+
+        $token = new UsernamePasswordToken($user, $password, 'provider_key', array());
+
+        $this->ldapManager->expects($this->once())
+            ->method('bind')
+            ->with($this->equalTo($user), $this->equalTo($password))
+            ->will($this->returnValue(true));
+
+        $method->invoke(
+            $this->ldapAuthenticationProvider,
+            $this->getMock('Symfony\\Component\\Security\\Core\\User\\UserInterface'),
+            $token
+        );
+    }
+
     /**
      * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
      * @expectedExceptionMessage The credentials were changed from another session.
@@ -142,7 +164,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $password = 'other_password';
         $user     = new TestUser();
         $user->setUsername($username);
-        $user->setPassword($password);
+
         $token    = new UsernamePasswordToken($username, $password, 'provider_key', array());
         $token->setUser($user);
 
