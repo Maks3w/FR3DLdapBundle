@@ -63,6 +63,7 @@ class ZendLdapDriverTest extends AbstractLdapDriverTest
     // Bind (bindRequireDn=false)
     /**
      * @dataProvider provideTestBind
+     *
      * @param string $bind_rdn
      * @param string $password
      * @param bool $expect
