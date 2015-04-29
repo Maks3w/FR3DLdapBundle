@@ -2,8 +2,9 @@
 
 namespace FR3D\LdapBundle\Tests\Ldap;
 
+use FR3D\LdapBundle\Hydrator\HydratorInterface;
 use FR3D\LdapBundle\Ldap\LdapManager;
-use FR3D\LdapBundle\Tests\TestUser;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class LdapManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,9 +17,9 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     protected $driver;
 
     /**
-     * @var \FR3D\LdapBundle\Model\UserManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var HydratorInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $userManager;
+    protected $hydrator;
 
     /**
      * @var LdapManager
@@ -36,40 +37,14 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
             'filter'     => '(attr0=value0)',
             'usernameAttribute' => 'uid',
             'attributes' => array(
-                array(
-                    'ldap_attr'   => 'uid',
-                    'user_method' => 'setUsername',
-                ),
             ),
         );
 
         $this->driver = $this->getMock('FR3D\LdapBundle\Driver\LdapDriverInterface');
 
-        $this->userManager = $this->getMock('FR3D\LdapBundle\Model\UserManagerInterface');
-        $this->userManager->expects($this->any())
-            ->method('createUser')
-            ->will($this->returnValue(new TestUser()));
+        $this->hydrator = $this->getMock('FR3D\LdapBundle\Hydrator\HydratorInterface');
 
-        $this->ldapManager = new LdapManager($this->driver, $this->userManager, $this->params);
-    }
-
-    /**
-     * @covers FR3D\LdapBundle\Ldap\LdapManager::__construct
-     */
-    public function testConstruct()
-    {
-        $this->params['attributes'][] = array(
-            'ldap_attr'   => 'mail',
-            'user_method' => 'setEmail',
-        );
-
-        $this->ldapManager = new LdapManager($this->driver, $this->userManager, $this->params);
-
-        $reflectionClass        = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
-        $propertyLdapAttributes = $reflectionClass->getProperty('ldapAttributes');
-        $propertyLdapAttributes->setAccessible(true);
-
-        $this->assertEquals(array('uid', 'mail'), $propertyLdapAttributes->getValue($this->ldapManager));
+        $this->ldapManager = new LdapManager($this->driver, $this->hydrator, $this->params);
     }
 
     /**
@@ -138,99 +113,14 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers FR3D\LdapBundle\Ldap\LdapManager::hydrate
-     */
-    public function testHydrate()
-    {
-        $username = 'test_username';
-
-        $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
-        $method          = $reflectionClass->getMethod('hydrate');
-        $method->setAccessible(true);
-
-        $user = new TestUser();
-
-        $entry = array(
-            'dn'    => 'ou=group, dc=host, dc=foo',
-            'count' => 1,
-            'uid'   => array(
-                'count' => 1,
-                0       => $username,
-            ),
-        );
-
-        $method->invoke($this->ldapManager, $user, $entry);
-
-        $this->assertEquals($username, $user->getUsername());
-        $this->assertTrue($user->isEnabled());
-    }
-
-    /**
-     * @covers FR3D\LdapBundle\Ldap\LdapManager::hydrate
-     */
-    public function testDontTryToHydrateMissingAttributes()
-    {
-        $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
-        $method          = $reflectionClass->getMethod('hydrate');
-        $method->setAccessible(true);
-
-        $user = new TestUser();
-
-        $entry = array(
-            'dn'    => 'ou=group, dc=host, dc=foo',
-            'count' => 1,
-        );
-
-        $method->invoke($this->ldapManager, $user, $entry);
-
-        $this->assertNull($user->getUsername());
-    }
-
-    /**
-     * @covers FR3D\LdapBundle\Ldap\LdapManager::hydrate
-     */
-    public function testHydrateArray()
-    {
-        $this->params['attributes'] = array(
-            array(
-                'ldap_attr'   => 'roles',
-                'user_method' => 'setRoles',
-            ),
-        );
-
-        $user  = new TestUser();
-        $roles = array(
-            'count' => 3,
-            0       => 'ROLE1',
-            1       => 'ROLE2',
-            2       => 'ROLE3',
-        );
-
-        $entry = array(
-            'dn'    => 'ou=group, dc=host, dc=foo',
-            'roles' => $roles,
-        );
-
-        $this->ldapManager = new LdapManager($this->driver, $this->userManager, $this->params);
-
-        $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
-        $method          = $reflectionClass->getMethod('hydrate');
-        $method->setAccessible(true);
-
-        $method->invoke($this->ldapManager, $user, $entry);
-
-        $this->assertEquals(array_slice($roles, 1), $user->getRoles());
-        $this->assertTrue($user->isEnabled());
-    }
-
-    /**
      * @covers FR3D\LdapBundle\Ldap\LdapManager::bind
      */
     public function testBind()
     {
         $password = 'password';
 
-        $user = new TestUser();
+        /** @var UserInterface $user */
+        $user = $this->getMock('Symfony\\Component\\Security\\Core\\User\\UserInterface');
 
         $this->driver->expects($this->once())
             ->method('bind')
@@ -292,6 +182,18 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
             'count' => 1,
             $entry,
         ];
+
+        $user = $this->getMock('Symfony\\Component\\Security\\Core\\User\\UserInterface');
+        $user->expects($this->any())
+            ->method('getUsername')
+            ->willReturn($username)
+        ;
+
+        $this->hydrator->expects($this->once())
+            ->method('hydrate')
+            ->with($entry)
+            ->willReturn($user)
+        ;
 
         return $entries;
     }

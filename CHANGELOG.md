@@ -4,6 +4,8 @@ Changelog
 ### v3.0.0
 Ldap driver:
 - [BC Break] Remove legacy Ldap driver declared as deprecated in 2.0.0.
+- [BC Break] `hydrate()` method in LdapManager has been moved to `Model\LegacyHydrator.php`.
+  See [Create a custom hydrator](Resources/doc/cookbook/custom_hydrator.md) for more details.
 
 Config:
 - [BC Break] Added `fr3d_ldap.user.usernameAttribute` for indicate the attribute which holds the username.

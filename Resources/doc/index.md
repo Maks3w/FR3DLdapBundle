@@ -106,8 +106,8 @@ fr3d_ldap:
 
 #           - { ldap_attr: ...,  user_method: ... }         # Optional
 #   service:
-#       user_manager: fos_user.user_manager          # Overrides default user manager
-#       ldap_manager: fr3d_ldap.ldap_manager.default # Overrides default ldap manager
+#       user_hydrator: fr3d_ldap.user_hydrator.default # Overrides default user hydrator
+#       ldap_manager: fr3d_ldap.ldap_manager.default   # Overrides default ldap manager
 ```
 
 **You need to configure the parameters under the fr3d_ldap section.**
@@ -148,6 +148,6 @@ fr3d_ldap:
 
 Look the cookbook for other interesting things.
 
-- [Override Ldap Manager](cookbook/override_ldap-manager.md)
+- [Create a custom hydrator](cookbook/custom_hydrator.md)
 - [Prevent registration with a username that already exists on LDAP](cookbook/validator.md)
 - [Example configuration for Active Directory](cookbook/active-directory.md)
