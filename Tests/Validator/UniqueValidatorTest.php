@@ -73,6 +73,7 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadType()
     {
+        /** @noinspection PhpParamsInspection */
         $this->validator->validate('bad_type', $this->constraint);
     }
 }

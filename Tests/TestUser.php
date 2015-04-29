@@ -134,16 +134,8 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     /**
      * {@inheritDoc}
      */
-    public function equals(UserInterface $user)
-    {
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function __toString()
     {
-        return $this->getUsername();
+        return (string) $this->getUsername();
     }
 }

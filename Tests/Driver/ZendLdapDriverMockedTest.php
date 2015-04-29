@@ -4,6 +4,7 @@ namespace FR3D\LdapBundle\Tests\Driver;
 
 use FR3D\LdapBundle\Driver\ZendLdapDriver;
 use FR3D\LdapBundle\Tests\TestUser;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Zend\Ldap\Exception\LdapException as ZendLdapException;
 use Zend\Ldap\Ldap;
 
@@ -13,7 +14,7 @@ use Zend\Ldap\Ldap;
 class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Zend\Ldap\Ldap
+     * @var \Zend\Ldap\Ldap|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $zend;
 
@@ -139,6 +140,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
     {
         $username = 'username';
         $password = 'password';
+        /** @var UserInterface|\PHPUnit_Framework_MockObject_MockObject $user */
         $user     = $this->getMock('Symfony\Component\Security\Core\User\UserInterface');
 
         $user->expects($this->once())

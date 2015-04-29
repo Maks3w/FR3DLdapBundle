@@ -1,7 +1,7 @@
 Active Directory
 =====================
 
-Here's an example configuration for authentificating against the Active Directory
+Here's an example configuration for authenticating against the Active Directory
 
 ```yaml
 fr3d_ldap:

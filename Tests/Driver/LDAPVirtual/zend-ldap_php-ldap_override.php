@@ -6,7 +6,7 @@
 
 namespace Zend\Ldap;
 
-/** @var \FR3D\LdapBundle\Tests\Driver\LDAPVirtual\LDAPVirtualInterface $ldapServer */
+/** @var \FR3D\LdapBundle\Tests\Driver\LDAPVirtual\LDAPVirtualInterface|\PHPUnit_Framework_MockObject_MockObject $ldapServer */
 $ldapServer = null;
 
 function ldap_bind($ress, $username = null, $password = null)

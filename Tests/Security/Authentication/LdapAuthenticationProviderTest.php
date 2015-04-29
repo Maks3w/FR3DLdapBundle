@@ -7,6 +7,7 @@ use FR3D\LdapBundle\Tests\TestUser;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\User\UserCheckerInterface;
 
 class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,6 +32,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        /** @var UserCheckerInterface|\PHPUnit_Framework_MockObject_MockObject $userChecker */
         $userChecker                = $this->getMock('Symfony\Component\Security\Core\User\UserCheckerInterface');
         $providerKey                = 'provider_key';
         $this->userProvider         = $this->getMock('Symfony\Component\Security\Core\User\UserProviderInterface');
