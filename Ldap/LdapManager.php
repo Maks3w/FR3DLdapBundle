@@ -47,6 +47,11 @@ class LdapManager implements LdapManagerInterface
         }
         $user = $this->hydrator->hydrate($entries[0]);
 
+        if (isset($this->params['role']['search'])) {
+            $ldapGroups = $this->getLdapGroupsForUser($user);
+            $this->hydrator->addRolesFromLdapGroup($ldapGroups, $this->params['role']['search']['nameAttribute']);
+        }
+
         return $user;
     }
 
@@ -76,6 +81,30 @@ class LdapManager implements LdapManagerInterface
     public function bind(UserInterface $user, $password)
     {
         return $this->driver->bind($user, $password);
+    }
+
+    /**
+     * Get a list of LdapGroups for the user.
+     *
+     * @param UserInterface $user
+     *
+     * @return array
+     */
+    public function getLdapGroupsForUser(UserInterface $user)
+    {
+        $userIdFunction = sprintf('get%s', ucfirst($this->params['role']['search']['userId']));
+        if (!method_exists($user, $userIdFunction)) {
+            throw new \Exception('NameAttribute for User unknown.');
+        }
+
+        $filter = isset($this->params['role']['search']['filter']) ? $this->params['role']['search']['filter'] : '';
+        $entries = $this->driver->search(
+            $this->params['role']['search']['baseDn'],
+            sprintf('(&%s(%s=%s))', $filter, $this->params['role']['search']['userDnAttribute'], $user->{$userIdFunction}()),
+            array($this->params['role']['search']['nameAttribute'])
+        );
+
+        return $entries;
     }
 
     /**

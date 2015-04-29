@@ -17,4 +17,11 @@ interface HydratorInterface
      * @return UserInterface
      */
     public function hydrate(array $ldapUserAttributes);
+
+    /**
+     * Add roles based on role configuration from ldap search.
+     *
+     * @param UserInterface
+     */
+    public function addRolesFromLdapGroup(array $ldapGroups, $nameAttribute);
 }
