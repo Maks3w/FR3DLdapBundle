@@ -27,7 +27,6 @@ abstract class AbstractHydratorTestCase extends \PHPUnit_Framework_TestCase
         $user = $this->hydrator->hydrate($entry);
 
         $this->assertEquals($username, $user->getUsername());
-        $this->assertTrue($user->isEnabled());
     }
 
     public function testDontTryToHydrateMissingAttributes()
@@ -58,6 +57,5 @@ abstract class AbstractHydratorTestCase extends \PHPUnit_Framework_TestCase
         $user = $this->hydrator->hydrate($entry);
 
         $this->assertEquals(array_slice($roles, 1), $user->getRoles());
-        $this->assertTrue($user->isEnabled());
     }
 }
