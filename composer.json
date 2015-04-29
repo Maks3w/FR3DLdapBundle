@@ -32,7 +32,7 @@
     },
     "suggest": {
         "symfony/validator": "Allow pre-validate for existing users before register new ones",
-        "friendsofsymfony/user-bundle": "Integrate authentication and management for DB users, useful for unmanaged LDAP servers"
+        "friendsofsymfony/user-bundle": "Integrate authentication and management for DB users, useful for unmanned LDAP servers"
     },
     "autoload": {
         "psr-4": {
