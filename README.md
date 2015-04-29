@@ -21,9 +21,9 @@ Features include:
 **Versions and compatibilities:**
 
 - [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=develop)](http://travis-ci.org/Maks3w/FR3DLdapBundle)
- `develop` is, handle the future version `3.0.0` and contains new features.
+ `develop` contains the future version `3.0.0`. This version is compatible with Symfony >=2.3.x and has new features.
 - [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=master)](http://travis-ci.org/Maks3w/FR3DLdapBundle)
- `master` is, contains the version `2.0.x`. This version is compatible with Symfony >=2.3.x and has new features.
+ `master` contains the version `2.0.x`. This version is compatible with Symfony >=2.3.x and has new features.
 - [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=1.6.x)](http://travis-ci.org/Maks3w/FR3DLdapBundle)
  `1.6.x` is compatible with Symfony 2.1.x and has the same features than 1.5.x
 - [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=1.5.x)](http://travis-ci.org/Maks3w/FR3DLdapBundle)
