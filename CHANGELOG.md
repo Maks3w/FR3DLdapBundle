@@ -32,6 +32,10 @@ Config:
 - [BC Break] Removed `version` key in config.yml
 - [BC Break] `bindRequiredDn` it's false by default, in v1.5.0 works as true
 
+Security:
+- [BC Break] You may need set `erase_credentials` setting to `false` if you encounter problems when the user
+ reauthenticate. See [issue#76](https://github.com/Maks3w/FR3DLdapBundle/issues/76) for more details.
+
 ### v1.5.2, v1.6.1  (2012-02-18)
 
 * Add support for Composer package manager now you can find this bundle in http://www.packagist.org

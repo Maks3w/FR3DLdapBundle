@@ -49,6 +49,10 @@ public function registerBundles()
 # app/config/security.yml
 
 security:
+  # Preserve plain text password in token for refresh the user.
+  # Analyze the security considerations before turn off this setting.
+  erase_credentials: false
+
   firewalls:
     main:
       pattern:    ^/
