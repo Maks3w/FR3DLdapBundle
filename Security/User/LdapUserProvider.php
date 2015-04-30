@@ -35,9 +35,9 @@ class LdapUserProvider implements UserProviderInterface
             $ex->setUsername($username);
 
             throw $ex;
-        } else {
-            $this->logInfo("User $username found on ldap");
         }
+
+        $this->logInfo("User $username found on ldap");
 
         return $user;
     }
