@@ -36,7 +36,7 @@ class LdapManager implements LdapManagerInterface
      */
     public function findUserBy(array $criteria)
     {
-        $filter  = $this->buildFilter($criteria);
+        $filter = $this->buildFilter($criteria);
         $entries = $this->driver->search($this->params['baseDn'], $filter);
         if ($entries['count'] > 1) {
             throw new \Exception('This search can only return a single user');
@@ -105,7 +105,7 @@ class LdapManager implements LdapManagerInterface
             // ASCII < 32 escaping
             $val = Converter::ascToHex32($val);
             if (null === $val) {
-                $val          = '\0';  // apply escaped "null" if string is empty
+                $val = '\0';  // apply escaped "null" if string is empty
             }
             $values[$key] = $val;
         }

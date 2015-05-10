@@ -33,8 +33,8 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->params = array(
-            'baseDn'     => 'ou=Groups,dc=example,dc=com',
-            'filter'     => '(attr0=value0)',
+            'baseDn' => 'ou=Groups,dc=example,dc=com',
+            'filter' => '(attr0=value0)',
             'usernameAttribute' => 'uid',
             'attributes' => array(
             ),
@@ -100,7 +100,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     public function testBuildFilter()
     {
         $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
-        $method          = $reflectionClass->getMethod('buildFilter');
+        $method = $reflectionClass->getMethod('buildFilter');
         $method->setAccessible(true);
 
         $criteria = array(
@@ -132,14 +132,14 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testFilterEscapeBasicOperation()
     {
-        $input    = 'a*b(b)d\e/f';
+        $input = 'a*b(b)d\e/f';
         $expected = 'a\2ab\28b\29d\5ce/f';
         $this->assertEquals($expected, LdapManager::escapeValue($input));
     }
 
     public function testEscapeValues()
     {
-        $expected  = 't\28e,s\29t\2av\5cal\1eue';
+        $expected = 't\28e,s\29t\2av\5cal\1eue';
         $filterval = 't(e,s)t*v\\al' . chr(30) . 'ue';
         $this->assertEquals($expected, LdapManager::escapeValue($filterval));
         $this->assertEquals($expected, LdapManager::escapeValue(array($filterval)));
@@ -148,7 +148,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testUnescapeValues()
     {
-        $expected  = 't(e,s)t*v\\al' . chr(30) . 'ue';
+        $expected = 't(e,s)t*v\\al' . chr(30) . 'ue';
         $filterval = 't\28e,s\29t\2av\5cal\1eue';
         $this->assertEquals($expected, LdapManager::unescapeValue($filterval));
         $this->assertEquals($expected, LdapManager::unescapeValue(array($filterval)));
@@ -157,8 +157,8 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testFilterValueUtf8()
     {
-        $filter    = 'ÄÖÜäöüß€';
-        $escaped   = LdapManager::escapeValue($filter);
+        $filter = 'ÄÖÜäöüß€';
+        $escaped = LdapManager::escapeValue($filter);
         $unescaped = LdapManager::unescapeValue($escaped);
         $this->assertEquals($filter, $unescaped);
     }
