@@ -4,6 +4,7 @@ namespace FR3D\LdapBundle\Tests\Driver;
 
 use FR3D\LdapBundle\Driver\ZendLdapDriver;
 use FR3D\LdapBundle\Tests\TestUser;
+use FR3D\Psr3MessagesAssertions\PhpUnit\TestLogger;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Zend\Ldap\Exception\LdapException as ZendLdapException;
 use Zend\Ldap\Ldap;
@@ -35,7 +36,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
 
         $this->zend = $this->getMockBuilder('Zend\Ldap\Ldap')
                 ->getMock();
-        $this->zendLdapDriver = new ZendLdapDriver($this->zend);
+        $this->zendLdapDriver = new ZendLdapDriver($this->zend, new TestLogger());
     }
 
     public function testSearch()

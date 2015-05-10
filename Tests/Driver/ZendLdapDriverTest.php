@@ -4,6 +4,7 @@ namespace FR3D\LdapBundle\Tests\Driver;
 
 use FR3D\LdapBundle\Driver\ZendLdapDriver;
 use FR3D\LdapBundle\Tests\TestUser;
+use FR3D\Psr3MessagesAssertions\PhpUnit\TestLogger;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Zend\Ldap\Ldap;
 
@@ -31,7 +32,7 @@ class ZendLdapDriverTest extends AbstractLdapDriverTest
         parent::setUp();
 
         $this->zend = new Ldap($this->getOptions());
-        $this->zendLdapDriver = new ZendLdapDriver($this->zend);
+        $this->zendLdapDriver = new ZendLdapDriver($this->zend, new TestLogger());
     }
 
     public function testSearch()
