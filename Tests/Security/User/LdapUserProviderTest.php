@@ -4,6 +4,7 @@ namespace FR3D\LdapBundle\Tests\Security\User;
 
 use FR3D\LdapBundle\Security\User\LdapUserProvider;
 use FR3D\LdapBundle\Tests\TestUser;
+use FR3D\Psr3MessagesAssertions\PhpUnit\TestLogger;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
@@ -24,7 +25,7 @@ class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
                 ->disableOriginalConstructor()
                 ->getMock();
 
-        $this->userProvider = new LdapUserProvider($this->ldapManager);
+        $this->userProvider = new LdapUserProvider($this->ldapManager, new TestLogger());
     }
 
     public function testLoadUserByUsername()

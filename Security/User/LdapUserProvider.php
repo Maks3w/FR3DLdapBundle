@@ -30,14 +30,22 @@ class LdapUserProvider implements UserProviderInterface
         $user = $this->ldapManager->findUserByUsername($username);
 
         if (empty($user)) {
-            $this->logInfo("User $username not found on ldap");
+            $this->logInfo('User {username} {result} on LDAP', [
+                'action' => 'loadUserByUsername',
+                'username' => $username,
+                'result' => 'not found',
+            ]);
             $ex = new UsernameNotFoundException(sprintf('User "%s" not found', $username));
             $ex->setUsername($username);
 
             throw $ex;
         }
 
-        $this->logInfo("User $username found on ldap");
+        $this->logInfo('User {username} {result} on LDAP', [
+            'action' => 'loadUserByUsername',
+            'username' => $username,
+            'result' => 'found',
+        ]);
 
         return $user;
     }
@@ -66,13 +74,14 @@ class LdapUserProvider implements UserProviderInterface
      * Log a message into the logger if this exists.
      *
      * @param string $message
+     * @param array $context
      */
-    private function logInfo($message)
+    private function logInfo($message, array $context = [])
     {
         if (!$this->logger) {
             return;
         }
 
-        $this->logger->info($message);
+        $this->logger->info($message, $context);
     }
 }
