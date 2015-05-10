@@ -54,7 +54,7 @@ class FormLoginLdapFactory implements SecurityFactoryInterface
     {
         $listenerId = 'security.authentication.listener.form';
 
-        $listener   = new DefinitionDecorator($listenerId);
+        $listener = new DefinitionDecorator($listenerId);
         $listener->replaceArgument(4, $id);
         $listener->replaceArgument(5, $config);
 

@@ -32,11 +32,11 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->params = array(
-            'baseDn'     => 'ou=Groups,dc=example,dc=com',
-            'filter'     => '(attr0=value0)',
+            'baseDn' => 'ou=Groups,dc=example,dc=com',
+            'filter' => '(attr0=value0)',
             'attributes' => array(
                 array(
-                    'ldap_attr'   => 'uid',
+                    'ldap_attr' => 'uid',
                     'user_method' => 'setUsername',
                 ),
             ),
@@ -58,13 +58,13 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $this->params['attributes'][] = array(
-            'ldap_attr'   => 'mail',
+            'ldap_attr' => 'mail',
             'user_method' => 'setEmail',
         );
 
         $this->ldapManager = new LdapManager($this->driver, $this->userManager, $this->params);
 
-        $reflectionClass        = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
+        $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
         $propertyLdapAttributes = $reflectionClass->getProperty('ldapAttributes');
         $propertyLdapAttributes->setAccessible(true);
 
@@ -128,7 +128,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     public function testBuildFilter()
     {
         $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
-        $method          = $reflectionClass->getMethod('buildFilter');
+        $method = $reflectionClass->getMethod('buildFilter');
         $method->setAccessible(true);
 
         $criteria = array(
@@ -148,17 +148,17 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $username = 'test_username';
 
         $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
-        $method          = $reflectionClass->getMethod('hydrate');
+        $method = $reflectionClass->getMethod('hydrate');
         $method->setAccessible(true);
 
         $user = new TestUser();
 
         $entry = array(
-            'dn'    => 'ou=group, dc=host, dc=foo',
+            'dn' => 'ou=group, dc=host, dc=foo',
             'count' => 1,
-            'uid'   => array(
+            'uid' => array(
                 'count' => 1,
-                0       => $username,
+                0 => $username,
             ),
         );
 
@@ -174,13 +174,13 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     public function testDontTryToHydrateMissingAttributes()
     {
         $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
-        $method          = $reflectionClass->getMethod('hydrate');
+        $method = $reflectionClass->getMethod('hydrate');
         $method->setAccessible(true);
 
         $user = new TestUser();
 
         $entry = array(
-            'dn'    => 'ou=group, dc=host, dc=foo',
+            'dn' => 'ou=group, dc=host, dc=foo',
             'count' => 1,
         );
 
@@ -196,28 +196,28 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->params['attributes'] = array(
             array(
-                'ldap_attr'   => 'roles',
+                'ldap_attr' => 'roles',
                 'user_method' => 'setRoles',
             ),
         );
 
-        $user  = new TestUser();
+        $user = new TestUser();
         $roles = array(
             'count' => 3,
-            0       => 'ROLE1',
-            1       => 'ROLE2',
-            2       => 'ROLE3',
+            0 => 'ROLE1',
+            1 => 'ROLE2',
+            2 => 'ROLE3',
         );
 
         $entry = array(
-            'dn'    => 'ou=group, dc=host, dc=foo',
+            'dn' => 'ou=group, dc=host, dc=foo',
             'roles' => $roles,
         );
 
         $this->ldapManager = new LdapManager($this->driver, $this->userManager, $this->params);
 
         $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
-        $method          = $reflectionClass->getMethod('hydrate');
+        $method = $reflectionClass->getMethod('hydrate');
         $method->setAccessible(true);
 
         $method->invoke($this->ldapManager, $user, $entry);
@@ -245,14 +245,14 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testFilterEscapeBasicOperation()
     {
-        $input    = 'a*b(b)d\e/f';
+        $input = 'a*b(b)d\e/f';
         $expected = 'a\2ab\28b\29d\5ce/f';
         $this->assertEquals($expected, LdapManager::escapeValue($input));
     }
 
     public function testEscapeValues()
     {
-        $expected  = 't\28e,s\29t\2av\5cal\1eue';
+        $expected = 't\28e,s\29t\2av\5cal\1eue';
         $filterval = 't(e,s)t*v\\al' . chr(30) . 'ue';
         $this->assertEquals($expected, LdapManager::escapeValue($filterval));
         $this->assertEquals($expected, LdapManager::escapeValue(array($filterval)));
@@ -261,7 +261,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testUnescapeValues()
     {
-        $expected  = 't(e,s)t*v\\al' . chr(30) . 'ue';
+        $expected = 't(e,s)t*v\\al' . chr(30) . 'ue';
         $filterval = 't\28e,s\29t\2av\5cal\1eue';
         $this->assertEquals($expected, LdapManager::unescapeValue($filterval));
         $this->assertEquals($expected, LdapManager::unescapeValue(array($filterval)));
@@ -270,8 +270,8 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testFilterValueUtf8()
     {
-        $filter    = 'ÄÖÜäöüß€';
-        $escaped   = LdapManager::escapeValue($filter);
+        $filter = 'ÄÖÜäöüß€';
+        $escaped = LdapManager::escapeValue($filter);
         $unescaped = LdapManager::unescapeValue($escaped);
         $this->assertEquals($filter, $unescaped);
     }

@@ -30,7 +30,7 @@ class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
     public function testLoadUserByUsername()
     {
         $username = 'test_username';
-        $user     = new TestUser();
+        $user = new TestUser();
         $user->setUsername($username);
 
         $this->ldapManager->expects($this->once())
@@ -60,7 +60,7 @@ class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
     public function testRefreshUser()
     {
         $username = 'test_username';
-        $user     = new TestUser();
+        $user = new TestUser();
         $user->setUsername($username);
 
         $this->ldapManager->expects($this->once())

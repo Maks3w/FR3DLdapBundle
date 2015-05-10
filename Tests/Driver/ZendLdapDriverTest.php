@@ -35,12 +35,12 @@ class ZendLdapDriverTest extends AbstractLdapDriverTest
 
     public function testSearch()
     {
-        $baseDn     = 'ou=example,dc=org';
-        $filter     = '(&(uid=test_username))';
+        $baseDn = 'ou=example,dc=org';
+        $filter = '(&(uid=test_username))';
         $attributes = array('uid');
 
         $entry = array(
-            'dn'  => 'uid=test_username,ou=example,dc=org',
+            'dn' => 'uid=test_username,ou=example,dc=org',
             'uid' => array('test_username'),
         );
         $expect = array(
@@ -98,7 +98,7 @@ class ZendLdapDriverTest extends AbstractLdapDriverTest
 
         $username = 'username';
         $password = 'password';
-        $user     = $this->getMock('Symfony\Component\Security\Core\User\UserInterface');
+        $user = $this->getMock('Symfony\Component\Security\Core\User\UserInterface');
 
         $user->expects($this->once())
                 ->method('getUsername')

@@ -20,7 +20,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode    = $treeBuilder->root('fr3d_ldap');
+        $rootNode = $treeBuilder->root('fr3d_ldap');
 
         $rootNode
             ->children()
@@ -51,7 +51,7 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('attributes')
                             ->defaultValue(array(
                                 array(
-                                    'ldap_attr'   => 'uid',
+                                    'ldap_attr' => 'uid',
                                     'user_method' => 'setUsername',
                                 ),
                             ))

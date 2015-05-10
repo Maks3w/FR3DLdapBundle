@@ -39,12 +39,12 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
 
     public function testSearch()
     {
-        $baseDn     = 'ou=example,dc=org';
-        $filter     = '(&(uid=test_username))';
+        $baseDn = 'ou=example,dc=org';
+        $filter = '(&(uid=test_username))';
         $attributes = array('uid');
 
         $entry = array(
-            'dn'  => 'uid=test_username,ou=example,dc=org',
+            'dn' => 'uid=test_username,ou=example,dc=org',
             'uid' => array('test_username'),
         );
         $expect = array(
@@ -64,7 +64,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
     {
         $username = 'test_username';
         $password = 'password';
-        $user     = new TestUser();
+        $user = new TestUser();
         $user->setUsername($username);
 
         $this->zend->expects($this->once())
@@ -79,7 +79,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
     {
         $username = 'test_username';
         $password = 'bad_password';
-        $user     = new TestUser();
+        $user = new TestUser();
         $user->setUsername($username);
 
         $this->zend->expects($this->once())
@@ -94,7 +94,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
     {
         $username = 'bad_username';
         $password = 'bad_password';
-        $user     = new TestUser();
+        $user = new TestUser();
         $user->setUsername($username);
 
         $this->zend->expects($this->once())
@@ -107,9 +107,9 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
 
     public function testBindByDnSuccessful()
     {
-        $dn       = 'uid=test_username,ou=example,dc=com';
+        $dn = 'uid=test_username,ou=example,dc=com';
         $password = 'password';
-        $user     = new TestUser();
+        $user = new TestUser();
         $user->setDn($dn);
 
         $this->zend->expects($this->once())
@@ -122,9 +122,9 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
 
     public function testBindByDnBadPassword()
     {
-        $dn       = 'uid=test_username,ou=example,dc=com';
+        $dn = 'uid=test_username,ou=example,dc=com';
         $password = 'bad_password';
-        $user     = new TestUser();
+        $user = new TestUser();
         $user->setDn($dn);
 
         $this->zend->expects($this->once())
@@ -139,7 +139,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
     {
         $username = 'username';
         $password = 'password';
-        $user     = $this->getMock('Symfony\Component\Security\Core\User\UserInterface');
+        $user = $this->getMock('Symfony\Component\Security\Core\User\UserInterface');
 
         $user->expects($this->once())
                 ->method('getUsername')

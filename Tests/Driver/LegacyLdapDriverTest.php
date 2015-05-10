@@ -23,12 +23,12 @@ class LegacyLdapDriverTest extends AbstractLdapDriverTest
     {
         global $ldapServer;
 
-        $baseDn     = 'ou=example,dc=org';
-        $filter     = '(&(uid=test_username))';
+        $baseDn = 'ou=example,dc=org';
+        $filter = '(&(uid=test_username))';
         $attributes = array('uid');
 
         $entry = array(
-            'dn'  => 'uid=test_username,ou=example,dc=org',
+            'dn' => 'uid=test_username,ou=example,dc=org',
             'uid' => array('test_username'),
         );
         $expect = array(
@@ -89,7 +89,7 @@ class LegacyLdapDriverTest extends AbstractLdapDriverTest
 
         $username = 'test_username';
         $password = 'password';
-        $user     = $this->getMock('Symfony\Component\Security\Core\User\UserInterface');
+        $user = $this->getMock('Symfony\Component\Security\Core\User\UserInterface');
 
         $user->expects($this->once())
                 ->method('getUsername')
@@ -108,10 +108,10 @@ class LegacyLdapDriverTest extends AbstractLdapDriverTest
     {
         global $ldapServer;
 
-        $options                        = $this->getOptions();
-        $options['baseDn']              = 'ou=example,dc=org';
+        $options = $this->getOptions();
+        $options['baseDn'] = 'ou=example,dc=org';
         $options['accountFilterFormat'] = '(&(uid=%s))';
-        $options['bindRequiresDn']      = true;
+        $options['bindRequiresDn'] = true;
         $this->legacyLdapDriver = new LegacyLdapDriver($options);
 
         $baseDn = 'ou=example,dc=org';
@@ -119,11 +119,11 @@ class LegacyLdapDriverTest extends AbstractLdapDriverTest
 
         $username = 'test_username';
         $password = 'password';
-        $user     = new TestUser();
+        $user = new TestUser();
         $user->setUsername($username);
 
         $entry = array(
-            'dn'  => 'uid=test_username,ou=example,dc=org',
+            'dn' => 'uid=test_username,ou=example,dc=org',
             'uid' => array('test_username'),
         );
         $result = array(
@@ -153,15 +153,15 @@ class LegacyLdapDriverTest extends AbstractLdapDriverTest
     {
         global $ldapServer;
 
-        $options                        = $this->getOptions();
-        $options['baseDn']              = 'ou=example,dc=org';
+        $options = $this->getOptions();
+        $options['baseDn'] = 'ou=example,dc=org';
         $options['accountFilterFormat'] = '(&(uid=%s))';
-        $options['bindRequiresDn']      = true;
+        $options['bindRequiresDn'] = true;
         $this->legacyLdapDriver = new LegacyLdapDriver($options);
 
         $username = 'bad_username';
         $password = 'password';
-        $user     = new TestUser();
+        $user = new TestUser();
         $user->setUsername($username);
 
         $result = array(

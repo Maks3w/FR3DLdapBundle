@@ -45,7 +45,7 @@ class ZendLdapDriver implements LdapDriverInterface
         $this->logDebug(sprintf('ldap_search(%s, %s, %s)', $baseDn, $filter, implode(',', $attributes)));
 
         try {
-            $entries          = $this->driver->searchEntries($filter, $baseDn, Ldap::SEARCH_SCOPE_SUB, $attributes);
+            $entries = $this->driver->searchEntries($filter, $baseDn, Ldap::SEARCH_SCOPE_SUB, $attributes);
             // searchEntries don't return 'count' key as specified by php native
             // function ldap_get_entries()
             $entries['count'] = count($entries);
