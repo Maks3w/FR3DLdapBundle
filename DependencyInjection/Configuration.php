@@ -20,7 +20,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('fr3d_ldap');
+        $rootNode    = $treeBuilder->root('fr3d_ldap');
 
         $rootNode
             ->children()
@@ -52,7 +52,7 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('attributes')
                             ->defaultValue(array(
                                 array(
-                                    'ldap_attr' => 'uid',
+                                    'ldap_attr'   => 'uid',
                                     'user_method' => 'setUsername',
                                 ),
                             ))
@@ -62,28 +62,28 @@ class Configuration implements ConfigurationInterface
                                     ->scalarNode('user_method')->isRequired()->cannotBeEmpty()->end()
                                 ->end()
                             ->end()
-                            ->arrayNode('role')
-                                ->validate()
-                                    ->ifTrue(function ($v) { return !empty($v['memberOf']) && !empty($v['search']); })
-                                    ->thenInvalid('Only either memberOf or search mode can be set')
-                                ->end()
-                                ->children()
-                                    ->arrayNode('memberOf')
-                                        ->children()
-                                            ->scalarNode('dnSuffixFilter')->isRequired()->cannotBeEmpty()->end()
-                                        ->end()
+                        ->end()
+                        ->arrayNode('role')
+                            ->validate()
+                                ->ifTrue(function ($v) { return !empty($v['memberOf']) && !empty($v['search']); })
+                                ->thenInvalid('Only either memberOf or search mode can be set')
+                            ->end()
+                            ->children()
+                                ->arrayNode('memberOf')
+                                    ->children()
+                                        ->scalarNode('dnSuffixFilter')->isRequired()->cannotBeEmpty()->end()
                                     ->end()
-                                    ->arrayNode('search')
-                                        ->children()
-                                            ->scalarNode('baseDn')->isRequired()->cannotBeEmpty()->end()
-                                            ->scalarNode('filter')->end()
-                                            ->scalarNode('nameAttribute')->defaultValue('cn')->end()
-                                            ->scalarNode('userDnAttribute')->defaultValue('member')->end()
-                                            ->scalarNode('userId')->defaultValue('dn')
-                                                ->validate()
-                                                    ->ifNotInArray(array('dn', 'username'))
-                                                    ->thenInvalid('Only dn or username')
-                                                ->end()
+                                ->end()
+                                ->arrayNode('search')
+                                    ->children()
+                                        ->scalarNode('baseDn')->isRequired()->cannotBeEmpty()->end()
+                                        ->scalarNode('filter')->end()
+                                        ->scalarNode('nameAttribute')->defaultValue('cn')->end()
+                                        ->scalarNode('userDnAttribute')->defaultValue('member')->end()
+                                        ->scalarNode('userId')->defaultValue('dn')
+                                            ->validate()
+                                                ->ifNotInArray(array('dn', 'username'))
+                                                ->thenInvalid('Only dn or username')
                                             ->end()
                                         ->end()
                                     ->end()
@@ -110,16 +110,16 @@ class Configuration implements ConfigurationInterface
     private function addManagerSection(ArrayNodeDefinition $node)
     {
         $node
-                ->addDefaultsIfNotSet()
-                    ->children()
-                        ->arrayNode('manager')
-                            ->addDefaultsIfNotSet()
-                            ->children()
-                                ->scalarNode('user_class')->defaultValue('FR3D\LdapBundle\Model\LdapUser')->end()
-                            ->end()
+            ->addDefaultsIfNotSet()
+                ->children()
+                    ->arrayNode('manager')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('user_class')->defaultValue('FR3D\LdapBundle\Model\LdapUser')->end()
                         ->end()
                     ->end()
-                ->end();
+                ->end()
+            ->end();
     }
 
     private function addServiceSection(ArrayNodeDefinition $node)
