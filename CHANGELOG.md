@@ -1,6 +1,17 @@
 Changelog
 =========
 
+### v3.0.0
+Ldap driver:
+- [BC Break] Remove legacy Ldap driver declared as deprecated in 2.0.0.
+- [BC Break] `hydrate()` method in LdapManager has been moved to `Model\LegacyHydrator.php`.
+  See [Create a custom hydrator](Resources/doc/cookbook/custom_hydrator.md) for more details.
+- [BC Break] This bundle is now PSR-3 (Logger) compliant. Typehints has been updated in favor of `Psr\Log\LoggerInterface`.
+
+Config:
+- [BC Break] Added `fr3d_ldap.user.usernameAttribute` for indicate the attribute which holds the username.
+  Previously was the first entry in `attributes`
+
 ### v2.0.0
 
 Minimum Requirements:

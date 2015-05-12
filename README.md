@@ -4,7 +4,7 @@ FR3DLdapBundle
 The FR3DLdapBundle adds support for provide and/or authenticate users with a
 LDAP Directory in Symfony2.
 
-It's mainly developed thinking in unmanaged corporate LDAP directories so you
+It's mainly developed thinking in unmanned corporate LDAP directories so you
 could retrieve users from LDAP and manage them using `FOSUserBundle` features
 (role management, guess users registration, etc).
 
@@ -16,14 +16,18 @@ Features include:
 - Customizable and extensible
 - Unit tested
 
-**Note:** This bundle cannot work as standalone at this moment and requires an User Manager (For ex: `FOSUserBundle`)
+**Note:** This bundle can work as standalone or combined with an User Manager (For ex: `FOSUserBundle`)
 
 **Versions and compatibilities:**
 
-- [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=1.5.x)](http://travis-ci.org/Maks3w/FR3DLdapBundle) `1.5.x` is compatible with Symfony 2.0.x and is recommended for stable projects.
-- [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=1.6.x)](http://travis-ci.org/Maks3w/FR3DLdapBundle) `1.6.x` is compatible with Symfony 2.1.x and has the same features than 1.5.x
-- [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=2.0.x)](http://travis-ci.org/Maks3w/FR3DLdapBundle) `2.0.x` is compatible with Symfony 2.1.x and has new features. This version is actually under development and is subject to changes.
-- [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=master)](http://travis-ci.org/Maks3w/FR3DLdapBundle) `Master` is, at this moment, synced with 1.5.x but I encourage fix your installation to the 1.5.x version branch unless you like the risk.
+- [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=develop)](http://travis-ci.org/Maks3w/FR3DLdapBundle)
+ `develop` contains the future version `3.0.0`. This version is compatible with Symfony >=2.3.x and has new features.
+- [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=master)](http://travis-ci.org/Maks3w/FR3DLdapBundle)
+ `master` contains the version `2.0.x`. This version is compatible with Symfony >=2.3.x and has new features.
+- [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=1.6.x)](http://travis-ci.org/Maks3w/FR3DLdapBundle)
+ `1.6.x` is compatible with Symfony 2.1.x and has the same features than 1.5.x
+- [![Build Status](https://secure.travis-ci.org/Maks3w/FR3DLdapBundle.png?branch=1.5.x)](http://travis-ci.org/Maks3w/FR3DLdapBundle)
+ `1.5.x` is compatible with Symfony 2.0.x and is recommended for stable projects.
 
 Documentation
 -------------

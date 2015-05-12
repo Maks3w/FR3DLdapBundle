@@ -13,10 +13,10 @@ class FormLoginLdapFactory implements SecurityFactoryInterface
     public function create(ContainerBuilder $container, $id, $config, $userProviderId, $defaultEntryPointId)
     {
         // authentication provider
-        $authProviderId = $this->createAuthProvider($container, $id, $config, $userProviderId);
+        $authProviderId = $this->createAuthProvider($container, $id, $userProviderId);
 
         // authentication listener
-        $listenerId = $this->createListener($container, $id, $config, $userProviderId);
+        $listenerId = $this->createListener($container, $id, $config);
 
         return array($authProviderId, $listenerId, $defaultEntryPointId);
     }
@@ -36,7 +36,7 @@ class FormLoginLdapFactory implements SecurityFactoryInterface
         // Without Configuration
     }
 
-    protected function createAuthProvider(ContainerBuilder $container, $id, $config, $userProviderId)
+    protected function createAuthProvider(ContainerBuilder $container, $id, $userProviderId)
     {
         $provider = 'fr3d_ldap.security.authentication.provider';
         $providerId = $provider . '.' . $id;
@@ -50,11 +50,11 @@ class FormLoginLdapFactory implements SecurityFactoryInterface
         return $providerId;
     }
 
-    protected function createListener(ContainerBuilder $container, $id, $config, $userProvider)
+    protected function createListener(ContainerBuilder $container, $id, $config)
     {
         $listenerId = 'security.authentication.listener.form';
 
-        $listener   = new DefinitionDecorator($listenerId);
+        $listener = new DefinitionDecorator($listenerId);
         $listener->replaceArgument(4, $id);
         $listener->replaceArgument(5, $config);
 

@@ -11,7 +11,7 @@
 
 namespace FR3D\LdapBundle\Tests\Validation;
 
-use FR3D\LdapBundle\Tests\TestUser;
+use FR3D\LdapBundle\Model\LdapUser;
 use FR3D\LdapBundle\Validator\Unique;
 use FR3D\LdapBundle\Validator\UniqueValidator;
 use Symfony\Component\Validator\ExecutionContextInterface;
@@ -26,7 +26,7 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
     private $ldapManagerMock;
     /** @var Unique */
     private $constraint;
-    /** @var TestUser */
+    /** @var LdapUser */
     private $user;
 
     public function setUp()
@@ -38,7 +38,7 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validator = new UniqueValidator($this->ldapManagerMock);
         $this->validator->initialize($this->validatorContext);
 
-        $this->user = new TestUser();
+        $this->user = new LdapUser();
     }
 
     public function testViolationsOnDuplicateUserProperty()
@@ -73,6 +73,7 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadType()
     {
+        /** @noinspection PhpParamsInspection */
         $this->validator->validate('bad_type', $this->constraint);
     }
 }

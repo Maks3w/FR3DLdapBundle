@@ -3,29 +3,24 @@
 namespace FR3D\LdapBundle\Ldap;
 
 use FR3D\LdapBundle\Driver\LdapDriverInterface;
-use FR3D\LdapBundle\Model\LdapUserInterface;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use FR3D\LdapBundle\Hydrator\HydratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class LdapManager implements LdapManagerInterface
 {
     protected $driver;
-    protected $userManager;
     protected $params = array();
-    protected $ldapAttributes = array();
-    protected $ldapUsernameAttr;
 
-    public function __construct(LdapDriverInterface $driver, $userManager, array $params)
+    /**
+     * @var HydratorInterface
+     */
+    protected $hydrator;
+
+    public function __construct(LdapDriverInterface $driver, HydratorInterface $hydrator, array $params)
     {
         $this->driver = $driver;
-        $this->userManager = $userManager;
         $this->params = $params;
-
-        foreach ($this->params['attributes'] as $attr) {
-            $this->ldapAttributes[] = $attr['ldap_attr'];
-        }
-
-        $this->ldapUsernameAttr = $this->ldapAttributes[0];
+        $this->hydrator = $hydrator;
     }
 
     /**
@@ -33,7 +28,7 @@ class LdapManager implements LdapManagerInterface
      */
     public function findUserByUsername($username)
     {
-        return $this->findUserBy(array($this->ldapUsernameAttr => $username));
+        return $this->findUserBy([$this->params['usernameAttribute'] => $username]);
     }
 
     /**
@@ -41,8 +36,8 @@ class LdapManager implements LdapManagerInterface
      */
     public function findUserBy(array $criteria)
     {
-        $filter  = $this->buildFilter($criteria);
-        $entries = $this->driver->search($this->params['baseDn'], $filter, $this->ldapAttributes);
+        $filter = $this->buildFilter($criteria);
+        $entries = $this->driver->search($this->params['baseDn'], $filter);
         if ($entries['count'] > 1) {
             throw new \Exception('This search can only return a single user');
         }
@@ -50,8 +45,12 @@ class LdapManager implements LdapManagerInterface
         if ($entries['count'] == 0) {
             return false;
         }
-        $user = $this->userManager->createUser();
-        $this->hydrate($user, $entries[0]);
+        $user = $this->hydrator->hydrate($entries[0]);
+
+        if (isset($this->params['role']['search'])) {
+            $ldapGroups = $this->getLdapGroupsForUser($user);
+            $this->hydrator->addRolesFromLdapGroup($ldapGroups, $this->params['role']['search']['nameAttribute']);
+        }
 
         return $user;
     }
@@ -77,49 +76,35 @@ class LdapManager implements LdapManagerInterface
     }
 
     /**
-     * Hydrates an user entity with ldap attributes.
-     *
-     * @param  UserInterface $user  user to hydrate
-     * @param  array         $entry ldap result
-     *
-     * @return UserInterface
-     */
-    protected function hydrate(UserInterface $user, array $entry)
-    {
-        $user->setPassword('');
-
-        if ($user instanceof AdvancedUserInterface) {
-            $user->setEnabled(true);
-        }
-
-        foreach ($this->params['attributes'] as $attr) {
-            if (!array_key_exists($attr['ldap_attr'], $entry)) {
-                continue;
-            }
-
-            $ldapValue = $entry[$attr['ldap_attr']];
-            $value = null;
-
-            if (!array_key_exists('count', $ldapValue) ||  $ldapValue['count'] == 1) {
-                $value = $ldapValue[0];
-            } else {
-                $value = array_slice($ldapValue, 1);
-            }
-
-            call_user_func(array($user, $attr['user_method']), $value);
-        }
-
-        if ($user instanceof LdapUserInterface) {
-            $user->setDn($entry['dn']);
-        }
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function bind(UserInterface $user, $password)
     {
         return $this->driver->bind($user, $password);
+    }
+
+    /**
+     * Get a list of LdapGroups for the user.
+     *
+     * @param UserInterface $user
+     *
+     * @return array
+     */
+    public function getLdapGroupsForUser(UserInterface $user)
+    {
+        $userIdFunction = sprintf('get%s', ucfirst($this->params['role']['search']['userId']));
+        if (!method_exists($user, $userIdFunction)) {
+            throw new \Exception('NameAttribute for User unknown.');
+        }
+
+        $filter = isset($this->params['role']['search']['filter']) ? $this->params['role']['search']['filter'] : '';
+        $entries = $this->driver->search(
+            $this->params['role']['search']['baseDn'],
+            sprintf('(&%s(%s=%s))', $filter, $this->params['role']['search']['userDnAttribute'], $user->{$userIdFunction}()),
+            array($this->params['role']['search']['nameAttribute'])
+        );
+
+        return $entries;
     }
 
     /**
@@ -149,7 +134,7 @@ class LdapManager implements LdapManagerInterface
             // ASCII < 32 escaping
             $val = Converter::ascToHex32($val);
             if (null === $val) {
-                $val          = '\0';  // apply escaped "null" if string is empty
+                $val = '\0';  // apply escaped "null" if string is empty
             }
             $values[$key] = $val;
         }

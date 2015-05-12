@@ -65,7 +65,7 @@ UPGRADE FROM 1.5 to 2.0
     </service>
     ```
 
-* `checkAuthentication()` now reauthenticate current user using token `getCrendetials()` instead `getPassword()`
+* `checkAuthentication()` now reauthenticate current user using token `getCredentials()` instead `getPassword()`
 
    Turn off `erase_credentials` in application `security.yml`:
    ```yml
