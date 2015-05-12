@@ -21,6 +21,11 @@
             <argument>%fr3d_ldap.ldap_manager.parameters%</argument>
         </service>
 
+        <service id="fr3d_ldap.user_manager.default" class="FR3D\LdapBundle\Hydrator\StaticHydrator">
+            <argument>%fr3d_ldap.user_manager.parameters%</argument>
+            <argument>%fr3d_ldap.ldap_manager.parameters%</argument>
+        </service>
+
     </services>
 
 </container>

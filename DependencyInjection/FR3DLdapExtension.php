@@ -35,6 +35,7 @@ class FR3DLdapExtension extends Extension
 
         $container->setParameter('fr3d_ldap.ldap_driver.parameters', $config['driver']);
         $container->setParameter('fr3d_ldap.ldap_manager.parameters', $config['user']);
+        $container->setParameter('fr3d_ldap.user_manager.parameters', $config['manager']);
     }
 
     public function getNamespace()

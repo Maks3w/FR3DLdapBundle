@@ -73,9 +73,26 @@ class Configuration implements ConfigurationInterface
                 ->thenInvalid('The useSsl and useStartTls options are mutually exclusive.')
             ->end();
 
+        $this->addManagerSection($rootNode);
+
         $this->addServiceSection($rootNode);
 
         return $treeBuilder;
+    }
+
+    private function addManagerSection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->addDefaultsIfNotSet()
+                ->children()
+                    ->arrayNode('manager')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('user_class')->defaultValue('FR3D\LdapBundle\Model\LdapUser')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
     }
 
     private function addServiceSection(ArrayNodeDefinition $node)

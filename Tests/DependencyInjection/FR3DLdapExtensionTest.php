@@ -40,6 +40,7 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertParameter($defaultConfig['driver'], 'fr3d_ldap.ldap_driver.parameters');
         $this->assertParameter($defaultConfig['user'], 'fr3d_ldap.ldap_manager.parameters');
+        $this->assertParameter($defaultConfig['manager'], 'fr3d_ldap.user_manager.parameters');
 
         $this->assertAlias('fr3d_ldap.user_hydrator.default', 'fr3d_ldap.user_hydrator');
         $this->assertAlias('fr3d_ldap.ldap_manager.default', 'fr3d_ldap.ldap_manager');
@@ -142,7 +143,10 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
                     ),
                 ),
             ),
-            'service' => array(
+            'manager' => array(
+                'user_class'     => 'FR3D\LdapBundle\Model\LdapUser',
+            ),
+            'service'     => array(
                 'user_hydrator' => 'fr3d_ldap.user_hydrator.default',
                 'ldap_manager' => 'fr3d_ldap.ldap_manager.default',
                 'ldap_driver' => 'fr3d_ldap.ldap_driver.zend',

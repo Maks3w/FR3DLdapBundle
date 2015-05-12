@@ -3,8 +3,8 @@
 namespace FR3D\LdapBundle\Tests\Driver;
 
 use FR3D\LdapBundle\Driver\ZendLdapDriver;
-use FR3D\LdapBundle\Tests\TestUser;
 use FR3D\Psr3MessagesAssertions\PhpUnit\TestLogger;
+use FR3D\LdapBundle\Model\LdapUser;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Zend\Ldap\Exception\LdapException as ZendLdapException;
 use Zend\Ldap\Ldap;
@@ -66,7 +66,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
     {
         $username = 'test_username';
         $password = 'password';
-        $user = new TestUser();
+        $user = new LdapUser();
         $user->setUsername($username);
 
         $this->zend->expects($this->once())
@@ -81,7 +81,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
     {
         $username = 'test_username';
         $password = 'bad_password';
-        $user = new TestUser();
+        $user = new LdapUser();
         $user->setUsername($username);
 
         $this->zend->expects($this->once())
@@ -96,7 +96,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
     {
         $username = 'bad_username';
         $password = 'bad_password';
-        $user = new TestUser();
+        $user = new LdapUser();
         $user->setUsername($username);
 
         $this->zend->expects($this->once())
@@ -111,7 +111,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
     {
         $dn = 'uid=test_username,ou=example,dc=com';
         $password = 'password';
-        $user = new TestUser();
+        $user = new LdapUser();
         $user->setDn($dn);
 
         $this->zend->expects($this->once())
@@ -126,7 +126,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
     {
         $dn = 'uid=test_username,ou=example,dc=com';
         $password = 'bad_password';
-        $user = new TestUser();
+        $user = new LdapUser();
         $user->setDn($dn);
 
         $this->zend->expects($this->once())
