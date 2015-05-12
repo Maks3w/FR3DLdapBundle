@@ -20,45 +20,46 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode    = $treeBuilder->root('fr3d_ldap');
+        $rootNode = $treeBuilder->root('fr3d_ldap');
 
         $rootNode
-                ->children()
-                    ->arrayNode('driver')
-                        ->children()
-                            ->scalarNode('host')->isRequired()->cannotBeEmpty()->end()
-                            ->scalarNode('port')->defaultValue(389)->end()
-                            ->scalarNode('useStartTls')->defaultFalse()->end()
-                            ->scalarNode('useSsl')->defaultFalse()->end()
-                            ->scalarNode('username')->end()
-                            ->scalarNode('password')->end()
-                            ->scalarNode('bindRequiresDn')->defaultFalse()->end()
-                            ->scalarNode('baseDn')->end()
-                            ->scalarNode('accountCanonicalForm')->end()
-                            ->scalarNode('accountDomainName')->end()
-                            ->scalarNode('accountDomainNameShort')->end()
-                            ->scalarNode('accountFilterFormat')->end()
-                            ->scalarNode('allowEmptyPassword')->end()
-                            ->scalarNode('optReferrals')->end()
-                            ->scalarNode('tryUsernameSplit')->end()
-                            ->scalarNode('networkTimeout')->end()
-                        ->end()
+            ->children()
+                ->arrayNode('driver')
+                    ->children()
+                        ->scalarNode('host')->isRequired()->cannotBeEmpty()->end()
+                        ->scalarNode('port')->defaultValue(389)->end()
+                        ->scalarNode('useStartTls')->defaultFalse()->end()
+                        ->scalarNode('useSsl')->defaultFalse()->end()
+                        ->scalarNode('username')->end()
+                        ->scalarNode('password')->end()
+                        ->scalarNode('bindRequiresDn')->defaultFalse()->end()
+                        ->scalarNode('baseDn')->end()
+                        ->scalarNode('accountCanonicalForm')->end()
+                        ->scalarNode('accountDomainName')->end()
+                        ->scalarNode('accountDomainNameShort')->end()
+                        ->scalarNode('accountFilterFormat')->end()
+                        ->scalarNode('allowEmptyPassword')->end()
+                        ->scalarNode('optReferrals')->end()
+                        ->scalarNode('tryUsernameSplit')->end()
+                        ->scalarNode('networkTimeout')->end()
                     ->end()
-                    ->arrayNode('user')
-                        ->children()
-                            ->scalarNode('baseDn')->isRequired()->cannotBeEmpty()->end()
-                            ->scalarNode('filter')->defaultValue('')->end()
-                            ->arrayNode('attributes')
-                                ->defaultValue(array(
-                                    array(
-                                        'ldap_attr'   => 'uid',
-                                        'user_method' => 'setUsername'),
-                                    ))
-                                ->prototype('array')
-                                    ->children()
-                                        ->scalarNode('ldap_attr')->isRequired()->cannotBeEmpty()->end()
-                                        ->scalarNode('user_method')->isRequired()->cannotBeEmpty()->end()
-                                    ->end()
+                ->end()
+                ->arrayNode('user')
+                    ->children()
+                        ->scalarNode('baseDn')->isRequired()->cannotBeEmpty()->end()
+                        ->scalarNode('filter')->defaultValue('')->end()
+                        ->scalarNode('usernameAttribute')->defaultValue('uid')->end()
+                        ->arrayNode('attributes')
+                            ->defaultValue(array(
+                                array(
+                                    'ldap_attr' => 'uid',
+                                    'user_method' => 'setUsername',
+                                ),
+                            ))
+                            ->prototype('array')
+                                ->children()
+                                    ->scalarNode('ldap_attr')->isRequired()->cannotBeEmpty()->end()
+                                    ->scalarNode('user_method')->isRequired()->cannotBeEmpty()->end()
                                 ->end()
                             ->end()
                             ->arrayNode('role')
@@ -91,12 +92,13 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-                ->validate()
-                    ->ifTrue(function ($v) {
-                                return $v['driver']['useSsl'] && $v['driver']['useStartTls'];
-                            })
-                    ->thenInvalid('The useSsl and useStartTls options are mutually exclusive.')
-                ->end();
+            ->end()
+            ->validate()
+                ->ifTrue(function ($v) {
+                    return $v['driver']['useSsl'] && $v['driver']['useStartTls'];
+                })
+                ->thenInvalid('The useSsl and useStartTls options are mutually exclusive.')
+            ->end();
 
         $this->addManagerSection($rootNode);
 
@@ -123,17 +125,17 @@ class Configuration implements ConfigurationInterface
     private function addServiceSection(ArrayNodeDefinition $node)
     {
         $node
-                ->addDefaultsIfNotSet()
-                    ->children()
-                        ->arrayNode('service')
-                            ->addDefaultsIfNotSet()
-                            ->children()
-                                ->scalarNode('user_manager')->defaultValue('fos_user.user_manager')->end()
-                                ->scalarNode('ldap_manager')->defaultValue('fr3d_ldap.ldap_manager.default')->end()
-                                ->scalarNode('ldap_driver')->defaultValue('fr3d_ldap.ldap_driver.zend')->end()
-                            ->end()
+            ->addDefaultsIfNotSet()
+                ->children()
+                    ->arrayNode('service')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('user_hydrator')->defaultValue('fr3d_ldap.user_hydrator.default')->end()
+                            ->scalarNode('ldap_manager')->defaultValue('fr3d_ldap.ldap_manager.default')->end()
+                            ->scalarNode('ldap_driver')->defaultValue('fr3d_ldap.ldap_driver.zend')->end()
                         ->end()
                     ->end()
-                ->end();
+                ->end()
+            ->end();
     }
 }

@@ -40,18 +40,17 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertParameter($defaultConfig['driver'], 'fr3d_ldap.ldap_driver.parameters');
         $this->assertParameter($defaultConfig['user'], 'fr3d_ldap.ldap_manager.parameters');
-        $this->assertParameter($defaultConfig['manager'], 'fr3d_ldap.user_manager.parameters');
 
-        $this->assertAlias('fos_user.user_manager', 'fr3d_ldap.user_manager');
+        $this->assertAlias('fr3d_ldap.user_hydrator.default', 'fr3d_ldap.user_hydrator');
         $this->assertAlias('fr3d_ldap.ldap_manager.default', 'fr3d_ldap.ldap_manager');
         $this->assertAlias('fr3d_ldap.ldap_driver.zend', 'fr3d_ldap.ldap_driver');
     }
 
     public function testLoadFullConfiguration()
     {
-        $config                           = $this->getDefaultConfig();
-        $config['driver']['username']     = null;
-        $config['driver']['password']     = null;
+        $config = $this->getDefaultConfig();
+        $config['driver']['username'] = null;
+        $config['driver']['password'] = null;
         $config['driver']['optReferrals'] = false;
 
         $this->container = new ContainerBuilder();
@@ -65,7 +64,7 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadDriverConfiguration()
     {
-        $config                                  = $this->getDefaultConfig();
+        $config = $this->getDefaultConfig();
         $config['driver']['accountFilterFormat'] = '(%(uid=%s))';
 
         $this->container = new ContainerBuilder();
@@ -79,8 +78,8 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testSslConfiguration()
     {
-        $config                          = $this->getDefaultConfig();
-        $config['driver']['useSsl']      = true;
+        $config = $this->getDefaultConfig();
+        $config['driver']['useSsl'] = true;
         $config['driver']['useStartTls'] = false;
 
         $this->container = new ContainerBuilder();
@@ -93,8 +92,8 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testTlsConfiguration()
     {
-        $config                          = $this->getDefaultConfig();
-        $config['driver']['useSsl']      = false;
+        $config = $this->getDefaultConfig();
+        $config['driver']['useSsl'] = false;
         $config['driver']['useStartTls'] = true;
 
         $this->container = new ContainerBuilder();
@@ -105,57 +104,13 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
     }
 
-    public function testRoleMemberOfConfiguration()
-    {
-        $config = $this->getDefaultConfig();
-        $config['user']['role']['memberOf']['dnSuffixFilter'] = 'ou=Roles,dc=example,dc=com';
-
-        $this->container = new ContainerBuilder();
-        $extension = new FR3DLdapExtension();
-
-        $extension->load(array($config), $this->container);
-
-        $this->assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
-        $this->assertEquals($config['user'], $this->container->getParameter('fr3d_ldap.ldap_manager.parameters'));
-    }
-
-    public function testRoleSearchConfiguration()
-    {
-        $config = $this->getDefaultConfig();
-        $config['user']['role']['search']['baseDn'] = 'ou=Roles,dc=example,dc=com';
-        $config['user']['role']['search']['nameAttribute'] = 'cn';
-        $config['user']['role']['search']['userDnAttribute'] = 'member';
-        $config['user']['role']['search']['userId'] = 'dn';
-
-        $this->container = new ContainerBuilder();
-        $extension = new FR3DLdapExtension();
-
-        $extension->load(array($config), $this->container);
-
-        $this->assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
-        $this->assertEquals($config['user'], $this->container->getParameter('fr3d_ldap.ldap_manager.parameters'));
-    }
-
-    public function testRoleAllSetConfiguration()
-    {
-        $config = $this->getDefaultConfig();
-        $config['user']['role']['memberOf']['dnSuffixFilter'] = 'ou=Roles,dc=example,dc=com';
-        $config['user']['role']['search']['baseDn'] = 'ou=Roles,dc=example,dc=com';
-
-        $this->container = new ContainerBuilder();
-        $extension = new FR3DLdapExtension();
-
-        $this->setExpectedException('\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException');
-        $extension->load(array($config), $this->container);
-    }
-
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
     public function testSslTlsExclusiveConfiguration()
     {
-        $config                          = $this->getDefaultConfig();
-        $config['driver']['useSsl']      = true;
+        $config = $this->getDefaultConfig();
+        $config['driver']['useSsl'] = true;
         $config['driver']['useStartTls'] = true;
 
         $this->container = new ContainerBuilder();
@@ -168,31 +123,29 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'driver' => array(
-                'host'                => 'ldap.hostname.local',
-                'port'                => 389,
-                'useSsl'              => false,
-                'useStartTls'         => false,
-                'baseDn'              => 'ou=Persons,dc=example,dc=com',
+                'host' => 'ldap.hostname.local',
+                'port' => 389,
+                'useSsl' => false,
+                'useStartTls' => false,
+                'baseDn' => 'ou=Persons,dc=example,dc=com',
                 'accountFilterFormat' => '',
-                'bindRequiresDn'      => false,
+                'bindRequiresDn' => false,
             ),
-            'user'                => array(
-                'baseDn'     => 'ou=Persons,dc=example,dc=com',
-                'filter'     => '',
+            'user' => array(
+                'baseDn' => 'ou=Persons,dc=example,dc=com',
+                'filter' => '',
+                'usernameAttribute' => 'uid',
                 'attributes' => array(
                     array(
-                        'ldap_attr'   => 'uid',
+                        'ldap_attr' => 'uid',
                         'user_method' => 'setUsername',
                     ),
                 ),
             ),
-            'manager' => array(
-                'user_class'     => 'FR3D\LdapBundle\Model\LdapUser',
-            ),
-            'service'     => array(
-                'user_manager' => 'fos_user.user_manager',
+            'service' => array(
+                'user_hydrator' => 'fr3d_ldap.user_hydrator.default',
                 'ldap_manager' => 'fr3d_ldap.ldap_manager.default',
-                'ldap_driver'  => 'fr3d_ldap.ldap_driver.zend',
+                'ldap_driver' => 'fr3d_ldap.ldap_driver.zend',
             ),
         );
     }

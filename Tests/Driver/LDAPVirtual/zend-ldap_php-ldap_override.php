@@ -1,12 +1,12 @@
 <?php
 
-namespace Zend\Ldap;
-
-/**
+/*
  * This file override default PHP Ldap functions for the specified namespace.
  */
 
-/** @var \FR3D\LdapBundle\Tests\Driver\LDAPVirtual\LDAPVirtualInterface $ldapServer */
+namespace Zend\Ldap;
+
+/** @var \FR3D\LdapBundle\Tests\Driver\LDAPVirtual\LDAPVirtualInterface|\PHPUnit_Framework_MockObject_MockObject $ldapServer */
 $ldapServer = null;
 
 function ldap_bind($ress, $username = null, $password = null)

@@ -27,9 +27,9 @@ class Converter
         for ($i = 0; $i < strlen($string); $i++) {
             $char = substr($string, $i, 1);
             if (ord($char) < 32) {
-                $hex    = dechex(ord($char));
+                $hex = dechex(ord($char));
                 if (strlen($hex) == 1) {
-                    $hex    = '0' . $hex;
+                    $hex = '0' . $hex;
                 }
                 $string = str_replace($char, '\\' . $hex, $string);
             }

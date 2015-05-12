@@ -16,7 +16,7 @@ easy step in your bundle.
 If you prefer XML format put this code in validation.xml and set the class name
 to the correct one.
 
-```` xml
+```xml
 <!-- src/Acme/BlogBundle/Resources/config/validation.xml -->
 <?xml version="1.0" ?>
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"

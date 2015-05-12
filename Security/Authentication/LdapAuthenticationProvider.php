@@ -3,7 +3,6 @@
 namespace FR3D\LdapBundle\Security\Authentication;
 
 use FR3D\LdapBundle\Ldap\LdapManagerInterface;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Security\Core\Authentication\Provider\UserAuthenticationProvider;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
@@ -59,13 +58,10 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
         } catch (UsernameNotFoundException $notFound) {
             throw $notFound;
         } catch (\Exception $repositoryProblem) {
-            if (Kernel::MINOR_VERSION <= 1) {
-                throw new AuthenticationServiceException($repositoryProblem->getMessage(), $token, (int) $repositoryProblem->getCode(), $repositoryProblem);
-            } else {
-                $e = new AuthenticationServiceException($repositoryProblem->getMessage(), (int) $repositoryProblem->getCode(), $repositoryProblem);
-                $e->setToken($token);
-                throw $e;
-            }
+            $e = new AuthenticationServiceException($repositoryProblem->getMessage(), (int) $repositoryProblem->getCode(), $repositoryProblem);
+            $e->setToken($token);
+
+            throw $e;
         }
     }
 
@@ -75,12 +71,19 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
     protected function checkAuthentication(UserInterface $user, UsernamePasswordToken $token)
     {
         $currentUser = $token->getUser();
+        $presentedPassword = $token->getCredentials();
         if ($currentUser instanceof UserInterface) {
-            if (!$this->ldapManager->bind($currentUser, $currentUser->getPassword())) {
+            if ('' === $presentedPassword) {
+                throw new BadCredentialsException(
+                    'The password in the token is empty. You may forgive turn off `erase_credentials` in your `security.yml`'
+                );
+            }
+
+            if (!$this->ldapManager->bind($currentUser, $presentedPassword)) {
                 throw new BadCredentialsException('The credentials were changed from another session.');
             }
         } else {
-            if (!$presentedPassword = $token->getCredentials()) {
+            if ('' === $presentedPassword) {
                 throw new BadCredentialsException('The presented password cannot be empty.');
             }
 

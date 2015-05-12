@@ -55,7 +55,7 @@ class UniqueValidator extends ConstraintValidator
 
         if ($user) {
             $this->context->addViolation($constraint->message, array(
-                '%property%' => $constraint->property
+                '%property%' => $constraint->property,
             ));
         }
     }

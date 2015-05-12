@@ -13,13 +13,13 @@ class HttpBasicLdapFactory implements SecurityFactoryInterface
     public function create(ContainerBuilder $container, $id, $config, $userProviderId, $defaultEntryPointId)
     {
         // authentication provider
-        $authProviderId = $this->createAuthProvider($container, $id, $config, $userProviderId);
+        $authProviderId = $this->createAuthProvider($container, $id, $userProviderId);
 
         // entry point
         $entryPointId = $this->createEntryPoint($container, $id, $config, $defaultEntryPointId);
 
         // authentication listener
-        $listenerId = $this->createListener($container, $id, $config, $entryPointId);
+        $listenerId = $this->createListener($container, $id, $entryPointId);
 
         return array($authProviderId, $listenerId, $entryPointId);
     }
@@ -44,7 +44,7 @@ class HttpBasicLdapFactory implements SecurityFactoryInterface
         ;
     }
 
-    protected function createAuthProvider(ContainerBuilder $container, $id, $config, $userProviderId)
+    protected function createAuthProvider(ContainerBuilder $container, $id, $userProviderId)
     {
         $provider = 'fr3d_ldap.security.authentication.provider';
         $providerId = $provider . '.' . $id;
@@ -58,7 +58,7 @@ class HttpBasicLdapFactory implements SecurityFactoryInterface
         return $providerId;
     }
 
-    protected function createListener(ContainerBuilder $container, $id, $config, $entryPointId)
+    protected function createListener(ContainerBuilder $container, $id, $entryPointId)
     {
         // listener
         $listenerId = 'security.authentication.listener.basic.' . $id;
@@ -69,7 +69,7 @@ class HttpBasicLdapFactory implements SecurityFactoryInterface
         return $listenerId;
     }
 
-    protected function createEntryPoint($container, $id, $config, $defaultEntryPoint)
+    protected function createEntryPoint(ContainerBuilder $container, $id, $config, $defaultEntryPoint)
     {
         if (null !== $defaultEntryPoint) {
             return $defaultEntryPoint;

@@ -3,7 +3,9 @@
 namespace FR3D\LdapBundle\Tests\Driver;
 
 use FR3D\LdapBundle\Driver\ZendLdapDriver;
-use FR3D\LdapBundle\Model\LdapUser;
+use FR3D\LdapBundle\Tests\TestUser;
+use FR3D\Psr3MessagesAssertions\PhpUnit\TestLogger;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Zend\Ldap\Exception\LdapException as ZendLdapException;
 use Zend\Ldap\Ldap;
 
@@ -13,7 +15,7 @@ use Zend\Ldap\Ldap;
 class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Zend\Ldap\Ldap
+     * @var \Zend\Ldap\Ldap|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $zend;
 
@@ -34,17 +36,17 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
 
         $this->zend = $this->getMockBuilder('Zend\Ldap\Ldap')
                 ->getMock();
-        $this->zendLdapDriver = new ZendLdapDriver($this->zend);
+        $this->zendLdapDriver = new ZendLdapDriver($this->zend, new TestLogger());
     }
 
     public function testSearch()
     {
-        $baseDn     = 'ou=example,dc=org';
-        $filter     = '(&(uid=test_username))';
+        $baseDn = 'ou=example,dc=org';
+        $filter = '(&(uid=test_username))';
         $attributes = array('uid');
 
         $entry = array(
-            'dn'  => 'uid=test_username,ou=example,dc=org',
+            'dn' => 'uid=test_username,ou=example,dc=org',
             'uid' => array('test_username'),
         );
         $expect = array(
@@ -64,7 +66,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
     {
         $username = 'test_username';
         $password = 'password';
-        $user     = new LdapUser();
+        $user = new TestUser();
         $user->setUsername($username);
 
         $this->zend->expects($this->once())
@@ -79,7 +81,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
     {
         $username = 'test_username';
         $password = 'bad_password';
-        $user     = new LdapUser();
+        $user = new TestUser();
         $user->setUsername($username);
 
         $this->zend->expects($this->once())
@@ -94,7 +96,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
     {
         $username = 'bad_username';
         $password = 'bad_password';
-        $user     = new LdapUser();
+        $user = new TestUser();
         $user->setUsername($username);
 
         $this->zend->expects($this->once())
@@ -107,9 +109,9 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
 
     public function testBindByDnSuccessful()
     {
-        $dn       = 'uid=test_username,ou=example,dc=com';
+        $dn = 'uid=test_username,ou=example,dc=com';
         $password = 'password';
-        $user     = new LdapUser();
+        $user = new TestUser();
         $user->setDn($dn);
 
         $this->zend->expects($this->once())
@@ -122,9 +124,9 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
 
     public function testBindByDnBadPassword()
     {
-        $dn       = 'uid=test_username,ou=example,dc=com';
+        $dn = 'uid=test_username,ou=example,dc=com';
         $password = 'bad_password';
-        $user     = new LdapUser();
+        $user = new TestUser();
         $user->setDn($dn);
 
         $this->zend->expects($this->once())
@@ -139,7 +141,8 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
     {
         $username = 'username';
         $password = 'password';
-        $user     = $this->getMock('Symfony\Component\Security\Core\User\UserInterface');
+        /** @var UserInterface|\PHPUnit_Framework_MockObject_MockObject $user */
+        $user = $this->getMock('Symfony\Component\Security\Core\User\UserInterface');
 
         $user->expects($this->once())
                 ->method('getUsername')

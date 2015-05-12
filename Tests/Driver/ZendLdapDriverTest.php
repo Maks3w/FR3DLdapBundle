@@ -3,7 +3,9 @@
 namespace FR3D\LdapBundle\Tests\Driver;
 
 use FR3D\LdapBundle\Driver\ZendLdapDriver;
-use FR3D\LdapBundle\Model\LdapUser;
+use FR3D\LdapBundle\Tests\TestUser;
+use FR3D\Psr3MessagesAssertions\PhpUnit\TestLogger;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Zend\Ldap\Ldap;
 
 /**
@@ -30,17 +32,17 @@ class ZendLdapDriverTest extends AbstractLdapDriverTest
         parent::setUp();
 
         $this->zend = new Ldap($this->getOptions());
-        $this->zendLdapDriver = new ZendLdapDriver($this->zend);
+        $this->zendLdapDriver = new ZendLdapDriver($this->zend, new TestLogger());
     }
 
     public function testSearch()
     {
-        $baseDn     = 'ou=example,dc=org';
-        $filter     = '(&(uid=test_username))';
+        $baseDn = 'ou=example,dc=org';
+        $filter = '(&(uid=test_username))';
         $attributes = array('uid');
 
         $entry = array(
-            'dn'  => 'uid=test_username,ou=example,dc=org',
+            'dn' => 'uid=test_username,ou=example,dc=org',
             'uid' => array('test_username'),
         );
         $expect = array(
@@ -62,12 +64,16 @@ class ZendLdapDriverTest extends AbstractLdapDriverTest
     // Bind (bindRequireDn=false)
     /**
      * @dataProvider provideTestBind
+     *
+     * @param string $bind_rdn
+     * @param string $password
+     * @param bool $expect
      */
     public function testBind($bind_rdn, $password, $expect)
     {
         global $ldapServer;
 
-        $user = new LdapUser();
+        $user = new TestUser();
         $user->setUsername($bind_rdn);
 
         $ldapServer->expects($this->once())
@@ -98,7 +104,8 @@ class ZendLdapDriverTest extends AbstractLdapDriverTest
 
         $username = 'username';
         $password = 'password';
-        $user     = $this->getMock('Symfony\Component\Security\Core\User\UserInterface');
+        /** @var UserInterface|\PHPUnit_Framework_MockObject_MockObject $user */
+        $user = $this->getMock('Symfony\Component\Security\Core\User\UserInterface');
 
         $user->expects($this->once())
                 ->method('getUsername')
