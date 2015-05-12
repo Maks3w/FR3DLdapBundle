@@ -24,13 +24,6 @@ class LdapUser implements LdapUserInterface, UserInterface
     protected $username;
 
     /**
-     * Encrypted password. Must be persisted.
-     *
-     * @var string
-     */
-    protected $password;
-
-    /**
      * @var array
      */
     protected $roles;
@@ -82,21 +75,12 @@ class LdapUser implements LdapUserInterface, UserInterface
      */
     public function getPassword()
     {
-        return $this->password;
+        return '';
     }
 
     public function setUsername($username)
     {
         $this->username = $username;
-
-        return $this;
-    }
-
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
     }
 
     public function __toString()

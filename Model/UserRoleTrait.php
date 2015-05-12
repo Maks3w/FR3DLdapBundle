@@ -2,45 +2,11 @@
 
 namespace FR3D\LdapBundle\Model;
 
-use FR3D\LdapBundle\Ldap\Converter;
-
 /**
- * UserRoleTrait provides methodes for roles.
+ * UserRoleTrait provides methods for roles.
  */
 trait UserRoleTrait
 {
-    /**
-     * Add roles based on role configuration from user memberOf attribute.
-     *
-     * @param array $memberOf
-     * @param string $dnSuffixFilter
-     */
-    public function addRolesFromMemberof(array $memberOf, $dnSuffixFilter)
-    {
-        foreach ($memberOf as $role) {
-            if (preg_match("/^cn=(.*),$dnSuffixFilter/", $role, $roleName)) {
-                $this->addRole(sprintf('ROLE_%s',
-                    Converter::strToSymRoleSchema($roleName[1])
-                ));
-            }
-        }
-    }
-
-    /**
-     * Add roles based on role configuration from ldap search.
-     *
-     * @param UserInterface
-     */
-    public function addRolesFromLdapGroup(array $ldapGroups, $nameAttribute)
-    {
-        foreach ($ldapGroups as $role) {
-            if (isset($role[$nameAttribute])) {
-                $this->addRole(sprintf('ROLE_%s',
-                    Converter::strToSymRoleSchema($role[$nameAttribute])
-                ));
-            }
-        }
-    }
 
     /**
      * Adds a role to the user.
