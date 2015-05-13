@@ -58,7 +58,7 @@ class ZendLdapDriverTest extends AbstractLdapDriverTest
                 ->with($this->equalTo($filter), $this->equalTo($baseDn), $this->equalTo(Ldap::SEARCH_SCOPE_SUB), $this->equalTo($attributes))
                 ->will($this->returnValue(array($entry)));
 
-        $this->assertEquals($expect, $this->zendLdapDriver->search($baseDn, $filter, $attributes));
+        self::assertEquals($expect, $this->zendLdapDriver->search($baseDn, $filter, $attributes));
     }
 
     // Bind (bindRequireDn=false)
@@ -81,7 +81,7 @@ class ZendLdapDriverTest extends AbstractLdapDriverTest
                 ->with($this->equalTo($bind_rdn), $this->equalTo($password))
                 ->will($this->returnValue($expect));
 
-        $this->assertEquals($expect, $this->zendLdapDriver->bind($user, $password));
+        self::assertEquals($expect, $this->zendLdapDriver->bind($user, $password));
     }
 
     public function provideTestBind()
@@ -116,6 +116,6 @@ class ZendLdapDriverTest extends AbstractLdapDriverTest
                 ->with($this->equalTo($username), $this->equalTo($password))
                 ->will($this->returnValue(true));
 
-        $this->assertTrue($this->zendLdapDriver->bind($user, $password));
+        self::assertTrue($this->zendLdapDriver->bind($user, $password));
     }
 }

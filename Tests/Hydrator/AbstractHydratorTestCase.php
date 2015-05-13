@@ -26,7 +26,7 @@ abstract class AbstractHydratorTestCase extends \PHPUnit_Framework_TestCase
 
         $user = $this->hydrator->hydrate($entry);
 
-        $this->assertEquals($username, $user->getUsername());
+        self::assertEquals($username, $user->getUsername());
     }
 
     public function testDontTryToHydrateMissingAttributes()
@@ -37,7 +37,7 @@ abstract class AbstractHydratorTestCase extends \PHPUnit_Framework_TestCase
         ];
         $user = $this->hydrator->hydrate($entry);
 
-        $this->assertNull($user->getUsername());
+        self::assertNull($user->getUsername());
     }
 
     public function testHydrateArray()
@@ -56,6 +56,6 @@ abstract class AbstractHydratorTestCase extends \PHPUnit_Framework_TestCase
 
         $user = $this->hydrator->hydrate($entry);
 
-        $this->assertEquals(array_slice($roles, 1), $user->getRoles());
+        self::assertEquals(array_slice($roles, 1), $user->getRoles());
     }
 }

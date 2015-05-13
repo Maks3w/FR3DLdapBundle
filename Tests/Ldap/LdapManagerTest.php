@@ -67,7 +67,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
 
         $resultUser = $this->ldapManager->findUserByUsername($username);
 
-        $this->assertEquals($username, $resultUser->getUsername());
+        self::assertEquals($username, $resultUser->getUsername());
     }
 
     /**
@@ -91,7 +91,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $criteria = array('uid' => 'test_username');
         $resultUser = $this->ldapManager->findUserBy($criteria);
 
-        $this->assertEquals($username, $resultUser->getUsername());
+        self::assertEquals($username, $resultUser->getUsername());
     }
 
     /**
@@ -109,7 +109,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         );
         $expected = '(&(attr0=value0)(attr1=value1)(attr2=value2))';
 
-        $this->assertEquals($expected, $method->invoke($this->ldapManager, $criteria));
+        self::assertEquals($expected, $method->invoke($this->ldapManager, $criteria));
     }
 
     /**
@@ -127,32 +127,32 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
             ->with($user, $this->equalTo($password))
             ->will($this->returnValue(true));
 
-        $this->assertTrue($this->ldapManager->bind($user, $password));
+        self::assertTrue($this->ldapManager->bind($user, $password));
     }
 
     public function testFilterEscapeBasicOperation()
     {
         $input = 'a*b(b)d\e/f';
         $expected = 'a\2ab\28b\29d\5ce/f';
-        $this->assertEquals($expected, LdapManager::escapeValue($input));
+        self::assertEquals($expected, LdapManager::escapeValue($input));
     }
 
     public function testEscapeValues()
     {
         $expected = 't\28e,s\29t\2av\5cal\1eue';
         $filterval = 't(e,s)t*v\\al' . chr(30) . 'ue';
-        $this->assertEquals($expected, LdapManager::escapeValue($filterval));
-        $this->assertEquals($expected, LdapManager::escapeValue(array($filterval)));
-        $this->assertEquals(array($expected, $expected, $expected), LdapManager::escapeValue(array($filterval, $filterval, $filterval)));
+        self::assertEquals($expected, LdapManager::escapeValue($filterval));
+        self::assertEquals($expected, LdapManager::escapeValue(array($filterval)));
+        self::assertEquals(array($expected, $expected, $expected), LdapManager::escapeValue(array($filterval, $filterval, $filterval)));
     }
 
     public function testUnescapeValues()
     {
         $expected = 't(e,s)t*v\\al' . chr(30) . 'ue';
         $filterval = 't\28e,s\29t\2av\5cal\1eue';
-        $this->assertEquals($expected, LdapManager::unescapeValue($filterval));
-        $this->assertEquals($expected, LdapManager::unescapeValue(array($filterval)));
-        $this->assertEquals(array($expected, $expected, $expected), LdapManager::unescapeValue(array($filterval, $filterval, $filterval)));
+        self::assertEquals($expected, LdapManager::unescapeValue($filterval));
+        self::assertEquals($expected, LdapManager::unescapeValue(array($filterval)));
+        self::assertEquals(array($expected, $expected, $expected), LdapManager::unescapeValue(array($filterval, $filterval, $filterval)));
     }
 
     public function testFilterValueUtf8()
@@ -160,7 +160,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $filter = 'ÄÖÜäöüß€';
         $escaped = LdapManager::escapeValue($filter);
         $unescaped = LdapManager::unescapeValue($escaped);
-        $this->assertEquals($filter, $unescaped);
+        self::assertEquals($filter, $unescaped);
     }
 
     /**

@@ -54,7 +54,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
                 ->with($this->equalTo($username))
                 ->will($this->returnValue($user));
 
-        $this->assertEquals($user, $method->invoke($this->ldapAuthenticationProvider, $username, $token));
+        self::assertEquals($user, $method->invoke($this->ldapAuthenticationProvider, $username, $token));
     }
 
     /**
@@ -87,9 +87,9 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
 
         try {
             $method->invoke($this->ldapAuthenticationProvider, $username, $token);
-            $this->fail('Expected Symfony\Component\Security\Core\Exception\AuthenticationServiceException to be thrown');
+            self::fail('Expected Symfony\Component\Security\Core\Exception\AuthenticationServiceException to be thrown');
         } catch (AuthenticationServiceException $authenticationException) {
-            $this->assertEquals($token, $authenticationException->getToken());
+            self::assertEquals($token, $authenticationException->getToken());
         }
     }
 
@@ -109,7 +109,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
             $token
         );
 
-        $this->assertSame($user, $result);
+        self::assertSame($user, $result);
     }
 
     public function testCheckAuthenticationKnownUser()
@@ -130,7 +130,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
 
         $method->invoke($this->ldapAuthenticationProvider, $user, $token);
 
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 
     public function testCheckAuthenticationWhenTokenNeedsReauthenticationWorksWithoutOriginalCredentials()
@@ -194,7 +194,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
 
         $method->invoke($this->ldapAuthenticationProvider, $user, $token);
 
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 
     /**
@@ -252,7 +252,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
 
         $method->invoke($this->ldapAuthenticationProvider, $user, $token);
 
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 
     private function setMethodAccessible($name)
