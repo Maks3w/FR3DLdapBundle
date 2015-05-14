@@ -7,6 +7,10 @@ Ldap driver:
 - [BC Break] `hydrate()` method in LdapManager has been moved to `Model\LegacyHydrator.php`.
   See [Create a custom hydrator](Resources/doc/cookbook/custom_hydrator.md) for more details.
 - [BC Break] This bundle is now PSR-3 (Logger) compliant. Typehints has been updated in favor of `Psr\Log\LoggerInterface`.
+- [BC Break] Remove `FR3D\LdapBundle\Ldap\Converter`
+- [BC Break] Remove `escapeValue()` and `unescapeValue()` methods from `LdapManagerInterface` and `LdapManager`.
+- [Feature] `FR3D\LdapBundle\Ldap\Filter\FilterValue` has been added for to provide the same functionality as PHP 5.6
+             [ldap_escape()](http://php.net/manual/function.ldap-escape.php)
 
 Config:
 - [BC Break] Added `fr3d_ldap.user.usernameAttribute` for indicate the attribute which holds the username.
