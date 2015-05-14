@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class LdapManager implements LdapManagerInterface
 {
     protected $driver;
-    protected $params = array();
+    protected $params = [];
 
     /**
      * @var HydratorInterface
@@ -61,7 +61,7 @@ class LdapManager implements LdapManagerInterface
     protected function buildFilter(array $criteria, $condition = '&')
     {
         $criteria = self::escapeValue($criteria);
-        $filters = array();
+        $filters = [];
         $filters[] = $this->params['filter'];
         foreach ($criteria as $key => $value) {
             $filters[] = sprintf('(%s=%s)', $key, $value);
@@ -94,14 +94,14 @@ class LdapManager implements LdapManagerInterface
      *
      * @return array Array $values, but escaped
      */
-    public static function escapeValue($values = array())
+    public static function escapeValue($values = [])
     {
         if (!is_array($values)) {
-            $values = array($values);
+            $values = [$values];
         }
         foreach ($values as $key => $val) {
             // Escaping of filter meta characters
-            $val = str_replace(array('\\', '*', '(', ')'), array('\5c', '\2a', '\28', '\29'), $val);
+            $val = str_replace(['\\', '*', '(', ')'], ['\5c', '\2a', '\28', '\29'], $val);
             // ASCII < 32 escaping
             $val = Converter::ascToHex32($val);
             if (null === $val) {
@@ -127,10 +127,10 @@ class LdapManager implements LdapManagerInterface
      *
      * @return array Array $values, but unescaped
      */
-    public static function unescapeValue($values = array())
+    public static function unescapeValue($values = [])
     {
         if (!is_array($values)) {
-            $values = array($values);
+            $values = [$values];
         }
         foreach ($values as $key => $value) {
             // Translate hex code into ascii

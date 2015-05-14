@@ -13,7 +13,7 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     private $enabled;
     private $locked;
     private $dn;
-    private $roles = array();
+    private $roles = [];
 
     public function setUsername($username)
     {

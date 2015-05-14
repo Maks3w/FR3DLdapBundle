@@ -47,7 +47,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $method = $this->setMethodAccessible('retrieveUser');
         $username = 'test_username';
         $user = new TestUser();
-        $token = new UsernamePasswordToken($username, 'password', 'provider_key', array());
+        $token = new UsernamePasswordToken($username, 'password', 'provider_key', []);
 
         $this->userProvider->expects($this->once())
                 ->method('loadUserByUsername')
@@ -64,7 +64,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     {
         $method = $this->setMethodAccessible('retrieveUser');
         $username = 'notfound_username';
-        $token = new UsernamePasswordToken($username, 'password', 'provider_key', array());
+        $token = new UsernamePasswordToken($username, 'password', 'provider_key', []);
 
         $this->userProvider->expects($this->once())
                 ->method('loadUserByUsername')
@@ -78,7 +78,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     {
         $method = $this->setMethodAccessible('retrieveUser');
         $username = 'username';
-        $token = new UsernamePasswordToken($username, 'password', 'provider_key', array());
+        $token = new UsernamePasswordToken($username, 'password', 'provider_key', []);
 
         $this->userProvider->expects($this->once())
                 ->method('loadUserByUsername')
@@ -101,7 +101,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
             ->method('loadUserByUsername');
 
         $user = $this->getMock('Symfony\\Component\\Security\\Core\\User\\UserInterface');
-        $token = new UsernamePasswordToken($user, '', 'provider_key', array());
+        $token = new UsernamePasswordToken($user, '', 'provider_key', []);
 
         $result = $method->invoke(
             $this->ldapAuthenticationProvider,
@@ -120,7 +120,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $user = new TestUser();
         $user->setUsername($username);
 
-        $token = new UsernamePasswordToken($username, $password, 'provider_key', array());
+        $token = new UsernamePasswordToken($username, $password, 'provider_key', []);
         $token->setUser($user);
 
         $this->ldapManager->expects($this->once())
@@ -141,7 +141,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $user = new TestUser();
         $user->setUsername($username);
 
-        $token = new UsernamePasswordToken($user, $password, 'provider_key', array());
+        $token = new UsernamePasswordToken($user, $password, 'provider_key', []);
 
         $this->ldapManager->expects($this->once())
             ->method('bind')
@@ -167,7 +167,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $user = new TestUser();
         $user->setUsername($username);
 
-        $token = new UsernamePasswordToken($username, $password, 'provider_key', array());
+        $token = new UsernamePasswordToken($username, $password, 'provider_key', []);
         $token->setUser($user);
 
         $this->ldapManager->expects($this->once())
@@ -185,7 +185,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $password = 'password';
         $user = new TestUser();
         $user->setUsername($username);
-        $token = new UsernamePasswordToken($username, $password, 'provider_key', array());
+        $token = new UsernamePasswordToken($username, $password, 'provider_key', []);
 
         $this->ldapManager->expects($this->once())
                 ->method('bind')
@@ -208,7 +208,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $password = 'bad_password';
         $user = new TestUser();
         $user->setUsername($username);
-        $token = new UsernamePasswordToken($username, $password, 'provider_key', array());
+        $token = new UsernamePasswordToken($username, $password, 'provider_key', []);
 
         $this->ldapManager->expects($this->once())
                 ->method('bind')
@@ -230,7 +230,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $user = new TestUser();
         $user->setUsername($username);
 
-        $token = new UsernamePasswordToken($username, $password, 'provider_key', array());
+        $token = new UsernamePasswordToken($username, $password, 'provider_key', []);
 
         $method->invoke($this->ldapAuthenticationProvider, $user, $token);
     }
@@ -243,7 +243,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $user = new TestUser();
         $user->setUsername($username);
 
-        $token = new UsernamePasswordToken($username, $password, 'provider_key', array());
+        $token = new UsernamePasswordToken($username, $password, 'provider_key', []);
 
         $this->ldapManager->expects($this->once())
             ->method('bind')

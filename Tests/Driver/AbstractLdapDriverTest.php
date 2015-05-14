@@ -36,11 +36,11 @@ abstract class AbstractLdapDriverTest extends \PHPUnit_Framework_TestCase
 
     protected function getOptions()
     {
-        $options = array(
+        $options = [
             'host' => 'ldap.example.com',
             'port' => 389,
             'useStartTls' => true,
-        );
+        ];
 
         return $options;
     }

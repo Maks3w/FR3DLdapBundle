@@ -48,7 +48,7 @@ interface LdapManagerInterface
      *
      * @return array Array $values, but escaped
      */
-    public static function escapeValue($values = array());
+    public static function escapeValue($values = []);
 
     /**
      * Undoes the conversion done by {@link escapeValue()}.
@@ -62,5 +62,5 @@ interface LdapManagerInterface
      *
      * @return array Array $values, but unescaped
      */
-    public static function unescapeValue($values = array());
+    public static function unescapeValue($values = []);
 }

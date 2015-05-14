@@ -18,7 +18,7 @@ class FormLoginLdapFactory implements SecurityFactoryInterface
         // authentication listener
         $listenerId = $this->createListener($container, $id, $config);
 
-        return array($authProviderId, $listenerId, $defaultEntryPointId);
+        return [$authProviderId, $listenerId, $defaultEntryPointId];
     }
 
     public function getPosition()

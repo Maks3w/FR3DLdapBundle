@@ -28,7 +28,7 @@ class Unique extends Constraint
 
     public function getRequiredOptions()
     {
-        return array('property');
+        return ['property'];
     }
 
     public function validatedBy()

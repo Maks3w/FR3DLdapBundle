@@ -43,21 +43,21 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
     {
         $baseDn = 'ou=example,dc=org';
         $filter = '(&(uid=test_username))';
-        $attributes = array('uid');
+        $attributes = ['uid'];
 
-        $entry = array(
+        $entry = [
             'dn' => 'uid=test_username,ou=example,dc=org',
-            'uid' => array('test_username'),
-        );
-        $expect = array(
+            'uid' => ['test_username'],
+        ];
+        $expect = [
             'count' => 1,
             $entry,
-        );
+        ];
 
         $this->zend->expects($this->once())
                 ->method('searchEntries')
                 ->with($this->equalTo($filter), $this->equalTo($baseDn), $this->equalTo(Ldap::SEARCH_SCOPE_SUB), $this->equalTo($attributes))
-                ->will($this->returnValue(array($entry)));
+                ->will($this->returnValue([$entry]));
 
         self::assertEquals($expect, $this->zendLdapDriver->search($baseDn, $filter, $attributes));
     }

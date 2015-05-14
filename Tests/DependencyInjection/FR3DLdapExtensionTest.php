@@ -19,21 +19,21 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadMinimalConfiguration()
     {
-        $minRequiredConfig = array(
-            'driver' => array(
+        $minRequiredConfig = [
+            'driver' => [
                 'host' => 'ldap.hostname.local',
-            ),
-            'user' => array(
+            ],
+            'user' => [
                 'baseDn' => 'ou=Persons,dc=example,dc=com',
-            ),
-        );
+            ],
+        ];
 
         $defaultConfig = $this->getDefaultConfig();
 
         $this->container = new ContainerBuilder();
         $extension = new FR3DLdapExtension();
 
-        $extension->load(array($minRequiredConfig), $this->container);
+        $extension->load([$minRequiredConfig], $this->container);
 
         self::assertHasDefinition('fr3d_ldap.ldap_driver');
         self::assertHasDefinition('fr3d_ldap.ldap_manager.default');
@@ -56,7 +56,7 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
         $this->container = new ContainerBuilder();
         $extension = new FR3DLdapExtension();
 
-        $extension->load(array($config), $this->container);
+        $extension->load([$config], $this->container);
 
         self::assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
         self::assertEquals($config['user'], $this->container->getParameter('fr3d_ldap.ldap_manager.parameters'));
@@ -70,7 +70,7 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
         $this->container = new ContainerBuilder();
         $extension = new FR3DLdapExtension();
 
-        $extension->load(array($config), $this->container);
+        $extension->load([$config], $this->container);
 
         self::assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
         self::assertEquals($config['user'], $this->container->getParameter('fr3d_ldap.ldap_manager.parameters'));
@@ -85,7 +85,7 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
         $this->container = new ContainerBuilder();
         $extension = new FR3DLdapExtension();
 
-        $extension->load(array($config), $this->container);
+        $extension->load([$config], $this->container);
 
         self::assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
     }
@@ -99,7 +99,7 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
         $this->container = new ContainerBuilder();
         $extension = new FR3DLdapExtension();
 
-        $extension->load(array($config), $this->container);
+        $extension->load([$config], $this->container);
 
         self::assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
     }
@@ -116,13 +116,13 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
         $this->container = new ContainerBuilder();
         $extension = new FR3DLdapExtension();
 
-        $extension->load(array($config), $this->container);
+        $extension->load([$config], $this->container);
     }
 
     private function getDefaultConfig()
     {
-        return array(
-            'driver' => array(
+        return [
+            'driver' => [
                 'host' => 'ldap.hostname.local',
                 'port' => 389,
                 'useSsl' => false,
@@ -130,24 +130,24 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
                 'baseDn' => 'ou=Persons,dc=example,dc=com',
                 'accountFilterFormat' => '',
                 'bindRequiresDn' => false,
-            ),
-            'user' => array(
+            ],
+            'user' => [
                 'baseDn' => 'ou=Persons,dc=example,dc=com',
                 'filter' => '',
                 'usernameAttribute' => 'uid',
-                'attributes' => array(
-                    array(
+                'attributes' => [
+                    [
                         'ldap_attr' => 'uid',
                         'user_method' => 'setUsername',
-                    ),
-                ),
-            ),
-            'service' => array(
+                    ],
+                ],
+            ],
+            'service' => [
                 'user_hydrator' => 'fr3d_ldap.user_hydrator.default',
                 'ldap_manager' => 'fr3d_ldap.ldap_manager.default',
                 'ldap_driver' => 'fr3d_ldap.ldap_driver.zend',
-            ),
-        );
+            ],
+        ];
     }
 
     private function assertAlias($value, $key)

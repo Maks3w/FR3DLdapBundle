@@ -40,7 +40,7 @@ class ZendLdapDriver implements LdapDriverInterface
     /**
      * {@inheritDoc}
      */
-    public function search($baseDn, $filter, array $attributes = array())
+    public function search($baseDn, $filter, array $attributes = [])
     {
         $this->logDebug('{action}({base_dn}, {filter}, {attributes})', [
             'action' => 'ldap_search',
