@@ -14,22 +14,14 @@ namespace FR3D\LdapBundle\Validator;
 use Symfony\Component\Validator\Constraint;
 
 /**
+ * Constraint for the Unique validator.
+ *
  * @Annotation
+ * @Target({"CLASS", "ANNOTATION"})
  */
 class Unique extends Constraint
 {
     public $message = 'The value for "%property%" already exists.';
-    public $property;
-
-    public function getDefaultOption()
-    {
-        return 'property';
-    }
-
-    public function getRequiredOptions()
-    {
-        return ['property'];
-    }
 
     public function validatedBy()
     {

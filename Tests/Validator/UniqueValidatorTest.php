@@ -34,7 +34,7 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validatorContext = $this->getMock('Symfony\Component\Validator\ExecutionContextInterface');
 
         $this->ldapManagerMock = $this->getMock('FR3D\LdapBundle\Ldap\LdapManagerInterface');
-        $this->constraint = new Unique(['username']);
+        $this->constraint = new Unique();
         $this->validator = new UniqueValidator($this->ldapManagerMock);
         $this->validator->initialize($this->validatorContext);
 
@@ -50,7 +50,7 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
 
         $this->validatorContext->expects($this->once())
                 ->method('addViolation')
-                ->with($this->constraint->message, ['%property%' => $this->constraint->property]);
+                ->with($this->constraint->message);
 
         $this->validator->validate($this->user, $this->constraint);
     }
