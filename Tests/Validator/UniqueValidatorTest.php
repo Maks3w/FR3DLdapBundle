@@ -50,7 +50,7 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
 
         $this->validatorContext->expects($this->once())
                 ->method('addViolation')
-                ->with($this->constraint->message);
+                ->with('User already exists.');
 
         $this->validator->validate($this->user, $this->constraint);
     }
@@ -75,5 +75,14 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
     {
         /** @noinspection PhpParamsInspection */
         $this->validator->validate('bad_type', $this->constraint);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Validator\Exception\UnexpectedTypeException
+     */
+    public function testWrongConstraint()
+    {
+        /** @noinspection PhpParamsInspection */
+        $this->validator->validate($this->user, $this->getMock('Symfony\Component\Validator\Constraint'));
     }
 }
