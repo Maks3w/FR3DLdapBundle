@@ -2,6 +2,9 @@ sudo: false
 
 language: php
 
+cache:
+  directories:
+    - $HOME/.composer/cache
 
 env:
   - SYMFONY_VERSION=2.3.*
@@ -19,6 +22,7 @@ matrix:
     - php: hhvm
 
 before_install:
+  - composer self-update
   - composer require --dev --no-update symfony/symfony:${SYMFONY_VERSION}
 
 install:
