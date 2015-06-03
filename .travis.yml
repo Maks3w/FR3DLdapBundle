@@ -18,10 +18,11 @@ matrix:
     - php: 7
     - php: hhvm
 
-before_script:
-  # Travis doesn't have the ldap extension
-  - sed -i'.tmp' '/ext-ldap/d' composer.json
-  - composer require --dev symfony/symfony:${SYMFONY_VERSION}
+before_install:
+  - composer require --dev --no-update symfony/symfony:${SYMFONY_VERSION}
+
+install:
+  - travis_retry composer install --no-interaction --ignore-platform-reqs
 
 script:
   - vendor/bin/phpunit
