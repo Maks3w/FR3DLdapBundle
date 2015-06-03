@@ -14,7 +14,11 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class LdapUserProvider implements UserProviderInterface
 {
+    /** @var LdapManagerInterface */
     protected $ldapManager;
+
+    /** @var null|LoggerInterface */
+    protected $logger;
 
     public function __construct(LdapManagerInterface $ldapManager, LoggerInterface $logger = null)
     {
