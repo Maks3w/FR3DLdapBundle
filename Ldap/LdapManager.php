@@ -43,7 +43,7 @@ class LdapManager implements LdapManagerInterface
         }
 
         if ($entries['count'] == 0) {
-            return false;
+            return null;
         }
         $user = $this->hydrator->hydrate($entries[0]);
 

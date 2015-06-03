@@ -11,7 +11,7 @@ interface LdapManagerInterface
      *
      * @param  string $username
      *
-     * @return \Symfony\Component\Security\Core\User\UserInterface|null The user or null if the user does not exist
+     * @return UserInterface|null The user or null if the user does not exist
      */
     public function findUserByUsername($username);
 
@@ -20,7 +20,7 @@ interface LdapManagerInterface
      *
      * @param  array  $criteria
      *
-     * @return \Symfony\Component\Security\Core\User\UserInterface
+     * @return UserInterface|null The user or null if the user does not exist
      */
     public function findUserBy(array $criteria);
 
