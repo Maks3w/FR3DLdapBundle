@@ -10,13 +10,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class FR3DLdapBundle extends Bundle
 {
-    public function boot()
-    {
-        if (!function_exists('ldap_connect')) {
-            throw new \Exception("module php-ldap isn't install");
-        }
-    }
-
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
