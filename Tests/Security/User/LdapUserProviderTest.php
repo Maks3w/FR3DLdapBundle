@@ -7,6 +7,9 @@ use FR3D\LdapBundle\Tests\TestUser;
 use FR3D\Psr3MessagesAssertions\PhpUnit\TestLogger;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
+/**
+ * @covers FR3D\LdapBundle\Security\User\LdapUserProvider
+ */
 class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
 {
     /**

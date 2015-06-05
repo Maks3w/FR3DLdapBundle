@@ -16,6 +16,10 @@ use FR3D\LdapBundle\Validator\Unique;
 use FR3D\LdapBundle\Validator\UniqueValidator;
 use Symfony\Component\Validator\ExecutionContextInterface;
 
+/**
+ * @covers FR3D\LdapBundle\Validator\Unique
+ * @covers FR3D\LdapBundle\Validator\UniqueValidator
+ */
 class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /** @var UniqueValidator */

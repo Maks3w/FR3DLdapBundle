@@ -6,6 +6,9 @@ use FR3D\LdapBundle\Hydrator\HydratorInterface;
 use FR3D\LdapBundle\Ldap\LdapManager;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * @covers FR3D\LdapBundle\Ldap\LdapManager
+ */
 class LdapManagerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var array */
