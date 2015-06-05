@@ -211,6 +211,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @param TokenInterface $authenticatedToken
      * @param UserInterface $expectedUser
+     *
      * @return void
      */
     private function assertValidAuthenticatedToken($authenticatedToken, UserInterface $expectedUser)
@@ -227,6 +228,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @param UserInterface|string|object $user
      * @param string $credentials
+     *
      * @return UsernamePasswordToken
      */
     private function createToken($user, $credentials)
@@ -251,6 +253,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $username
      * @param UserInterface|Exception $userOrException
+     *
      * @return void
      */
     private function willRetrieveUser($username, $userOrException)
