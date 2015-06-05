@@ -134,6 +134,20 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
+     * @expectedExceptionMessage The password in the token is empty. You may forgive turn off `erase_credentials` in your `security.yml`
+     */
+    public function testCheckAuthenticationKnownUserCredentialsAreErased()
+    {
+        $password = '';
+        $user = $this->createUserMock();
+
+        $token = $this->createToken($user, $password);
+
+        $this->ldapAuthenticationProvider->authenticate($token);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
      * @expectedExceptionMessage The credentials were changed from another session.
      */
     public function testCheckAuthenticationKnownUserCredentialsChanged()
