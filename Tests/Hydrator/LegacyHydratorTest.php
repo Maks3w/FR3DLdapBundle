@@ -2,9 +2,9 @@
 
 namespace FR3D\LdapBundle\Tests\Hydrator;
 
-use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 use FR3D\LdapBundle\Hydrator\LegacyHydrator;
+use FR3D\LdapBundle\Tests\LegacyTestUser;
 
 class LegacyHydratorTest extends AbstractHydratorTestCase
 {
@@ -12,14 +12,11 @@ class LegacyHydratorTest extends AbstractHydratorTestCase
     {
         parent::setUp();
 
-        /** @var UserInterface|\PHPUnit_Framework_MockObject_MockObject $userManager */
-        $user = $this->getMock('FOS\UserBundle\Model\UserInterface');
-
         /** @var UserManagerInterface|\PHPUnit_Framework_MockObject_MockObject $userManager */
         $userManager = $this->getMock('FOS\UserBundle\Model\UserManagerInterface');
         $userManager->expects($this->any())
             ->method('createUser')
-            ->will($this->returnValue($user));
+            ->will($this->returnValue(new LegacyTestUser()));
 
         $this->hydrator = new LegacyHydrator($userManager, $this->attributeMap);
     }
