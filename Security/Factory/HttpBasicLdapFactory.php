@@ -21,7 +21,7 @@ class HttpBasicLdapFactory implements SecurityFactoryInterface
         // authentication listener
         $listenerId = $this->createListener($container, $id, $entryPointId);
 
-        return array($authProviderId, $listenerId, $entryPointId);
+        return [$authProviderId, $listenerId, $entryPointId];
     }
 
     public function getPosition()

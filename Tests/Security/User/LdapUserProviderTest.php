@@ -7,6 +7,9 @@ use FR3D\LdapBundle\Security\User\LdapUserProvider;
 use FR3D\Psr3MessagesAssertions\PhpUnit\TestLogger;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
+/**
+ * @covers FR3D\LdapBundle\Security\User\LdapUserProvider
+ */
 class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -39,7 +42,7 @@ class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
                 ->with($this->equalTo($username))
                 ->will($this->returnValue($user));
 
-        $this->assertEquals($username, $this->userProvider->loadUserByUsername($username)->getUsername());
+        self::assertEquals($username, $this->userProvider->loadUserByUsername($username)->getUsername());
     }
 
     public function testLoadUserByUsernameNotFound()
@@ -52,9 +55,9 @@ class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->userProvider->loadUserByUsername($username);
-            $this->fail('Expected Symfony\Component\Security\Core\Exception\UsernameNotFoundException to be thrown');
+            self::fail('Expected Symfony\Component\Security\Core\Exception\UsernameNotFoundException to be thrown');
         } catch (UsernameNotFoundException $notFoundException) {
-            $this->assertEquals($username, $notFoundException->getUsername());
+            self::assertEquals($username, $notFoundException->getUsername());
         }
     }
 
@@ -69,6 +72,6 @@ class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
                 ->with($this->equalTo($username))
                 ->will($this->returnValue($user));
 
-        $this->assertEquals($user, $this->userProvider->refreshUser($user));
+        self::assertEquals($user, $this->userProvider->refreshUser($user));
     }
 }

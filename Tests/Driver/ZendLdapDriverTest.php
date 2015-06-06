@@ -39,16 +39,16 @@ class ZendLdapDriverTest extends AbstractLdapDriverTest
     {
         $baseDn = 'ou=example,dc=org';
         $filter = '(&(uid=test_username))';
-        $attributes = array('uid');
+        $attributes = ['uid'];
 
-        $entry = array(
+        $entry = [
             'dn' => 'uid=test_username,ou=example,dc=org',
-            'uid' => array('test_username'),
-        );
-        $expect = array(
+            'uid' => ['test_username'],
+        ];
+        $expect = [
             'count' => 1,
             $entry,
-        );
+        ];
 
         $this->zend = $this->getMockBuilder('Zend\Ldap\Ldap')
                 ->getMock();
@@ -56,9 +56,9 @@ class ZendLdapDriverTest extends AbstractLdapDriverTest
         $this->zend->expects($this->once())
                 ->method('searchEntries')
                 ->with($this->equalTo($filter), $this->equalTo($baseDn), $this->equalTo(Ldap::SEARCH_SCOPE_SUB), $this->equalTo($attributes))
-                ->will($this->returnValue(array($entry)));
+                ->will($this->returnValue([$entry]));
 
-        $this->assertEquals($expect, $this->zendLdapDriver->search($baseDn, $filter, $attributes));
+        self::assertEquals($expect, $this->zendLdapDriver->search($baseDn, $filter, $attributes));
     }
 
     // Bind (bindRequireDn=false)
@@ -81,21 +81,21 @@ class ZendLdapDriverTest extends AbstractLdapDriverTest
                 ->with($this->equalTo($bind_rdn), $this->equalTo($password))
                 ->will($this->returnValue($expect));
 
-        $this->assertEquals($expect, $this->zendLdapDriver->bind($user, $password));
+        self::assertEquals($expect, $this->zendLdapDriver->bind($user, $password));
     }
 
     public function provideTestBind()
     {
-        return array(
+        return [
             // Username
-            array('test_username', 'password', true),
-            array('bad_username', 'password', false),
-            array('test_username', 'bad_password', false),
+            ['test_username', 'password', true],
+            ['bad_username', 'password', false],
+            ['test_username', 'bad_password', false],
             // DN
-            array('uid=test_username,ou=example,dc=com', 'password', true),
-            array('uid=bad_username,ou=example,dc=com', 'password', false),
-            array('uid=test_username,ou=example,dc=com', 'bad_password', false),
-        );
+            ['uid=test_username,ou=example,dc=com', 'password', true],
+            ['uid=bad_username,ou=example,dc=com', 'password', false],
+            ['uid=test_username,ou=example,dc=com', 'bad_password', false],
+        ];
     }
 
     public function testBindUserInterfaceByUsernameSuccessful()
@@ -116,6 +116,6 @@ class ZendLdapDriverTest extends AbstractLdapDriverTest
                 ->with($this->equalTo($username), $this->equalTo($password))
                 ->will($this->returnValue(true));
 
-        $this->assertTrue($this->zendLdapDriver->bind($user, $password));
+        self::assertTrue($this->zendLdapDriver->bind($user, $password));
     }
 }

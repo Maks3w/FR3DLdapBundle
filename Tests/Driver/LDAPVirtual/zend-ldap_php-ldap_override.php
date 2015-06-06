@@ -43,7 +43,7 @@ function ldap_connect($host, $port = 389)
     return false;
 }
 
-function ldap_search($ress, $baseDn, $filter, array $attributes = array())
+function ldap_search($ress, $baseDn, $filter, array $attributes = [])
 {
     global $ldapServer;
 

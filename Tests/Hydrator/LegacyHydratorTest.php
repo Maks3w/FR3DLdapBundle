@@ -12,17 +12,6 @@ class LegacyHydratorTest extends AbstractHydratorTestCase
     {
         parent::setUp();
 
-        $attributeMap = [
-            [
-                'ldap_attr' => 'uid',
-                'user_method' => 'setUsername',
-            ],
-            [
-                'ldap_attr' => 'roles',
-                'user_method' => 'setRoles',
-            ],
-        ];
-
         /** @var UserInterface|\PHPUnit_Framework_MockObject_MockObject $userManager */
         $user = $this->getMock('FOS\UserBundle\Model\UserInterface');
 
@@ -32,6 +21,6 @@ class LegacyHydratorTest extends AbstractHydratorTestCase
             ->method('createUser')
             ->will($this->returnValue($user));
 
-        $this->hydrator = new LegacyHydrator($userManager, $attributeMap);
+        $this->hydrator = new LegacyHydrator($userManager, $this->attributeMap);
     }
 }

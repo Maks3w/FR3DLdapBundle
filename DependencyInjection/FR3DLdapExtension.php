@@ -18,7 +18,7 @@ class FR3DLdapExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        foreach (array('services', 'security', 'validator', 'ldap_driver') as $basename) {
+        foreach (['services', 'security', 'validator', 'ldap_driver'] as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
         }
 

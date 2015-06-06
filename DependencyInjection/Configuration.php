@@ -50,12 +50,12 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('filter')->defaultValue('')->end()
                         ->scalarNode('usernameAttribute')->defaultValue('uid')->end()
                         ->arrayNode('attributes')
-                            ->defaultValue(array(
-                                array(
+                            ->defaultValue([
+                                [
                                     'ldap_attr' => 'uid',
                                     'user_method' => 'setUsername',
-                                ),
-                            ))
+                                ],
+                            ])
                             ->prototype('array')
                                 ->children()
                                     ->scalarNode('ldap_attr')->isRequired()->cannotBeEmpty()->end()

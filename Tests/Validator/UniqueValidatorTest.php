@@ -16,6 +16,10 @@ use FR3D\LdapBundle\Validator\Unique;
 use FR3D\LdapBundle\Validator\UniqueValidator;
 use Symfony\Component\Validator\ExecutionContextInterface;
 
+/**
+ * @covers FR3D\LdapBundle\Validator\Unique
+ * @covers FR3D\LdapBundle\Validator\UniqueValidator
+ */
 class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /** @var UniqueValidator */
@@ -34,7 +38,7 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validatorContext = $this->getMock('Symfony\Component\Validator\ExecutionContextInterface');
 
         $this->ldapManagerMock = $this->getMock('FR3D\LdapBundle\Ldap\LdapManagerInterface');
-        $this->constraint = new Unique(array('username'));
+        $this->constraint = new Unique();
         $this->validator = new UniqueValidator($this->ldapManagerMock);
         $this->validator->initialize($this->validatorContext);
 
@@ -50,7 +54,7 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
 
         $this->validatorContext->expects($this->once())
                 ->method('addViolation')
-                ->with($this->constraint->message, array('%property%' => $this->constraint->property));
+                ->with('User already exists.');
 
         $this->validator->validate($this->user, $this->constraint);
     }
@@ -75,5 +79,14 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
     {
         /** @noinspection PhpParamsInspection */
         $this->validator->validate('bad_type', $this->constraint);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Validator\Exception\UnexpectedTypeException
+     */
+    public function testWrongConstraint()
+    {
+        /** @noinspection PhpParamsInspection */
+        $this->validator->validate($this->user, $this->getMock('Symfony\Component\Validator\Constraint'));
     }
 }
