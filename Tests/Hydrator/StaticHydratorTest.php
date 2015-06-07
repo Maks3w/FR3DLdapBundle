@@ -10,21 +10,10 @@ class StaticHydratorTest extends AbstractHydratorTestCase
     {
         parent::setUp();
 
-        $attributeMap = [
-            [
-                'ldap_attr' => 'uid',
-                'user_method' => 'setUsername',
-            ],
-            [
-                'ldap_attr' => 'roles',
-                'user_method' => 'setRoles',
-            ],
-        ];
-
         $params = [
             'user_class' => 'FR3D\LdapBundle\Model\LdapUser',
         ];
 
-        $this->hydrator = new StaticHydrator($params, $attributeMap);
+        $this->hydrator = new StaticHydrator($params, $this->attributeMap);
     }
 }
