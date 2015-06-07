@@ -30,7 +30,7 @@ class LdapUser implements LdapUserInterface, UserInterface
 
     public function __construct()
     {
-        $this->roles = array();
+        $this->roles = [];
     }
 
     /**

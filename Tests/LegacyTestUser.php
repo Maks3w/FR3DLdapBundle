@@ -102,17 +102,17 @@ class LegacyTestUser implements UserInterface, AdvancedUserInterface, LdapUserIn
      */
     public function removeRole($role)
     {
-         if (false !== $key = array_search(strtoupper($role), $this->roles, true)) {
+        if (false !== $key = array_search(strtoupper($role), $this->roles, true)) {
             unset($this->roles[$key]);
             $this->roles = array_values($this->roles);
-         }
+        }
 
         return $this;
-    } 
+    }
 
-    /**
-     * {@inheritDoc}
-     */
+     /**
+      * {@inheritDoc}
+      */
      public function hasRole($role)
      {
          return in_array(strtoupper($role), $this->getRoles(), true);
@@ -174,4 +174,3 @@ class LegacyTestUser implements UserInterface, AdvancedUserInterface, LdapUserIn
         return (string) $this->getUsername();
     }
 }
-

@@ -3,8 +3,8 @@
 namespace FR3D\LdapBundle\Tests\Driver;
 
 use FR3D\LdapBundle\Driver\ZendLdapDriver;
-use FR3D\Psr3MessagesAssertions\PhpUnit\TestLogger;
 use FR3D\LdapBundle\Model\LdapUser;
+use FR3D\Psr3MessagesAssertions\PhpUnit\TestLogger;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Zend\Ldap\Exception\LdapException as ZendLdapException;
 use Zend\Ldap\Ldap;

@@ -143,10 +143,10 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
                     ],
                 ],
             ],
-            'manager' => array(
-                'user_class'     => 'FR3D\LdapBundle\Model\LdapUser',
-            ),
-            'service'     => [ 
+            'manager' => [
+                'user_class' => 'FR3D\LdapBundle\Model\LdapUser',
+            ],
+            'service' => [
                 'user_hydrator' => 'fr3d_ldap.user_hydrator.default',
                 'ldap_manager' => 'fr3d_ldap.ldap_manager.default',
                 'ldap_driver' => 'fr3d_ldap.ldap_driver.zend',

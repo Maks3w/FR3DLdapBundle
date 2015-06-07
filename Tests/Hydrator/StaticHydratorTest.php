@@ -12,7 +12,7 @@ class StaticHydratorTest extends AbstractHydratorTestCase
 
         $attributeMap = [
             [
-                'ldap_attr'   => 'uid',
+                'ldap_attr' => 'uid',
                 'user_method' => 'setUsername',
             ],
             [
