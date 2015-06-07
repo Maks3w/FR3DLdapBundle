@@ -4,14 +4,11 @@ namespace FR3D\LdapBundle\Model;
 
 /**
  * UserRoleTrait provides methods for roles.
+ *
+ * @property array $roles
  */
 trait UserRoleTrait
 {
-    /**
-     * @var array
-     */
-    protected $roles;
-
     /**
      * Adds a role to the user.
      *
