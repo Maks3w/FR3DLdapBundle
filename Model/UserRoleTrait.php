@@ -8,6 +8,11 @@ namespace FR3D\LdapBundle\Model;
 trait UserRoleTrait
 {
     /**
+     * @var array
+     */
+    protected $roles;
+
+    /**
      * Adds a role to the user.
      *
      * @param string $role
