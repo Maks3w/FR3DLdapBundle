@@ -88,7 +88,7 @@ class Configuration implements ConfigurationInterface
                     ->arrayNode('hydrator')
                         ->addDefaultsIfNotSet()
                         ->children()
-                            ->scalarNode('user_class')->defaultValue('FR3D\LdapBundle\Model\LdapUser')->end()                        
+                            ->scalarNode('user_class')->defaultValue('FR3D\LdapBundle\Model\LdapUser')->end()
                         ->end()
                     ->end()
                 ->end()
