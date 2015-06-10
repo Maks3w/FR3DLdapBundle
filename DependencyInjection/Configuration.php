@@ -49,6 +49,19 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('baseDn')->isRequired()->cannotBeEmpty()->end()
                         ->scalarNode('filter')->defaultValue('')->end()
                         ->scalarNode('usernameAttribute')->defaultValue('uid')->end()
+                        ->arrayNode('group')
+                            ->children()
+                                ->scalarNode('baseDn')->isRequired()->cannotBeEmpty()->end()
+                                ->scalarNode('filter')->defaultValue('')->end()
+                                ->scalarNode('groupUserAttribute')->defaultValue('member')->end()
+                                ->scalarNode('userValueAttribute')->defaultValue('dn')
+                                    ->validate()
+                                        ->ifNotInArray(array('dn', 'uid'))
+                                        ->thenInvalid('Only dn or uid')
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
                         ->arrayNode('attributes')
                             ->defaultValue([
                                 [
@@ -73,9 +86,43 @@ class Configuration implements ConfigurationInterface
                 ->thenInvalid('The useSsl and useStartTls options are mutually exclusive.')
             ->end();
 
+        $this->addHydratorSection($rootNode);
+
         $this->addServiceSection($rootNode);
 
         return $treeBuilder;
+    }
+
+    private function addHydratorSection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->addDefaultsIfNotSet()
+                ->children()
+                    ->arrayNode('hydrator')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->arrayNode('role')
+                                ->validate()
+                                    ->ifTrue(function ($v) { return !empty($v['memberOf']) && !empty($v['search']); })
+                                    ->thenInvalid('Only either memberOf or search mode can be set')
+                                ->end()
+                                ->children()
+                                    ->arrayNode('memberOf')
+                                        ->children()
+                                            ->scalarNode('dnSuffixFilter')->isRequired()->cannotBeEmpty()->end()
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('search')
+                                        ->children()
+                                            ->scalarNode('groupNameAttribute')->defaultValue('cn')->end()
+                                        ->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
     }
 
     private function addServiceSection(ArrayNodeDefinition $node)
