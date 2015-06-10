@@ -7,6 +7,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
 {
+    use ConfigurationTrait;
+
     /** @var ContainerBuilder */
     public $container;
 
@@ -117,37 +119,6 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
         $extension = new FR3DLdapExtension();
 
         $extension->load([$config], $this->container);
-    }
-
-    private function getDefaultConfig()
-    {
-        return [
-            'driver' => [
-                'host' => 'ldap.hostname.local',
-                'port' => 389,
-                'useSsl' => false,
-                'useStartTls' => false,
-                'baseDn' => 'ou=Persons,dc=example,dc=com',
-                'accountFilterFormat' => '',
-                'bindRequiresDn' => false,
-            ],
-            'user' => [
-                'baseDn' => 'ou=Persons,dc=example,dc=com',
-                'filter' => '',
-                'usernameAttribute' => 'uid',
-                'attributes' => [
-                    [
-                        'ldap_attr' => 'uid',
-                        'user_method' => 'setUsername',
-                    ],
-                ],
-            ],
-            'service' => [
-                'user_hydrator' => 'fr3d_ldap.user_hydrator.default',
-                'ldap_manager' => 'fr3d_ldap.ldap_manager.default',
-                'ldap_driver' => 'fr3d_ldap.ldap_driver.zend',
-            ],
-        ];
     }
 
     private function assertAlias($value, $key)
