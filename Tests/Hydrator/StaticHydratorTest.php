@@ -14,6 +14,6 @@ class StaticHydratorTest extends AbstractHydratorTestCase
             'user_class' => 'FR3D\LdapBundle\Model\LdapUser',
         ];
 
-        $this->hydrator = new StaticHydrator($params, $this->attributeMap);
+        $this->hydrator = new StaticHydrator($params, $this->getDefaultUserConfig());
     }
 }
