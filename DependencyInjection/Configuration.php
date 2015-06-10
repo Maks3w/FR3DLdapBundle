@@ -56,7 +56,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('groupUserAttribute')->defaultValue('member')->end()
                                 ->scalarNode('userValueAttribute')->defaultValue('dn')
                                     ->validate()
-                                        ->ifNotInArray(array('dn', 'uid'))
+                                        ->ifNotInArray(['dn', 'uid'])
                                         ->thenInvalid('Only dn or uid')
                                     ->end()
                                 ->end()

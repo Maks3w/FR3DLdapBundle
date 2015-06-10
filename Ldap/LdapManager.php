@@ -45,11 +45,11 @@ class LdapManager implements LdapManagerInterface
         if ($entries['count'] == 0) {
             return null;
         }
-        
+
         if (isset($this->params['group']['baseDn'])) {
             $entries[0]['groups'] = $this->getLdapGroupsForUser($entries[0]);
         }
-        
+
         $user = $this->hydrator->hydrate($entries[0]);
 
         return $user;
@@ -83,7 +83,7 @@ class LdapManager implements LdapManagerInterface
     {
         return $this->driver->bind($user, $password);
     }
-    
+
     /**
      * Get a list of LdapGroups for the user.
      *
@@ -94,8 +94,8 @@ class LdapManager implements LdapManagerInterface
     public function getLdapGroupsForUser(array $userEntries)
     {
         $userValueAttribute = $this->params['group']['userValueAttribute'];
-        
-        if(!array_key_exists($userValueAttribute, $userEntries)) {
+
+        if (!array_key_exists($userValueAttribute, $userEntries)) {
             throw new \Exception('UserAttribute unknown.');
         }
 
@@ -104,7 +104,7 @@ class LdapManager implements LdapManagerInterface
             $this->params['group']['baseDn'],
             sprintf('(&%s(%s=%s))', $filter, $this->params['group']['groupUserAttribute'], $userEntries[$userValueAttribute])
         );
-        
+
         return $entries;
     }
 }
