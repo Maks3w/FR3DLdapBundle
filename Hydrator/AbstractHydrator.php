@@ -19,7 +19,7 @@ abstract class AbstractHydrator implements HydratorInterface
 
     public function __construct(array $attributeMap)
     {
-        $this->attributeMap = $attributeMap;
+        $this->attributeMap = $attributeMap['attributes'];
     }
 
     /**
