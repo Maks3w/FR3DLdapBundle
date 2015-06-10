@@ -7,7 +7,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Simple hydrator implementation.
  */
-class StaticHydrator extends AbstractHydrator
+final class StaticHydrator extends AbstractHydrator
 {
     protected $params;
 
