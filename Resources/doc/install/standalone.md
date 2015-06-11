@@ -7,18 +7,13 @@ Install
 2. Enable the Bundle
 3. Configure security.yml
 4. Configure config.yml
-5. Enable FOSUserBundle as User Provider
 
 ### 1. Add FR3DLdapBundle in your composer.json
 
 Add this bundle to your `vendor/` dir:
 
-```json
-{
-    "require": {
-        "fr3d/ldap-bundle": "2.0.*@dev"
-    }
-}
+```bash
+composer require 'fr3d/ldap-bundle:dev-master'
 ```
 
 ### 2. Enable the Bundle

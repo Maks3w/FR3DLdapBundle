@@ -13,12 +13,8 @@ Install
 
 Add this bundle to your `vendor/` dir:
 
-```json
-{
-    "require": {
-        "fr3d/ldap-bundle": "2.0.*@dev"
-    }
-}
+```bash
+composer require 'fr3d/ldap-bundle:dev-master'
 ```
 
 ### 2. Enable the Bundle
