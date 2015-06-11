@@ -17,6 +17,7 @@ trait ConfigurationTrait
         return [
             'driver' => $this->getDefaultDriverConfig(),
             'user' => $this->getDefaultUserConfig(),
+            'hydrator' => $this->getDefaultHydrator(),
             'service' => $this->getDefaultServiceConfig(),
         ];
     }
@@ -74,6 +75,18 @@ trait ConfigurationTrait
             'user_hydrator' => 'fr3d_ldap.user_hydrator.default',
             'ldap_manager' => 'fr3d_ldap.ldap_manager.default',
             'ldap_driver' => 'fr3d_ldap.ldap_driver.zend',
+        ];
+    }
+
+    /**
+     * Returns default configuration for Hydrator subtree.
+     *
+     * @return array
+     */
+    protected function getDefaultHydrator()
+    {
+        return [
+            'user_class' => 'FR3D\LdapBundle\Model\LdapUser',
         ];
     }
 }
