@@ -25,9 +25,9 @@ class UserWithRolesHydrator extends AbstractHydrator
     {
         $user = parent::hydrate($ldapUserAttributes);
 
-        if (isset($this->params['role']['search'])) {
+        if (isset($this->params['role'] )&& isset($this->params['role']['search'])) {
             $this->addRolesFromLdapGroup($user, $ldapUserAttributes, $this->params['role']['search']['groupNameAttribute']);
-        } elseif ($this->params['role']['memberOf']) {
+        } elseif (isset($this->params['role']) && $this->params['role']['memberOf']) {
             $this->addRolesFromMemberOf($user, $ldapUserAttributes, $this->params['role']['memberOf']['dnSuffixFilter']);
         }            
 
@@ -56,7 +56,7 @@ class UserWithRolesHydrator extends AbstractHydrator
      */
     private function addRolesFromMemberOf(UserInterface $user, array $ldapUserAttributes, $dnSuffixFilter)
     {
-        foreach ($ldapUserAttributes['memberof'] as $group) {
+        foreach ($ldapUserAttributes['memberof'] as $group) {         
             if (preg_match("/^cn=(.*),$dnSuffixFilter/", $group, $roleName)) {
                 $user->addRole(sprintf('ROLE_%s', self::strToSymRoleSchema($roleName[1])));
             }
