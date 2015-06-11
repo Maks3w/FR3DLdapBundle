@@ -3,6 +3,7 @@
 namespace FR3D\LdapBundle\Tests;
 
 use FR3D\LdapBundle\Model\LdapUserInterface;
+use FR3D\LdapBundle\Model\UserRoleTrait;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -14,6 +15,10 @@ class LegacyTestUser implements UserInterface, AdvancedUserInterface, LdapUserIn
     private $locked;
     private $dn;
     private $roles = [];
+
+    use UserRoleTrait;
+
+    const ROLE_DEFAULT = 'ROLE_USER';
 
     public function setUsername($username)
     {
@@ -57,14 +62,6 @@ class LegacyTestUser implements UserInterface, AdvancedUserInterface, LdapUserIn
     /**
      * {@inheritDoc}
      */
-    public function getRoles()
-    {
-        return $this->roles;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
@@ -84,46 +81,6 @@ class LegacyTestUser implements UserInterface, AdvancedUserInterface, LdapUserIn
     public function setLocked($locked)
     {
         $this->locked = $locked;
-    }
-
-    public function addRole($role)
-    {
-        $role = strtoupper($role);
-
-        if (!in_array($role, $this->roles, true)) {
-            $this->roles[] = $role;
-        }
-
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeRole($role)
-    {
-        if (false !== $key = array_search(strtoupper($role), $this->roles, true)) {
-            unset($this->roles[$key]);
-            $this->roles = array_values($this->roles);
-        }
-
-        return $this;
-    }
-
-     /**
-      * {@inheritDoc}
-      */
-     public function hasRole($role)
-     {
-         return in_array(strtoupper($role), $this->getRoles(), true);
-     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setRoles(array $roles)
-    {
-        $this->roles = $roles;
     }
 
     /**
