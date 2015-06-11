@@ -14,20 +14,20 @@ trait UserRoleTrait
      *
      * @param string $role
      *
-     * @return self
+     * @return
      */
     public function addRole($role)
     {
         $role = strtoupper($role);
         if ($role === static::ROLE_DEFAULT) {
-            return $this;
+            return;
         }
 
         if (!in_array($role, $this->roles, true)) {
             $this->roles[] = $role;
         }
 
-        return $this;
+        return;
     }
 
     /**
@@ -53,7 +53,7 @@ trait UserRoleTrait
      *
      * @param array $roles
      *
-     * @return self
+     * @return
      */
     public function setRoles(array $roles)
     {
@@ -63,7 +63,7 @@ trait UserRoleTrait
             $this->addRole($role);
         }
 
-        return $this;
+        return;
     }
 
     /**
@@ -88,7 +88,7 @@ trait UserRoleTrait
      *
      * @param string $role
      *
-     * @return self
+     * @return
      */
     public function removeRole($role)
     {
@@ -97,6 +97,6 @@ trait UserRoleTrait
             $this->roles = array_values($this->roles);
         }
 
-        return $this;
+        return;
     }
 }

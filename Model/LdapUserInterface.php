@@ -38,7 +38,7 @@ interface LdapUserInterface
      *
      * @param array $roles
      *
-     * @return self
+     * @return
      */
     public function setRoles(array $roles);
 
@@ -47,7 +47,7 @@ interface LdapUserInterface
      *
      * @param string $role
      *
-     * @return self
+     * @return
      */
     public function addRole($role);
 
@@ -56,7 +56,7 @@ interface LdapUserInterface
      *
      * @param string $role
      *
-     * @return self
+     * @return
      */
     public function removeRole($role);
 }
