@@ -12,7 +12,7 @@ Features include:
 
 **Features included:**
 
-- Works with with [FOSUserBundle](https://github.com/FriendsOfSymfony/FOSUserBundle/)
+- Works with [FOSUserBundle](https://github.com/FriendsOfSymfony/FOSUserBundle/)
 - Customizable and extensible
 - Unit tested
 
