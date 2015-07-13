@@ -28,7 +28,7 @@
         "fr3d/psr3-message-assertions": "0.1.*",
         "friendsofsymfony/user-bundle": "~1.3",
         "maks3w/phpunit-methods-trait": "^4.6",
-        "phpunit/phpunit": "~4",
+        "phpunit/phpunit": "^4.6",
         "symfony/validator": "~2.1"
     },
     "suggest": {
