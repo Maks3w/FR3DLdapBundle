@@ -27,17 +27,17 @@ if (!function_exists('ldap_escape')) {
         // Pre-process the char maps on first call
         if (!isset($charMaps[0])) {
             $charMaps[0] = [];
-            for ($i = 0; $i < 256; $i++) {
+            for ($i = 0; $i < 256; ++$i) {
                 $charMaps[0][chr($i)] = sprintf('\\%02x', $i);
             }
 
-            for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_FILTER]); $i < $l; $i++) {
+            for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_FILTER]); $i < $l; ++$i) {
                 $chr = $charMaps[LDAP_ESCAPE_FILTER][$i];
                 unset($charMaps[LDAP_ESCAPE_FILTER][$i]);
                 $charMaps[LDAP_ESCAPE_FILTER][$chr] = $charMaps[0][$chr];
             }
 
-            for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_DN]); $i < $l; $i++) {
+            for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_DN]); $i < $l; ++$i) {
                 $chr = $charMaps[LDAP_ESCAPE_DN][$i];
                 unset($charMaps[LDAP_ESCAPE_DN][$i]);
                 $charMaps[LDAP_ESCAPE_DN][$chr] = $charMaps[0][$chr];
@@ -59,7 +59,7 @@ if (!function_exists('ldap_escape')) {
 
         // Remove any chars to ignore from the list
         $ignore = (string) $ignore;
-        for ($i = 0, $l = strlen($ignore); $i < $l; $i++) {
+        for ($i = 0, $l = strlen($ignore); $i < $l; ++$i) {
             unset($charMap[$ignore[$i]]);
         }
 
