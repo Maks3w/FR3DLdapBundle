@@ -34,8 +34,7 @@ class ZendLdapDriverMockedTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('PHP LDAP extension not loaded');
         }
 
-        $this->zend = $this->getMockBuilder('Zend\Ldap\Ldap')
-                ->getMock();
+        $this->zend = $this->getMock('Zend\Ldap\Ldap');
         $this->zendLdapDriver = new ZendLdapDriver($this->zend, new TestLogger());
     }
 

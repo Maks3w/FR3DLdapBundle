@@ -50,8 +50,7 @@ class ZendLdapDriverTest extends AbstractLdapDriverTest
             $entry,
         ];
 
-        $this->zend = $this->getMockBuilder('Zend\Ldap\Ldap')
-                ->getMock();
+        $this->zend = $this->getMock('Zend\Ldap\Ldap');
         $this->zendLdapDriver = new ZendLdapDriver($this->zend);
         $this->zend->expects($this->once())
                 ->method('searchEntries')
