@@ -9,7 +9,7 @@ abstract class AbstractHydratorTestCase extends \PHPUnit_Framework_TestCase
     use ConfigurationTrait {
         getDefaultUserConfig as parentGetDefaultUserConfig;
     }
-    use HydratorTestTrait;
+    use HydratorInterfaceTestTrait;
 
     /**
      * Returns default configuration for User subtree.

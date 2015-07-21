@@ -5,7 +5,10 @@ namespace FR3D\LdapBundle\Tests\Hydrator;
 use FR3D\LdapBundle\Hydrator\HydratorInterface;
 use PHPUnit_Framework_Assert as Assert;
 
-trait HydratorTestTrait
+/**
+ * Common test methods for any FR3D\LdapBundle\Hydrator\HydratorInterface implementation.
+ */
+trait HydratorInterfaceTestTrait
 {
     /**
      * @var HydratorInterface

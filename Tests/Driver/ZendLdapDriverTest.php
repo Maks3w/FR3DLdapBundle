@@ -13,7 +13,7 @@ use Zend\Ldap\Ldap;
  */
 class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
 {
-    use LdapDriverTestTrait;
+    use LdapDriverInterfaceTestTrait;
 
     /**
      * @var \Zend\Ldap\Ldap|\PHPUnit_Framework_MockObject_MockObject

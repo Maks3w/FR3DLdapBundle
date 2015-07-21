@@ -6,9 +6,9 @@ use FR3D\LdapBundle\Ldap\Filter\FilterInterface;
 use PHPUnit_Framework_Assert as Assert;
 
 /**
- * Test cases for FilterInterface.
+ * Common test methods for any FR3D\LdapBundle\Ldap\Filter\FilterInterface implementation.
  */
-trait FilterTestTrait
+trait FilterInterfaceTestTrait
 {
     /**
      * @var FilterInterface

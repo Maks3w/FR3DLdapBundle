@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Common test methods for any FR3D\LdapBundle\Driver\LdapDriverInterface implementation.
  */
-trait LdapDriverTestTrait
+trait LdapDriverInterfaceTestTrait
 {
     use TestCaseTrait;
 

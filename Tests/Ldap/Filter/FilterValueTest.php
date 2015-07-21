@@ -6,7 +6,7 @@ use FR3D\LdapBundle\Ldap\Filter\FilterValue;
 
 class FilterValueTest extends \PHPUnit_Framework_TestCase
 {
-    use FilterTestTrait;
+    use FilterInterfaceTestTrait;
 
     protected function setUp()
     {
