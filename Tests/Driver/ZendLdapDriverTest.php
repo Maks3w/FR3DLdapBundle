@@ -21,11 +21,6 @@ class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
     protected $zend;
 
     /**
-     * @var ZendLdapDriver
-     */
-    protected $zendLdapDriver;
-
-    /**
      * Sets up the fixture, for example, opens a network Driver.
      * This method is called before a test is executed.
      */
@@ -36,7 +31,7 @@ class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->zend = $this->getMock('Zend\Ldap\Ldap');
-        $this->zendLdapDriver = new ZendLdapDriver($this->zend, new TestLogger());
+        $this->driver = new ZendLdapDriver($this->zend, new TestLogger());
     }
 
     public function testSearch()
@@ -59,7 +54,7 @@ class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
                 ->with($this->equalTo($filter), $this->equalTo($baseDn), $this->equalTo(Ldap::SEARCH_SCOPE_SUB), $this->equalTo($attributes))
                 ->will($this->returnValue([$entry]));
 
-        self::assertEquals($expect, $this->zendLdapDriver->search($baseDn, $filter, $attributes));
+        self::assertEquals($expect, $this->driver->search($baseDn, $filter, $attributes));
     }
 
     /**
@@ -76,7 +71,7 @@ class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
                 ->with($this->equalTo($expectedBindRdn), $this->equalTo($password))
                 ->will($this->returnValue($this->zend));
 
-        self::assertTrue($this->zendLdapDriver->bind($user, $password));
+        self::assertTrue($this->driver->bind($user, $password));
     }
 
     /**
@@ -91,6 +86,6 @@ class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
                 ->method('bind')
                 ->will($this->throwException(new ZendLdapException($this->zend)));
 
-        self::assertFalse($this->zendLdapDriver->bind($user, $password));
+        self::assertFalse($this->driver->bind($user, $password));
     }
 }

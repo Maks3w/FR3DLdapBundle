@@ -27,6 +27,11 @@ trait FilterInterfaceTestTrait
      */
     abstract public function validValuesDataProvider();
 
+    public function testImplementsFilterInterface()
+    {
+        Assert::assertInstanceOf(FilterInterface::class, $this->filter);
+    }
+
     /**
      * Test filter() method filter valid values as expected.
      *

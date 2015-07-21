@@ -2,8 +2,10 @@
 
 namespace FR3D\LdapBundle\Tests\Driver;
 
+use FR3D\LdapBundle\Driver\LdapDriverInterface;
 use FR3D\LdapBundle\Model\LdapUserInterface;
 use Maks3w\PhpUnitMethodsTrait\Framework\TestCaseTrait;
+use PHPUnit_Framework_Assert as Assert;
 use PHPUnit_Framework_TestCase as TestCase;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -13,6 +15,16 @@ use Symfony\Component\Security\Core\User\UserInterface;
 trait LdapDriverInterfaceTestTrait
 {
     use TestCaseTrait;
+
+    /**
+     * @var LdapDriverInterface
+     */
+    protected $driver;
+
+    public function testImplementsHydratorInterface()
+    {
+        Assert::assertInstanceOf(LdapDriverInterface::class, $this->driver);
+    }
 
     public function validUserPasswordProvider()
     {

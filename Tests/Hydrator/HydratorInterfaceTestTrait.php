@@ -15,6 +15,11 @@ trait HydratorInterfaceTestTrait
      */
     protected $hydrator;
 
+    public function testImplementsHydratorInterface()
+    {
+        Assert::assertInstanceOf(HydratorInterface::class, $this->hydrator);
+    }
+
     public function testHydrate()
     {
         $username = 'test_username';
