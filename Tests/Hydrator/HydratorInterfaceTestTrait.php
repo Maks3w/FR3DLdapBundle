@@ -99,6 +99,19 @@ trait HydratorInterfaceTestTrait
                     ],
                 ],
             ],
+            'hydrate attributes collections with only 1 element' => [
+                'ldap entry' => [
+                    'dn' => 'ou=group, dc=host, dc=foo',
+                    'roles' => [
+                        0 => 'ROLE1',
+                    ],
+                ],
+                'expected methods return' => [
+                    'getRoles' => [
+                        0 => 'ROLE1',
+                    ],
+                ],
+            ],
             'empty ldap entry return an empty user' => [
                 'ldap entry' => [
                     'dn' => 'ou=group, dc=host, dc=foo',
