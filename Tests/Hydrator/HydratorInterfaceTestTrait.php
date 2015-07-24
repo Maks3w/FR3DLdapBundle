@@ -4,6 +4,7 @@ namespace FR3D\LdapBundle\Tests\Hydrator;
 
 use FR3D\LdapBundle\Hydrator\HydratorInterface;
 use PHPUnit_Framework_Assert as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Common test methods for any FR3D\LdapBundle\Hydrator\HydratorInterface implementation.
@@ -20,69 +21,69 @@ trait HydratorInterfaceTestTrait
         Assert::assertInstanceOf(HydratorInterface::class, $this->hydrator);
     }
 
-    public function testHydrate()
+    /**
+     * @dataProvider validLdapUserAttributesProvider
+     *
+     * @param array $ldapEntry
+     * @param array $methodsReturn
+     */
+    public function testHydrate(array $ldapEntry, array $methodsReturn)
     {
-        $username = 'test_username';
+        $user = $this->hydrator->hydrate($ldapEntry);
 
-        $entry = [
-            'dn' => 'ou=group, dc=host, dc=foo',
-            'count' => 1,
-            'uid' => [
-                'count' => 1,
-                0 => $username,
-            ],
-        ];
-
-        $user = $this->hydrator->hydrate($entry);
-
-        $this->assertValidHydrateReturn($user);
-        Assert::assertEquals($username, $user->getUsername());
-    }
-
-    public function testDontTryToHydrateMissingAttributes()
-    {
-        $entry = [
-            'dn' => 'ou=group, dc=host, dc=foo',
-            'count' => 1,
-        ];
-
-        $user = $this->hydrator->hydrate($entry);
-
-        $this->assertValidHydrateReturn($user);
-        Assert::assertNull($user->getUsername());
-    }
-
-    public function testHydrateArray()
-    {
-        $roles = [
-            'count' => 3,
-            0 => 'ROLE1',
-            1 => 'ROLE2',
-            2 => 'ROLE3',
-        ];
-
-        $entry = [
-            'dn' => 'ou=group, dc=host, dc=foo',
-            'roles' => $roles,
-        ];
-
-        $user = $this->hydrator->hydrate($entry);
-
-        $this->assertValidHydrateReturn($user);
-        Assert::assertEquals(array_slice($roles, 1), $user->getRoles());
+        Assert::assertInstanceOf(UserInterface::class, $user);
+        foreach ($methodsReturn as $method => $returnValue) {
+            Assert::assertEquals($returnValue, $user->$method(), "UserInterface::{$method}() return value mismatch");
+        }
     }
 
     /**
-     * Assert hydrate() return value follow interface return constraints.
-     *
-     * Assert return must be of type `Symfony\Component\Security\Core\User\UserInterface`
-     *
-     * @param mixed $hydrateReturn
-     *
-     * @return void
+     * @return array
      */
-    protected function assertValidHydrateReturn($hydrateReturn)
+    public function validLdapUserAttributesProvider()
     {
-        Assert::assertInstanceOf('Symfony\Component\Security\Core\User\UserInterface', $hydrateReturn);
+        return [
+            // Description => [ldap entry, [UserInterfaceMethod => return value]]
+            'hydrate single attributes' => [
+                'ldap entry' => [
+                    'dn' => 'ou=group, dc=host, dc=foo',
+                    'count' => 1,
+                    'uid' => [
+                        'count' => 1,
+                        0 => 'test_username',
+                    ],
+                ],
+                'expected methods return' => [
+                    'getUserName' => 'test_username',
+                ],
+            ],
+            'hydrate attributes collections' => [
+                'ldap entry' => [
+                    'dn' => 'ou=group, dc=host, dc=foo',
+                    'roles' => [
+                        'count' => 3,
+                        0 => 'ROLE1',
+                        1 => 'ROLE2',
+                        2 => 'ROLE3',
+                    ],
+                ],
+                'expected methods return' => [
+                    'getRoles' => [
+                        0 => 'ROLE1',
+                        1 => 'ROLE2',
+                        2 => 'ROLE3',
+                    ],
+                ],
+            ],
+            'empty ldap entry return an empty user' => [
+                'ldap entry' => [
+                    'dn' => 'ou=group, dc=host, dc=foo',
+                    'count' => 1,
+                ],
+                'expected methods return' => [
+                    'getUserName' => null,
+                ],
+            ],
+        ];
     }
 }
