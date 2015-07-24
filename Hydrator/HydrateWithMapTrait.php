@@ -28,7 +28,7 @@ trait HydrateWithMapTrait
 
             $ldapValue = $ldapUserAttributes[$attr['ldap_attr']];
 
-            if (!array_key_exists('count', $ldapValue) || $ldapValue['count'] == 1) {
+            if ((!array_key_exists('count', $ldapValue) && count($ldapValue) == 1) || (array_key_exists('count', $ldapValue) && $ldapValue['count'] == 1)) {
                 $value = $ldapValue[0];
             } else {
                 $value = array_slice($ldapValue, 1);
