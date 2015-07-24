@@ -3,7 +3,6 @@
 namespace FR3D\LdapBundle\Hydrator;
 
 use FR3D\LdapBundle\Model\LdapUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Provide a hydrator template for easy implementation.

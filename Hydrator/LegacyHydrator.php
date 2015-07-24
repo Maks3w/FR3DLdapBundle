@@ -4,7 +4,6 @@ namespace FR3D\LdapBundle\Hydrator;
 
 use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Populate a FOSUserBundle user with data from LDAP.
