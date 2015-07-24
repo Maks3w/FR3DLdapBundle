@@ -73,7 +73,7 @@ trait HydratorInterfaceTestTrait
     }
 
     /**
-     * Assert hydrate() return follow interface return constraints.
+     * Assert hydrate() return value follow interface return constraints.
      *
      * Assert return must be of type `Symfony\Component\Security\Core\User\UserInterface`
      *
