@@ -73,6 +73,32 @@ trait HydratorInterfaceTestTrait
                     ],
                 ],
             ],
+            'hydrate single attributes without count index' => [
+                'ldap entry' => [
+                    'dn' => 'ou=group, dc=host, dc=foo',
+                    'uid' => [
+                        0 => 'test_username',
+                    ],
+                ],
+                'expected methods return' => [
+                    'getUserName' => 'test_username',
+                ],
+            ],
+            'hydrate attributes collections without count index' => [
+                'ldap entry' => [
+                    'dn' => 'ou=group, dc=host, dc=foo',
+                    'roles' => [
+                        0 => 'ROLE1',
+                        1 => 'ROLE2',
+                    ],
+                ],
+                'expected methods return' => [
+                    'getRoles' => [
+                        0 => 'ROLE1',
+                        1 => 'ROLE2',
+                    ],
+                ],
+            ],
             'empty ldap entry return an empty user' => [
                 'ldap entry' => [
                     'dn' => 'ou=group, dc=host, dc=foo',

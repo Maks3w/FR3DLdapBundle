@@ -28,10 +28,14 @@ trait HydrateWithMapTrait
 
             $ldapValue = $ldapUserAttributes[$attr['ldap_attr']];
 
-            if (!array_key_exists('count', $ldapValue) || $ldapValue['count'] == 1) {
-                $value = $ldapValue[0];
+            if (array_key_exists('count', $ldapValue)) {
+                unset($ldapValue['count']);
+            }
+
+            if (count($ldapValue) === 1) {
+                $value = array_shift($ldapValue);
             } else {
-                $value = array_slice($ldapValue, 1);
+                $value = $ldapValue;
             }
 
             call_user_func([$user, $attr['user_method']], $value);
