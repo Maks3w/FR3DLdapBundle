@@ -61,17 +61,15 @@ trait HydratorInterfaceTestTrait
                 'ldap entry' => [
                     'dn' => 'ou=group, dc=host, dc=foo',
                     'roles' => [
-                        'count' => 3,
+                        'count' => 2,
                         0 => 'ROLE1',
                         1 => 'ROLE2',
-                        2 => 'ROLE3',
                     ],
                 ],
                 'expected methods return' => [
                     'getRoles' => [
                         0 => 'ROLE1',
                         1 => 'ROLE2',
-                        2 => 'ROLE3',
                     ],
                 ],
             ],
