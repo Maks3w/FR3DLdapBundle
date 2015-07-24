@@ -25,14 +25,14 @@ abstract class AbstractHydrator implements HydratorInterface
     /**
      * {@inheritDoc}
      */
-    public function hydrate(array $ldapUserAttributes)
+    public function hydrate(array $ldapEntry)
     {
         $user = $this->createUser();
 
-        $this->hydrateUserWithAttributesMap($user, $ldapUserAttributes, $this->attributeMap);
+        $this->hydrateUserWithAttributesMap($user, $ldapEntry, $this->attributeMap);
 
         if ($user instanceof LdapUserInterface) {
-            $user->setDn($ldapUserAttributes['dn']);
+            $user->setDn($ldapEntry['dn']);
         }
 
         return $user;
