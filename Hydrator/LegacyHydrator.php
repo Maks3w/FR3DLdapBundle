@@ -30,9 +30,7 @@ final class LegacyHydrator extends AbstractHydrator
     }
 
     /**
-     * Create an empty user.
-     *
-     * @return UserInterface
+     * {@inheritDoc}
      */
     protected function createUser()
     {

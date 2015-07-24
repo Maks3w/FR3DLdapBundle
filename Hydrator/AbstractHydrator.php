@@ -23,11 +23,7 @@ abstract class AbstractHydrator implements HydratorInterface
     }
 
     /**
-     * Populate an user with the data retrieved from LDAP.
-     *
-     * @param array $ldapUserAttributes
-     *
-     * @return UserInterface
+     * {@inheritDoc}
      */
     public function hydrate(array $ldapUserAttributes)
     {
@@ -43,9 +39,7 @@ abstract class AbstractHydrator implements HydratorInterface
     }
 
     /**
-     * Create an empty user.
-     *
-     * @return UserInterface
+     * {@inheritDoc}
      */
     abstract protected function createUser();
 }
