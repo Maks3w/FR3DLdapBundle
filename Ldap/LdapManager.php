@@ -24,7 +24,7 @@ class LdapManager implements LdapManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function findUserByUsername($username)
     {
@@ -32,7 +32,7 @@ class LdapManager implements LdapManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function findUserBy(array $criteria)
     {
@@ -72,7 +72,7 @@ class LdapManager implements LdapManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function bind(UserInterface $user, $password)
     {

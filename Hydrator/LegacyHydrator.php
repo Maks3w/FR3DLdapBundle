@@ -29,7 +29,7 @@ final class LegacyHydrator extends AbstractHydrator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function createUser()
     {

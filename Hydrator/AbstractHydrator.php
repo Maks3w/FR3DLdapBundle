@@ -22,7 +22,7 @@ abstract class AbstractHydrator implements HydratorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hydrate(array $ldapEntry)
     {
@@ -38,7 +38,7 @@ abstract class AbstractHydrator implements HydratorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     abstract protected function createUser();
 }

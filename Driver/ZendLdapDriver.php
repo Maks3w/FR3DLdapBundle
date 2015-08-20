@@ -38,7 +38,7 @@ class ZendLdapDriver implements LdapDriverInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function search($baseDn, $filter, array $attributes = [])
     {
@@ -64,7 +64,7 @@ class ZendLdapDriver implements LdapDriverInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function bind(UserInterface $user, $password)
     {
