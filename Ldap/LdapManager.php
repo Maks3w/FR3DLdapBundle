@@ -33,6 +33,10 @@ class LdapManager implements LdapManagerInterface
      */
     public function findUserByUsername($username)
     {
+        if ($this->params['enabled'] === false) {
+            return false;
+        }
+
         return $this->findUserBy(array($this->ldapUsernameAttr => $username));
     }
 
