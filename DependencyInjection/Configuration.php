@@ -46,6 +46,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->arrayNode('user')
                     ->children()
+                        ->scalarNode('enabled')->defaultTrue()->end()
                         ->scalarNode('baseDn')->isRequired()->cannotBeEmpty()->end()
                         ->scalarNode('filter')->defaultValue('')->end()
                         ->arrayNode('attributes')
