@@ -14,7 +14,7 @@ interface LdapUserInterface
     /**
      * Get Ldap Distinguished Name.
      *
-     * @return string Distinguished Name
+     * @return null|string Distinguished Name
      */
     public function getDn();
 }
