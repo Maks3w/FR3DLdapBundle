@@ -3,7 +3,7 @@
 namespace FR3D\LdapBundle\Security\User;
 
 use FR3D\LdapBundle\Ldap\LdapManagerInterface;
-use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -15,6 +15,8 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 class LdapUserProvider implements UserProviderInterface
 {
     protected $ldapManager;
+
+    protected $logger;
 
     public function __construct(LdapManagerInterface $ldapManager, LoggerInterface $logger = null)
     {
