@@ -7,10 +7,6 @@ cache:
     - $HOME/.composer/cache
     - vendor
 
-env:
-  matrix:
-    - SYMFONY_VERSION=2.8.*
-
 matrix:
   fast_finish: true
   include:
