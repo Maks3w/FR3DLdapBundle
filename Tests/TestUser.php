@@ -13,7 +13,7 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     private $enabled;
     private $locked;
     private $dn;
-    private $roles = array();
+    private $roles = [];
 
     public function setUsername($username)
     {
@@ -31,7 +31,7 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPassword()
     {
@@ -39,7 +39,7 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getSalt()
     {
@@ -47,7 +47,7 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function eraseCredentials()
     {
@@ -55,7 +55,7 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getRoles()
     {
@@ -63,7 +63,7 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setEnabled($enabled)
     {
@@ -71,7 +71,7 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isEnabled()
     {
@@ -79,7 +79,7 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setLocked($locked)
     {
@@ -92,7 +92,7 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isAccountNonLocked()
     {
@@ -100,7 +100,7 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isAccountNonExpired()
     {
@@ -108,7 +108,7 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isCredentialsNonExpired()
     {
@@ -116,7 +116,7 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setDn($dn)
     {
@@ -124,7 +124,7 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDn()
     {
@@ -132,18 +132,10 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function equals(UserInterface $user)
-    {
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function __toString()
     {
-        return $this->getUsername();
+        return (string) $this->getUsername();
     }
 }

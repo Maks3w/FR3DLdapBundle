@@ -8,7 +8,6 @@
         <parameter key="fr3d_ldap.ldap_driver.parameters" />
         <parameter key="fr3d_ldap.ldap_driver.protocol.version">3</parameter>
         <parameter key="fr3d_ldap.ldap_driver.zend.class">FR3D\LdapBundle\Driver\ZendLdapDriver</parameter>
-        <parameter key="fr3d_ldap.ldap_driver.legacy.class">FR3D\LdapBundle\Driver\LegacyLdapDriver</parameter>
     </parameters>
 
     <services>
@@ -20,14 +19,6 @@
         <service id="fr3d_ldap.ldap_driver.zend" class="%fr3d_ldap.ldap_driver.zend.class%">
             <tag name="monolog.logger" channel="ldap_driver" />
             <argument type="service" id="fr3d_ldap.ldap_driver.zend.driver" />
-            <argument type="service" id="logger" />
-        </service>
-
-        <!-- Legacy driver (Deprecated) -->
-        <service id="fr3d_ldap.ldap_driver.legacy" class="%fr3d_ldap.ldap_driver.legacy.class%">
-            <tag name="monolog.logger" channel="ldap_driver" />
-            <argument>%fr3d_ldap.ldap_driver.parameters%</argument>
-            <argument>%fr3d_ldap.ldap_driver.protocol.version%</argument>
             <argument type="service" id="logger" />
         </service>
 

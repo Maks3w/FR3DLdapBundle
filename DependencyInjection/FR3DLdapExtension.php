@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class FR3DLdapExtension extends Extension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -18,11 +18,11 @@ class FR3DLdapExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        foreach (array('services', 'security', 'validator', 'ldap_driver') as $basename) {
+        foreach (['services', 'security', 'validator', 'ldap_driver'] as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
         }
 
-        $container->setAlias('fr3d_ldap.user_manager', $config['service']['user_manager']);
+        $container->setAlias('fr3d_ldap.user_hydrator', $config['service']['user_hydrator']);
         $container->setAlias('fr3d_ldap.ldap_manager', $config['service']['ldap_manager']);
         $container->setAlias('fr3d_ldap.ldap_driver', $config['service']['ldap_driver']);
 

@@ -1,6 +1,24 @@
 Changelog
 =========
 
+### v3.0.0
+Ldap driver:
+- [BC Break] Remove support for PHP 5.3 and 5.4
+- [BC Break] Remove legacy Ldap driver declared as deprecated in 2.0.0.
+- [BC Break] `hydrate()` method in LdapManager has been moved to `Model\LegacyHydrator.php`.
+  See [Create a custom hydrator](Resources/doc/cookbook/custom_hydrator.md) for more details.
+- [BC Break] This bundle is now PSR-3 (Logger) compliant. Typehints has been updated in favor of `Psr\Log\LoggerInterface`.
+- [BC Break] Remove `FR3D\LdapBundle\Ldap\Converter`
+- [BC Break] Remove `escapeValue()` and `unescapeValue()` methods from `LdapManagerInterface` and `LdapManager`. Now use
+  PHP 5.6 [ldap_escape()](http://php.net/manual/function.ldap-escape.php) polyfill.
+
+Config:
+- [BC Break] Added `fr3d_ldap.user.usernameAttribute` for indicate the attribute which holds the username.
+  Previously was the first entry in `attributes`
+
+Validator:
+- Removed unused `property` option
+
 ### v2.0.0
 
 Minimum Requirements:

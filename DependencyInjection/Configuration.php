@@ -15,7 +15,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {
@@ -48,13 +48,14 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('baseDn')->isRequired()->cannotBeEmpty()->end()
                         ->scalarNode('filter')->defaultValue('')->end()
+                        ->scalarNode('usernameAttribute')->defaultValue('uid')->end()
                         ->arrayNode('attributes')
-                            ->defaultValue(array(
-                                array(
+                            ->defaultValue([
+                                [
                                     'ldap_attr' => 'uid',
                                     'user_method' => 'setUsername',
-                                ),
-                            ))
+                                ],
+                            ])
                             ->prototype('array')
                                 ->children()
                                     ->scalarNode('ldap_attr')->isRequired()->cannotBeEmpty()->end()
@@ -85,7 +86,7 @@ class Configuration implements ConfigurationInterface
                     ->arrayNode('service')
                         ->addDefaultsIfNotSet()
                         ->children()
-                            ->scalarNode('user_manager')->defaultValue('fos_user.user_manager')->end()
+                            ->scalarNode('user_hydrator')->defaultValue('fr3d_ldap.user_hydrator.default')->end()
                             ->scalarNode('ldap_manager')->defaultValue('fr3d_ldap.ldap_manager.default')->end()
                             ->scalarNode('ldap_driver')->defaultValue('fr3d_ldap.ldap_driver.zend')->end()
                         ->end()
