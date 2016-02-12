@@ -40,6 +40,6 @@ script:
   - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then vendor/bin/php-cs-fixer fix -v --dry-run; fi
 
 after_script:
-  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then travis_retry ./vendor/bin/coveralls ; fi
+  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then travis_retry ./vendor/bin/coveralls -v; fi
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then travis_retry wget https://scrutinizer-ci.com/ocular.phar ; fi
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then travis_retry php ocular.phar code-coverage:upload --format=php-clover clover.xml ; fi
