@@ -30,7 +30,7 @@ interface LdapManagerInterface
      * @param  UserInterface $user
      * @param  string        $password
      *
-     * @return Boolean
+     * @return bool
      */
     public function bind(UserInterface $user, $password);
 }
