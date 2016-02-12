@@ -3,7 +3,7 @@ Changelog
 
 ### v3.0.0
 Ldap driver:
-- [BC Break] Remove support for PHP 5.4
+- [BC Break] Remove support for PHP 5.3 and 5.4
 - [BC Break] Remove legacy Ldap driver declared as deprecated in 2.0.0.
 - [BC Break] `hydrate()` method in LdapManager has been moved to `Model\LegacyHydrator.php`.
   See [Create a custom hydrator](Resources/doc/cookbook/custom_hydrator.md) for more details.
