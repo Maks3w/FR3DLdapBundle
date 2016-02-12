@@ -62,9 +62,8 @@ class LdapManager implements LdapManagerInterface
     {
         $filters = [];
         $filters[] = $this->params['filter'];
-        $filter = new Filter\FilterValue();
         foreach ($criteria as $key => $value) {
-            $value = $filter->filter($value);
+            $value = ldap_escape($value, '', LDAP_ESCAPE_FILTER);
             $filters[] = sprintf('(%s=%s)', $key, $value);
         }
 
