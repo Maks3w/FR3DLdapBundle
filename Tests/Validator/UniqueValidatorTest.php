@@ -14,7 +14,7 @@ namespace FR3D\LdapBundle\Tests\Validation;
 use FR3D\LdapBundle\Tests\TestUser;
 use FR3D\LdapBundle\Validator\Unique;
 use FR3D\LdapBundle\Validator\UniqueValidator;
-use Symfony\Component\Validator\ExecutionContextInterface;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @covers FR3D\LdapBundle\Validator\Unique
@@ -35,7 +35,12 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->validatorContext = $this->getMock('Symfony\Component\Validator\ExecutionContextInterface');
+        // SF 2.3 compatibility
+        if (interface_exists('Symfony\Component\Validator\ExecutionContextInterface')) {
+            $this->validatorContext = $this->getMock('Symfony\Component\Validator\ExecutionContextInterface');
+        } else {
+            $this->validatorContext = $this->getMock('Symfony\Component\Validator\Context\ExecutionContextInterface');
+        }
 
         $this->ldapManagerMock = $this->getMock('FR3D\LdapBundle\Ldap\LdapManagerInterface');
         $this->constraint = new Unique();
