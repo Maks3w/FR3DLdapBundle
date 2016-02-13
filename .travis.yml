@@ -10,7 +10,6 @@ cache:
 matrix:
   fast_finish: true
   include:
-    # From 2.3 to 2.8
     - php: 5.5
       env:
         - COMPOSER_ARGUMENTS=--prefer-lowest
