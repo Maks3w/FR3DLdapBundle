@@ -58,15 +58,16 @@ class LdapManager implements HydratorInterface
     /**
      * Populate an user with the data retrieved from LDAP.
      *
-     * @param array $ldapUserAttributes
+     * @param array $ldapEntry LDAP result information as a multi-dimensional array.
+     *              see {@link http://www.php.net/function.ldap-get-entries.php} for array format examples.
      *
      * @return UserInterface
      */
-    public function hydrate(array $entry)
+    public function hydrate(array $ldapEntry)
     {
         $user = new \Acme\DemoBundle\Entity\User();
-        $user->setUsername($ldapUserAttributes['uid'][0]);
-        $user->setEmail($ldapUserAttributes['email'][0]);
+        $user->setUsername($ldapEntry['uid'][0]);
+        $user->setEmail($ldapEntry['email'][0]);
 
         return $user;
     }
