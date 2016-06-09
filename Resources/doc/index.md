@@ -112,6 +112,7 @@ fr3d_ldap:
 #   service:
 #       user_hydrator: fr3d_ldap.user_hydrator.default # Overrides default user hydrator
 #       ldap_manager: fr3d_ldap.ldap_manager.default   # Overrides default ldap manager
+#       ldap_driver: fr3d_ldap.ldap_driver.zend        # Overrides default ldap driver
 ```
 
 **You need to configure the parameters under the fr3d_ldap section.**
