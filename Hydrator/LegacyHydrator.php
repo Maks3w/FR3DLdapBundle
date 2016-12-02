@@ -18,10 +18,10 @@ final class LegacyHydrator extends AbstractHydrator
     private $userManager;
 
     /**
-     * @param UserManagerInterface $userManager
      * @param array $attributeMap
+     * @param UserManagerInterface $userManager
      */
-    public function __construct($userManager, array $attributeMap)
+    public function __construct(array $attributeMap, $userManager)
     {
         parent::__construct($attributeMap);
 
