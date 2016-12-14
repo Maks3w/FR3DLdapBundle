@@ -57,7 +57,7 @@ class ZendLdapDriver implements LdapDriverInterface
         } catch (ZendLdapException $exception) {
             $this->zendExceptionHandler($exception);
 
-            throw new LdapDriverException('An error occur with the search operation.');
+            throw new LdapDriverException('An error occurred with the search operation.');
         }
 
         return $entries;
