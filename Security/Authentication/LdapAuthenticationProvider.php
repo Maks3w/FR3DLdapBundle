@@ -3,6 +3,7 @@
 namespace FR3D\LdapBundle\Security\Authentication;
 
 use FR3D\LdapBundle\Ldap\LdapManagerInterface;
+use Symfony\Component\Debug\Exception\ContextErrorException;
 use Symfony\Component\Security\Core\Authentication\Provider\UserAuthenticationProvider;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
@@ -87,8 +88,12 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
                 throw new BadCredentialsException('The presented password cannot be empty.');
             }
 
-            if (!$this->ldapManager->bind($user, $presentedPassword)) {
-                throw new BadCredentialsException('The presented password is invalid.');
+            try {
+                if ( ! $this->ldapManager->bind($user, $presentedPassword)) {
+                    throw new BadCredentialsException('The presented password is invalid.');
+                }
+            } catch(ContextErrorException $e) {
+                throw new BadCredentialsException($e->getMessage());
             }
         }
     }
