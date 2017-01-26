@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use FR3D\LdapBundle\Ldap\LdapManagerInterface;
 
 class LdapAuthenticationProvider extends UserAuthenticationProvider
 {
@@ -79,16 +80,24 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
                 );
             }
 
-            if (!$this->ldapManager->bind($currentUser, $presentedPassword)) {
-                throw new BadCredentialsException('The credentials were changed from another session.');
+            try {
+                if (!$this->ldapManager->bind($currentUser, $presentedPassword)) {
+                    throw new BadCredentialsException('The credentials were changed from another session.');
+                }
+            } catch (LdapException $e) {
+                throw new BadCredentialsException('An error occured while authentication against LDAP.');
             }
         } else {
             if ('' === $presentedPassword) {
                 throw new BadCredentialsException('The presented password cannot be empty.');
             }
 
-            if (!$this->ldapManager->bind($user, $presentedPassword)) {
-                throw new BadCredentialsException('The presented password is invalid.');
+            try {
+                if (!$this->ldapManager->bind($user, $presentedPassword)) {
+                    throw new BadCredentialsException('The presented password is invalid.');
+                }
+            } catch (LdapException $e) {
+                throw new BadCredentialsException('An error occured while authentication against LDAP.');
             }
         }
     }

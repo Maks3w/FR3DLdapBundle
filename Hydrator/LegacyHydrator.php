@@ -33,11 +33,17 @@ final class LegacyHydrator extends AbstractHydrator
      */
     protected function createUser()
     {
-        $user = $this->userManager->createUser();
-        $user->setPassword('');
+        if (!$this->ldapEntry) {
+            throw new \Exception("Cannot hydrate user since we do not have LDAP entry data");
+        }
+        $user = $this->userManager->findUserBy(array('dn' => $this->ldapEntry['dn']));
 
-        if ($user instanceof AdvancedUserInterface) {
-            $user->setEnabled(true);
+        if (!$user) {
+            $user = $this->userManager->createUser();
+            $user->setPassword('');
+            if ($user instanceof AdvancedUserInterface) {
+                $user->setEnabled(true);
+            }
         }
 
         return $user;

@@ -16,6 +16,11 @@ abstract class AbstractHydrator implements HydratorInterface
      */
     private $attributeMap;
 
+    /**
+     * @var Array
+     */
+    protected $ldapEntry;
+
     public function __construct(array $attributeMap)
     {
         $this->attributeMap = $attributeMap['attributes'];
@@ -26,6 +31,7 @@ abstract class AbstractHydrator implements HydratorInterface
      */
     public function hydrate(array $ldapEntry)
     {
+        $this->ldapEntry = $ldapEntry;
         $user = $this->createUser();
 
         $this->hydrateUserWithAttributesMap($user, $ldapEntry, $this->attributeMap);
