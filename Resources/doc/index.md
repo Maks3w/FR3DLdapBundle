@@ -16,6 +16,7 @@ Install
 3. Configure security.yml
 4. Configure config.yml
 5. Enable FOSUserBundle as User Provider
+6. Update your User entity
 
 ### 1. Add FR3DLdapBundle in your composer.json
 
@@ -148,6 +149,51 @@ fr3d_ldap:
     user:
       - { ldap_attr: uid,  user_method: setUsername }
       - { ldap_attr: mail, user_method: setEmail }
+```
+
+### 6. Update your User entity
+
+Your User entity must implements `LdapUserInterface`:
+```php
+namespace AppBundle\Entity;
+
+use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\ORM\Mapping as ORM;
+use FR3D\LdapBundle\Model\LdapUserInterface;
+
+/**
+ * @ORM\Entity
+ */
+class User extends BaseUser implements LdapUserInterface
+{
+    ...
+    
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $dn;
+
+    /**
+     * @return mixed
+     */
+    public function getDn()
+    {
+        return $this->dn;
+    }
+
+    /**
+     * @param mixed $dn
+     *
+     * @return User
+     */
+    public function setDn($dn)
+    {
+        $this->dn = $dn;
+
+        return $this;
+    }
+}
+
 ```
 
 ### Cookbook
