@@ -5,7 +5,9 @@ LdapBundle provides a Ldap authentication system without Apache's `mod_ldap` mod
 It uses the `php-ldap` package with a form to authenticate the users.
 LdapBundle can also be used for the authorization process. It retrieves the Ldap users' roles.
 
-This bundle is based on the original work of BorisMorel and adapted for use with FOSUserBundle
+This bundle is based on the original work of BorisMorel and adapted for use with FOSUserBundle.
+
+Optionnaly, you can use this bundle to sync ldap accounts if you want to be able to do some kind of user management inside your app.
 
 This bundle requires Zend Ldap v2.
 
@@ -16,6 +18,7 @@ Install
 3. Configure security.yml
 4. Configure config.yml
 5. Enable FOSUserBundle as User Provider
+6. Optional - Configure accounts syncing
 
 ### 1. Add FR3DLdapBundle in your composer.json
 
@@ -91,7 +94,6 @@ fr3d_ldap:
 #       port:                389    # Optional
 #       username:            foo    # Optional
 #       password:            bar    # Optional
-#       allowEmptyPassword:  false  # Optional
 #       bindRequiresDn:      true   # Optional
 #       baseDn:              ou=users, dc=host, dc=foo   # Optional
 #       accountFilterFormat: (&(uid=%s)) # Optional. sprintf format %s will be the username
@@ -113,7 +115,6 @@ fr3d_ldap:
 #   service:
 #       user_hydrator: fr3d_ldap.user_hydrator.default # Overrides default user hydrator
 #       ldap_manager: fr3d_ldap.ldap_manager.default   # Overrides default ldap manager
-#       ldap_driver: fr3d_ldap.ldap_driver.zend        # Overrides default ldap driver
 ```
 
 **You need to configure the parameters under the fr3d_ldap section.**
@@ -149,6 +150,49 @@ fr3d_ldap:
       - { ldap_attr: uid,  user_method: setUsername }
       - { ldap_attr: mail, user_method: setEmail }
 ```
+
+### 6. Optional - Configure accounts syncing
+
+This step can be useful if you want to bulk create your users from your LDAP accounts without having to wait users to log in.
+
+Add the service:
+
+```yaml
+# app/config/services.yml
+services:
+    ... 
+    fr3d_ldap.user_hydrator.multi:
+        class: FR3D\LdapBundle\Hydrator\MultiHydrator
+        arguments:
+            - "@fos_user.user_manager"
+            - "%fr3d_ldap.ldap_manager.parameters%"
+            - "%fr3d_ldap.ldap_sync.parameters%"
+```
+
+Next configure the hydrator and the syncing behaviour when local users are missing from your LDAP directory
+
+```yaml
+# app/config/config.yml
+fr3d_ldap:
+    ...
+    service:
+        user_hydrator: fr3d_ldap.user_hydrator.multi
+    ...
+        sync:
+            missing_accounts: disable # Default. Other possible values are ignore and delete
+```
+
+<u>**Warning**</u>: If you chose "delete", local users will be delete wthout further notice!
+
+Also the "disable" option has only effect if your user class implements `AdvancedUserInterface`.
+
+
+Finally run the command:
+```
+php bin/console fr3d-ldap:sync
+```
+
+Keep in mind that once users are created, they will not be updated if you make modifications on the LDAP accounts, so you have to [create a scheduled task](https://en.wikipedia.org/wiki/Cron) to run the sync command periodically.
 
 ### Cookbook
 
