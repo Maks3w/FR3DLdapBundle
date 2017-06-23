@@ -53,7 +53,7 @@ namespace Acme\DemoBundle\Ldap;
 use FR3D\LdapBundle\Hydrator\HydratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class LdapManager implements HydratorInterface
+class UserHydrator implements HydratorInterface
 {
     /**
      * Populate an user with the data retrieved from LDAP.
