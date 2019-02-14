@@ -7,6 +7,8 @@ use FR3D\Psr3MessagesAssertions\PhpUnit\TestLogger;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Zend\Ldap\Exception\LdapException as ZendLdapException;
 use Zend\Ldap\Ldap;
+use Psr\Log\LoggerInterface;
+use FR3D\LdapBundle\Exception\SanitizingException;
 
 /**
  * Test class for ZendLdapDriver.
@@ -87,5 +89,41 @@ class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
                 ->will($this->throwException(new ZendLdapException($this->zend)));
 
         self::assertFalse($this->driver->bind($user, $password));
+    }
+
+    public function testZendExceptionHandler()
+    {
+        $password = 'veryverysecret';
+
+        $loggerMock = $this->getMockBuilder(LoggerInterface::class)
+        ->setMethods(['debug', 'error'])
+        ->getMockForAbstractClass();
+
+        $zendLdapExceptionMock = $this->getMockBuilder(ZendLdapException::class)->getMock();
+        $zendLdapExceptionMock
+        ->method('__toString')
+        ->willReturn("Zend\Ldap\Exception\LdapException: fr3d/ldap-bundle/Driver/ZendLdapDriver.php(82): Zend\Ldap\Ldap->bind('fogs', '$password')")
+        ;
+
+        $loggerMock->method('debug')->with('{exception}', $this->callback(function ($context) use ($password) {
+            if (!array_key_exists('exception', $context)) {
+                return $this->fail('Logger context must contain key "exception"');
+            }
+            if (!$context['exception'] instanceof SanitizingException) {
+                return $this->fail('Logger context "exception" must contain object of class SanitizingException');
+            }
+            if (strpos($context['exception']->__toString(), $password) !== false) {
+                return $this->fail('String representation of the SanitizingException must not contain the bind password');
+            }
+            return true;
+        }));
+
+        $reflectionClass = new \ReflectionClass($this->driver);
+        $reflectionProperty = $reflectionClass->getProperty('logger');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($this->driver, $loggerMock);
+        $reflectionMethod = $reflectionClass->getMethod('zendExceptionHandler');
+        $reflectionMethod->setAccessible(true);
+        $reflectionMethod->invoke($this->driver, $zendLdapExceptionMock, $password);
     }
 }

@@ -7,6 +7,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Zend\Ldap\Exception\LdapException as ZendLdapException;
 use Zend\Ldap\Ldap;
+use FR3D\LdapBundle\Exception\SanitizingException;
 
 /**
  * This class adapt ldap calls to Zend Framework Ldap library functions.
@@ -83,7 +84,7 @@ class ZendLdapDriver implements LdapDriverInterface
 
             return ($bind instanceof Ldap);
         } catch (ZendLdapException $exception) {
-            $this->zendExceptionHandler($exception);
+            $this->zendExceptionHandler($exception, $password);
         }
 
         return false;
@@ -94,19 +95,21 @@ class ZendLdapDriver implements LdapDriverInterface
      *
      * @param ZendLdapException $exception
      */
-    protected function zendExceptionHandler(ZendLdapException $exception)
+    protected function zendExceptionHandler(ZendLdapException $exception, $password)
     {
+        $sanitizedException = new SanitizingException($exception, $password);
+
         switch ($exception->getCode()) {
             // Error level codes
             case ZendLdapException::LDAP_SERVER_DOWN:
                 if ($this->logger) {
-                    $this->logger->error('{exception}', ['exception' => $exception]);
+                    $this->logger->error('{exception}', ['exception' => $sanitizedException]);
                 }
                 break;
 
             // Other level codes
             default:
-                $this->logDebug('{exception}', ['exception' => $exception]);
+                $this->logDebug('{exception}', ['exception' => $sanitizedException]);
                 break;
         }
     }
