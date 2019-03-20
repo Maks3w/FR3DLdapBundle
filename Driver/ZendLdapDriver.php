@@ -2,12 +2,12 @@
 
 namespace FR3D\LdapBundle\Driver;
 
+use FR3D\LdapBundle\Exception\SanitizingException;
 use FR3D\LdapBundle\Model\LdapUserInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Zend\Ldap\Exception\LdapException as ZendLdapException;
 use Zend\Ldap\Ldap;
-use FR3D\LdapBundle\Exception\SanitizingException;
 
 /**
  * This class adapt ldap calls to Zend Framework Ldap library functions.
@@ -94,10 +94,11 @@ class ZendLdapDriver implements LdapDriverInterface
      * Treat a Zend Ldap Exception.
      *
      * @param ZendLdapException $exception
+     * @param string $password
      */
-    protected function zendExceptionHandler(ZendLdapException $exception, $password)
+    protected function zendExceptionHandler(ZendLdapException $exception, $password = null)
     {
-        $sanitizedException = new SanitizingException($exception, $password);
+        $sanitizedException = null !== $password ? new SanitizingException($exception, $password) : $exception;
 
         switch ($exception->getCode()) {
             // Error level codes
