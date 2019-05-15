@@ -21,13 +21,12 @@ matrix:
         - EXECUTE_CS_CHECK=true
 
 before_install:
-  - phpenv config-add .ci/php.ini || return 0
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
   - if [[ $EXECUTE_CS_CHECK != 'true' ]]; then travis_retry composer remove --dev --no-update friendsofphp/php-cs-fixer ; fi
 
 install:
   - travis_retry composer update --no-interaction $COMPOSER_ARGUMENTS
-  - composer info -i
+  - composer info
 
 script:
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/phpunit --coverage-clover clover.xml ; fi
