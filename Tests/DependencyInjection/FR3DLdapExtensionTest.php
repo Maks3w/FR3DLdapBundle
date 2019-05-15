@@ -3,9 +3,10 @@
 namespace FR3D\LdapBundle\Tests\DependencyInjection;
 
 use FR3D\LdapBundle\DependencyInjection\FR3DLdapExtension;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
+class FR3DLdapExtensionTest extends TestCase
 {
     use ConfigurationTrait;
 

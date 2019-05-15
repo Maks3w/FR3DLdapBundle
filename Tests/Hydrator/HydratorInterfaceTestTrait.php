@@ -3,7 +3,7 @@
 namespace FR3D\LdapBundle\Tests\Hydrator;
 
 use FR3D\LdapBundle\Hydrator\HydratorInterface;
-use PHPUnit_Framework_Assert as Assert;
+use PHPUnit\Framework\Assert;
 
 /**
  * Common test methods for any FR3D\LdapBundle\Hydrator\HydratorInterface implementation.

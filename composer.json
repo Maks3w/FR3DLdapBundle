@@ -26,11 +26,10 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2",
-        "fr3d/psr3-message-assertions": "0.1.*",
-        "friendsofsymfony/user-bundle": "~1.3",
-        "maks3w/phpunit-methods-trait": "^4.6",
-        "phpunit/phpunit": "^4.6",
-        "symfony/validator": "2.7 - 3"
+        "fr3d/psr3-message-assertions": "^0.3",
+        "friendsofsymfony/user-bundle": "^1.3||^2",
+        "phpunit/phpunit": "^7",
+        "symfony/validator": "2.7 - 4"
     },
     "suggest": {
         "symfony/validator": "Allow pre-validate for existing users before register new ones",

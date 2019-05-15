@@ -14,6 +14,8 @@ namespace FR3D\LdapBundle\Tests\Validation;
 use FR3D\LdapBundle\Tests\TestUser;
 use FR3D\LdapBundle\Validator\Unique;
 use FR3D\LdapBundle\Validator\UniqueValidator;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraint;
 use FR3D\LdapBundle\Ldap\LdapManagerInterface;
@@ -22,13 +24,13 @@ use FR3D\LdapBundle\Ldap\LdapManagerInterface;
  * @covers \FR3D\LdapBundle\Validator\Unique
  * @covers \FR3D\LdapBundle\Validator\UniqueValidator
  */
-class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
+class UniqueValidatorTest extends TestCase
 {
     /** @var UniqueValidator */
     private $validator;
-    /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ExecutionContextInterface|MockObject */
     private $validatorContext;
-    /** @var LdapManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var LdapManagerInterface|MockObject */
     private $ldapManagerMock;
     /** @var Unique */
     private $constraint;
@@ -37,8 +39,8 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp(): void
     {
-        $this->validatorContext = $this->getMock(ExecutionContextInterface::class);
-        $this->ldapManagerMock = $this->getMock(LdapManagerInterface::class);
+        $this->validatorContext = $this->createMock(ExecutionContextInterface::class);
+        $this->ldapManagerMock = $this->createMock(LdapManagerInterface::class);
         $this->constraint = new Unique();
         $this->validator = new UniqueValidator($this->ldapManagerMock);
         $this->validator->initialize($this->validatorContext);
@@ -51,7 +53,7 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->ldapManagerMock->expects($this->once())
                 ->method('findUserByUsername')
-                ->will($this->returnValue($this->user))
+                ->willReturn($this->user)
                 ->with($this->equalTo($this->user->getUsername()));
 
         $this->validatorContext->expects($this->once())
@@ -65,7 +67,7 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->ldapManagerMock->expects($this->once())
                 ->method('findUserByUsername')
-                ->will($this->returnValue(null))
+                ->willReturn(null)
                 ->with($this->equalTo($this->user->getUsername()));
 
         $this->validatorContext->expects($this->never())
@@ -89,6 +91,6 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
     public function testWrongConstraint(): void
     {
         /* @noinspection PhpParamsInspection */
-        $this->validator->validate($this->user, $this->getMock(Constraint::class));
+        $this->validator->validate($this->user, $this->createMock(Constraint::class));
     }
 }

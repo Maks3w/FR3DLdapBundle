@@ -3,8 +3,9 @@
 namespace FR3D\LdapBundle\Tests\Hydrator;
 
 use FR3D\LdapBundle\Tests\DependencyInjection\ConfigurationTrait;
+use PHPUnit\Framework\TestCase;
 
-abstract class AbstractHydratorTestCase extends \PHPUnit_Framework_TestCase
+abstract class AbstractHydratorTestCase extends TestCase
 {
     use ConfigurationTrait {
         getDefaultUserConfig as parentGetDefaultUserConfig;

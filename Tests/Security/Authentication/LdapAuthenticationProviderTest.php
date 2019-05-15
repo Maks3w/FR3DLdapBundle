@@ -4,6 +4,8 @@ namespace FR3D\LdapBundle\Tests\Security\Authentication;
 
 use Exception;
 use FR3D\LdapBundle\Security\Authentication\LdapAuthenticationProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
@@ -16,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 /**
  * @covers \FR3D\LdapBundle\Security\Authentication\LdapAuthenticationProvider
  */
-class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
+class LdapAuthenticationProviderTest extends TestCase
 {
     /**
      * @var LdapAuthenticationProvider
@@ -24,12 +26,12 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     protected $ldapAuthenticationProvider;
 
     /**
-     * @var \Symfony\Component\Security\Core\User\UserProviderInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Symfony\Component\Security\Core\User\UserProviderInterface|MockObject
      */
     protected $userProvider;
 
     /**
-     * @var \FR3D\LdapBundle\Ldap\LdapManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var LdapManagerInterface|MockObject
      */
     protected $ldapManager;
 
@@ -39,11 +41,11 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp(): void
     {
-        /** @var UserCheckerInterface|\PHPUnit_Framework_MockObject_MockObject $userChecker */
-        $userChecker = $this->getMock(UserCheckerInterface::class);
+        /** @var UserCheckerInterface|MockObject $userChecker */
+        $userChecker = $this->createMock(UserCheckerInterface::class);
         $providerKey = 'provider_key';
-        $this->userProvider = $this->getMock(UserProviderInterface::class);
-        $this->ldapManager = $this->getMock(LdapManagerInterface::class);
+        $this->userProvider = $this->createMock(UserProviderInterface::class);
+        $this->ldapManager = $this->createMock(LdapManagerInterface::class);
         $hideUserNotFoundExceptions = false;
 
         $this->ldapAuthenticationProvider = new LdapAuthenticationProvider($userChecker, $providerKey, $this->userProvider, $this->ldapManager, $hideUserNotFoundExceptions);
@@ -195,12 +197,12 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return UserInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return UserInterface|MockObject
      */
     private function createUserMock()
     {
-        $user = $this->getMock(UserInterface::class);
-        $user->expects($this->any())
+        $user = $this->createMock(UserInterface::class);
+        $user
             ->method('getRoles')
             ->willReturn([]);
 
@@ -231,7 +233,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $this->ldapManager->expects($this->once())
             ->method('bind')
             ->with($this->equalTo($user), $this->equalTo($password))
-            ->will($this->returnValue($result))
+            ->willReturn($result)
         ;
     }
 
@@ -248,7 +250,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         if ($userOrException instanceof Exception) {
             $mock->will($this->throwException($userOrException));
         } else {
-            $mock->will($this->returnValue($userOrException));
+            $mock->willReturn($userOrException);
         }
     }
 }

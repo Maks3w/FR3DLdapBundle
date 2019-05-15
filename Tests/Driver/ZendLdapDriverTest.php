@@ -4,6 +4,8 @@ namespace FR3D\LdapBundle\Tests\Driver;
 
 use FR3D\LdapBundle\Driver\ZendLdapDriver;
 use FR3D\Psr3MessagesAssertions\PhpUnit\TestLogger;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Zend\Ldap\Exception\LdapException as ZendLdapException;
 use Zend\Ldap\Ldap;
@@ -13,12 +15,12 @@ use FR3D\LdapBundle\Exception\SanitizingException;
 /**
  * Test class for ZendLdapDriver.
  */
-class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
+class ZendLdapDriverTest extends TestCase
 {
     use LdapDriverInterfaceTestTrait;
 
     /**
-     * @var \Zend\Ldap\Ldap|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Zend\Ldap\Ldap|MockObject
      */
     protected $zend;
 
@@ -32,7 +34,7 @@ class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('PHP LDAP extension not loaded');
         }
 
-        $this->zend = $this->getMock(Ldap::class);
+        $this->zend = $this->createMock(Ldap::class);
         $this->driver = new ZendLdapDriver($this->zend, new TestLogger());
     }
 
@@ -54,7 +56,7 @@ class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
         $this->zend->expects($this->once())
                 ->method('searchEntries')
                 ->with($this->equalTo($filter), $this->equalTo($baseDn), $this->equalTo(Ldap::SEARCH_SCOPE_SUB), $this->equalTo($attributes))
-                ->will($this->returnValue([$entry]));
+                ->willReturn([$entry]);
 
         self::assertEquals($expect, $this->driver->search($baseDn, $filter, $attributes));
     }
@@ -67,7 +69,7 @@ class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
         $this->zend->expects($this->once())
                 ->method('bind')
                 ->with($this->equalTo($expectedBindRdn), $this->equalTo($password))
-                ->will($this->returnValue($this->zend));
+                ->willReturn($this->zend);
 
         self::assertTrue($this->driver->bind($user, $password));
     }
@@ -88,11 +90,9 @@ class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
     {
         $password = 'veryverysecret';
 
-        $loggerMock = $this->getMockBuilder(LoggerInterface::class)
-        ->setMethods(['debug', 'error'])
-        ->getMockForAbstractClass();
+        $loggerMock = $this->createMock(LoggerInterface::class);
 
-        $zendLdapExceptionMock = $this->getMockBuilder(ZendLdapException::class)->getMock();
+        $zendLdapExceptionMock = $this->createMock(ZendLdapException::class);
         $zendLdapExceptionMock
         ->method('__toString')
         ->willReturn("Zend\Ldap\Exception\LdapException: fr3d/ldap-bundle/Driver/ZendLdapDriver.php(82): Zend\Ldap\Ldap->bind('fogs', '$password')")

@@ -4,9 +4,8 @@ namespace FR3D\LdapBundle\Tests\Driver;
 
 use FR3D\LdapBundle\Driver\LdapDriverInterface;
 use FR3D\LdapBundle\Model\LdapUserInterface;
-use Maks3w\PhpUnitMethodsTrait\Framework\TestCaseTrait;
-use PHPUnit_Framework_Assert as Assert;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Security\Core\User\UserInterface;
 use FR3D\LdapBundle\Tests\TestUser;
 
@@ -15,8 +14,6 @@ use FR3D\LdapBundle\Tests\TestUser;
  */
 trait LdapDriverInterfaceTestTrait
 {
-    use TestCaseTrait;
-
     /**
      * @var LdapDriverInterface
      */
@@ -62,13 +59,13 @@ trait LdapDriverInterfaceTestTrait
 
     private function mockUserInterface(array $methodReturns): UserInterface
     {
-        /** @var UserInterface|\PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock(UserInterface::class);
+        /** @var UserInterface|MockObject $user */
+        $user = $this->createMock(UserInterface::class);
 
         foreach ($methodReturns as $method => $return) {
-            $user->expects(TestCase::any())
+            $user
                 ->method($method)
-                ->will(TestCase::returnValue($return))
+                ->willReturn($return)
             ;
         }
 
@@ -80,13 +77,13 @@ trait LdapDriverInterfaceTestTrait
      */
     private function mockLdapUserInterface(array $methodReturns)
     {
-        /** @var UserInterface|LdapUserInterface|\PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock(TestUser::class);
+        /** @var UserInterface|LdapUserInterface|MockObject $user */
+        $user = $this->createMock(TestUser::class);
 
         foreach ($methodReturns as $method => $return) {
-            $user->expects(TestCase::any())
+            $user
                 ->method($method)
-                ->will(TestCase::returnValue($return))
+                ->willReturn($return)
             ;
         }
 

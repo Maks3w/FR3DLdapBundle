@@ -4,24 +4,26 @@ namespace FR3D\LdapBundle\Tests\Ldap;
 
 use FR3D\LdapBundle\Hydrator\HydratorInterface;
 use FR3D\LdapBundle\Ldap\LdapManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\User\UserInterface;
 use FR3D\LdapBundle\Driver\LdapDriverInterface;
 
 /**
  * @covers \FR3D\LdapBundle\Ldap\LdapManager
  */
-class LdapManagerTest extends \PHPUnit_Framework_TestCase
+class LdapManagerTest extends TestCase
 {
     /** @var array */
     protected $params;
 
     /**
-     * @var \FR3D\LdapBundle\Driver\LdapDriverInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var LdapDriverInterface|MockObject
      */
     protected $driver;
 
     /**
-     * @var HydratorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var HydratorInterface|MockObject
      */
     protected $hydrator;
 
@@ -44,9 +46,9 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        $this->driver = $this->getMock(LdapDriverInterface::class);
+        $this->driver = $this->createMock(LdapDriverInterface::class);
 
-        $this->hydrator = $this->getMock(HydratorInterface::class);
+        $this->hydrator = $this->createMock(HydratorInterface::class);
 
         $this->ldapManager = new LdapManager($this->driver, $this->hydrator, $this->params);
     }
@@ -66,7 +68,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('ou=Groups,dc=example,dc=com'),
                 $this->equalTo('(&(attr0=value0)(uid=test_username))')
             )
-            ->will($this->returnValue($ldapResponse))
+            ->willReturn($ldapResponse)
         ;
 
         $resultUser = $this->ldapManager->findUserByUsername($username);
@@ -89,7 +91,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('ou=Groups,dc=example,dc=com'),
                 $this->equalTo('(&(attr0=value0)(uid=test_username))')
             )
-            ->will($this->returnValue($ldapResponse))
+            ->willReturn($ldapResponse)
         ;
 
         $criteria = ['uid' => 'test_username'];
@@ -124,12 +126,12 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         $password = 'password';
 
         /** @var UserInterface $user */
-        $user = $this->getMock(UserInterface::class);
+        $user = $this->createMock(UserInterface::class);
 
         $this->driver->expects($this->once())
             ->method('bind')
             ->with($user, $this->equalTo($password))
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         self::assertTrue($this->ldapManager->bind($user, $password));
     }
@@ -149,8 +151,8 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
             $entry,
         ];
 
-        $user = $this->getMock(UserInterface::class);
-        $user->expects($this->any())
+        $user = $this->createMock(UserInterface::class);
+        $user
             ->method('getUsername')
             ->willReturn($username)
         ;
