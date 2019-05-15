@@ -9,8 +9,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Zend\Ldap\Exception\LdapException as ZendLdapException;
 use Zend\Ldap\Ldap;
 
-//use Symfony\Component\Ldap\Ldap;
-
 /**
  * This class adapt ldap calls to Zend Framework Ldap library functions.
  * Also prevent information disclosure catching Zend Ldap Exceptions and passing
