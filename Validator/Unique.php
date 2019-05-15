@@ -28,9 +28,6 @@ class Unique extends Constraint
         return 'fr3d_ldap.validator.unique';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getTargets()
     {
         return self::CLASS_CONSTRAINT;

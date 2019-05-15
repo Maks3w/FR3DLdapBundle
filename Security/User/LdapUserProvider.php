@@ -17,7 +17,7 @@ class LdapUserProvider implements UserProviderInterface
     /** @var LdapManagerInterface */
     protected $ldapManager;
 
-    /** @var null|LoggerInterface */
+    /** @var LoggerInterface|null */
     protected $logger;
 
     public function __construct(LdapManagerInterface $ldapManager, LoggerInterface $logger = null)
@@ -26,9 +26,6 @@ class LdapUserProvider implements UserProviderInterface
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadUserByUsername($username)
     {
         $user = $this->ldapManager->findUserByUsername($username);
@@ -54,9 +51,6 @@ class LdapUserProvider implements UserProviderInterface
         return $user;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function refreshUser(UserInterface $user)
     {
         if (!$this->supportsClass(get_class($user))) {
@@ -66,9 +60,6 @@ class LdapUserProvider implements UserProviderInterface
         return $this->loadUserByUsername($user->getUsername());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportsClass($class)
     {
         return true;
@@ -76,11 +67,8 @@ class LdapUserProvider implements UserProviderInterface
 
     /**
      * Log a message into the logger if this exists.
-     *
-     * @param string $message
-     * @param array $context
      */
-    private function logInfo($message, array $context = [])
+    private function logInfo(string $message, array $context = []): void
     {
         if (!$this->logger) {
             return;

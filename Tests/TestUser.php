@@ -30,57 +30,35 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
         $this->password = $password;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSalt()
+    public function getSalt(): ?string
     {
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
-        return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRoles()
+    public function getRoles(): array
     {
         return $this->roles;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isEnabled()
     {
         return $this->enabled;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setLocked($locked)
     {
         $this->locked = $locked;
@@ -91,49 +69,31 @@ class TestUser implements UserInterface, AdvancedUserInterface, LdapUserInterfac
         $this->roles = $roles;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isAccountNonLocked()
     {
         return !$this->locked;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isAccountNonExpired()
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isCredentialsNonExpired()
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setDn($dn)
+    public function setDn(string $dn)
     {
         $this->dn = $dn;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDn()
+    public function getDn(): ?string
     {
         return $this->dn;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __toString()
     {
         return (string) $this->getUsername();

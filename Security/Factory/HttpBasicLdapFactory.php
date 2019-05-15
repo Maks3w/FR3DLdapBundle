@@ -47,7 +47,7 @@ class HttpBasicLdapFactory implements SecurityFactoryInterface
     protected function createAuthProvider(ContainerBuilder $container, $id, $userProviderId)
     {
         $provider = 'fr3d_ldap.security.authentication.provider';
-        $providerId = $provider . '.' . $id;
+        $providerId = $provider.'.'.$id;
 
         $container
             ->setDefinition($providerId, new DefinitionDecorator($provider))
@@ -61,7 +61,7 @@ class HttpBasicLdapFactory implements SecurityFactoryInterface
     protected function createListener(ContainerBuilder $container, $id, $entryPointId)
     {
         // listener
-        $listenerId = 'security.authentication.listener.basic.' . $id;
+        $listenerId = 'security.authentication.listener.basic.'.$id;
         $listener = $container->setDefinition($listenerId, new DefinitionDecorator('security.authentication.listener.basic'));
         $listener->replaceArgument(2, $id);
         $listener->replaceArgument(3, new Reference($entryPointId));
@@ -75,7 +75,7 @@ class HttpBasicLdapFactory implements SecurityFactoryInterface
             return $defaultEntryPoint;
         }
 
-        $entryPointId = 'security.authentication.basic_entry_point.' . $id;
+        $entryPointId = 'security.authentication.basic_entry_point.'.$id;
         $container
             ->setDefinition($entryPointId, new DefinitionDecorator('security.authentication.basic_entry_point'))
             ->addArgument($config['realm'])
