@@ -15,7 +15,7 @@
         "source": "https://github.com/Maks3w/FR3DLdapBundle"
     },
     "require": {
-        "php": ">=5.5",
+        "php": ">=7.1",
         "psr/log": "~1.0",
         "symfony/config": "2.3 - 3",
         "symfony/dependency-injection": "2.3 - 3",
