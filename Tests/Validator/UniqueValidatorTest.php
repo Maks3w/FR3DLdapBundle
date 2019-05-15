@@ -14,47 +14,46 @@ namespace FR3D\LdapBundle\Tests\Validation;
 use FR3D\LdapBundle\Tests\TestUser;
 use FR3D\LdapBundle\Validator\Unique;
 use FR3D\LdapBundle\Validator\UniqueValidator;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraint;
+use FR3D\LdapBundle\Ldap\LdapManagerInterface;
 
 /**
- * @covers FR3D\LdapBundle\Validator\Unique
- * @covers FR3D\LdapBundle\Validator\UniqueValidator
+ * @covers \FR3D\LdapBundle\Validator\Unique
+ * @covers \FR3D\LdapBundle\Validator\UniqueValidator
  */
-class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
+class UniqueValidatorTest extends TestCase
 {
     /** @var UniqueValidator */
     private $validator;
-    /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ExecutionContextInterface|MockObject */
     private $validatorContext;
-    /** @var \FR3D\LdapBundle\Ldap\LdapManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var LdapManagerInterface|MockObject */
     private $ldapManagerMock;
     /** @var Unique */
     private $constraint;
     /** @var TestUser */
     private $user;
 
-    public function setUp()
+    public function setUp(): void
     {
-        // SF 2.3 compatibility
-        if (interface_exists('Symfony\Component\Validator\ExecutionContextInterface')) {
-            $this->validatorContext = $this->getMock('Symfony\Component\Validator\ExecutionContextInterface');
-        } else {
-            $this->validatorContext = $this->getMock('Symfony\Component\Validator\Context\ExecutionContextInterface');
-        }
-
-        $this->ldapManagerMock = $this->getMock('FR3D\LdapBundle\Ldap\LdapManagerInterface');
+        $this->validatorContext = $this->createMock(ExecutionContextInterface::class);
+        $this->ldapManagerMock = $this->createMock(LdapManagerInterface::class);
         $this->constraint = new Unique();
         $this->validator = new UniqueValidator($this->ldapManagerMock);
         $this->validator->initialize($this->validatorContext);
 
         $this->user = new TestUser();
+        $this->user->setUsername('fooName');
     }
 
-    public function testViolationsOnDuplicateUserProperty()
+    public function testViolationsOnDuplicateUserProperty(): void
     {
         $this->ldapManagerMock->expects($this->once())
                 ->method('findUserByUsername')
-                ->will($this->returnValue($this->user))
+                ->willReturn($this->user)
                 ->with($this->equalTo($this->user->getUsername()));
 
         $this->validatorContext->expects($this->once())
@@ -64,11 +63,11 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validator->validate($this->user, $this->constraint);
     }
 
-    public function testNoViolationsOnUniqueUserProperty()
+    public function testNoViolationsOnUniqueUserProperty(): void
     {
         $this->ldapManagerMock->expects($this->once())
                 ->method('findUserByUsername')
-                ->will($this->returnValue(null))
+                ->willReturn(null)
                 ->with($this->equalTo($this->user->getUsername()));
 
         $this->validatorContext->expects($this->never())
@@ -80,18 +79,18 @@ class UniqueValidatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Validator\Exception\UnexpectedTypeException
      */
-    public function testBadType()
+    public function testBadType(): void
     {
-        /** @noinspection PhpParamsInspection */
+        /* @noinspection PhpParamsInspection */
         $this->validator->validate('bad_type', $this->constraint);
     }
 
     /**
      * @expectedException \Symfony\Component\Validator\Exception\UnexpectedTypeException
      */
-    public function testWrongConstraint()
+    public function testWrongConstraint(): void
     {
-        /** @noinspection PhpParamsInspection */
-        $this->validator->validate($this->user, $this->getMock('Symfony\Component\Validator\Constraint'));
+        /* @noinspection PhpParamsInspection */
+        $this->validator->validate($this->user, $this->createMock(Constraint::class));
     }
 }

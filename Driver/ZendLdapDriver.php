@@ -38,10 +38,7 @@ class ZendLdapDriver implements LdapDriverInterface
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function search($baseDn, $filter, array $attributes = [])
+    public function search(string $baseDn, string $filter, array $attributes = [])
     {
         $this->logDebug('{action}({base_dn}, {filter}, {attributes})', [
             'action' => 'ldap_search',
@@ -64,10 +61,7 @@ class ZendLdapDriver implements LdapDriverInterface
         return $entries;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function bind(UserInterface $user, $password)
+    public function bind(UserInterface $user, string $password): bool
     {
         if ($user instanceof LdapUserInterface && $user->getDn()) {
             $bind_rdn = $user->getDn();
@@ -96,7 +90,7 @@ class ZendLdapDriver implements LdapDriverInterface
      * @param ZendLdapException $exception
      * @param string            $password
      */
-    protected function zendExceptionHandler(ZendLdapException $exception, $password = null)
+    protected function zendExceptionHandler(ZendLdapException $exception, string $password = null): void
     {
         $sanitizedException = null !== $password ? new SanitizingException($exception, $password) : $exception;
 
@@ -121,7 +115,7 @@ class ZendLdapDriver implements LdapDriverInterface
      * @param string $message
      * @param array  $context
      */
-    private function logDebug($message, array $context = [])
+    private function logDebug(string $message, array $context = []): void
     {
         if ($this->logger) {
             $this->logger->debug($message, $context);

@@ -21,14 +21,12 @@ matrix:
         - EXECUTE_CS_CHECK=true
 
 before_install:
-  - phpenv config-add .ci/php.ini || return 0
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
-  - if [[ $SYMFONY_VERSION != '' ]]; then travis_retry composer require --dev --no-update symfony/symfony:${SYMFONY_VERSION} ; fi
-  - if [[ $EXECUTE_CS_CHECK != 'true' ]]; then travis_retry composer remove --dev --no-update fabpot/php-cs-fixer ; fi
+  - if [[ $EXECUTE_CS_CHECK != 'true' ]]; then travis_retry composer remove --dev --no-update friendsofphp/php-cs-fixer ; fi
 
 install:
   - travis_retry composer update --no-interaction $COMPOSER_ARGUMENTS
-  - composer info -i
+  - composer info
 
 script:
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/phpunit --coverage-clover clover.xml ; fi
@@ -36,8 +34,4 @@ script:
   - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then vendor/bin/php-cs-fixer fix -v --dry-run; fi
 
 after_script:
-  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then
-    wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar;
-    chmod +x coveralls.phar;
-    php coveralls.phar -v;
-    fi
+  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then bash <(curl -s https://codecov.io/bash) ; fi

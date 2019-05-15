@@ -13,9 +13,7 @@ interface HydratorInterface
      * Populate an user with the data retrieved from LDAP.
      *
      * @param array $ldapEntry LDAP result information as a multi-dimensional array.
-     *              see {@link http://www.php.net/function.ldap-get-entries.php} for array format examples.
-     *
-     * @return UserInterface
+     *                         see {@link http://www.php.net/function.ldap-get-entries.php} for array format examples.
      */
-    public function hydrate(array $ldapEntry);
+    public function hydrate(array $ldapEntry): UserInterface;
 }

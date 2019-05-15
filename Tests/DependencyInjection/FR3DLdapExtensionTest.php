@@ -3,23 +3,24 @@
 namespace FR3D\LdapBundle\Tests\DependencyInjection;
 
 use FR3D\LdapBundle\DependencyInjection\FR3DLdapExtension;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
+class FR3DLdapExtensionTest extends TestCase
 {
     use ConfigurationTrait;
 
     /** @var ContainerBuilder */
     public $container;
 
-    public function testConfigurationNamespace()
+    public function testConfigurationNamespace(): void
     {
         $this->container = new ContainerBuilder();
         $this->container->registerExtension(new FR3DLdapExtension());
         self::assertTrue($this->container->hasExtension('fr3d_ldap'));
     }
 
-    public function testLoadMinimalConfiguration()
+    public function testLoadMinimalConfiguration(): void
     {
         $minRequiredConfig = [
             'driver' => [
@@ -37,18 +38,18 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
 
         $extension->load([$minRequiredConfig], $this->container);
 
-        self::assertHasDefinition('fr3d_ldap.ldap_driver');
-        self::assertHasDefinition('fr3d_ldap.ldap_manager.default');
+        $this->assertHasDefinition('fr3d_ldap.ldap_driver');
+        $this->assertHasDefinition('fr3d_ldap.ldap_manager.default');
 
-        self::assertParameter($defaultConfig['driver'], 'fr3d_ldap.ldap_driver.parameters');
-        self::assertParameter($defaultConfig['user'], 'fr3d_ldap.ldap_manager.parameters');
+        $this->assertParameter($defaultConfig['driver'], 'fr3d_ldap.ldap_driver.parameters');
+        $this->assertParameter($defaultConfig['user'], 'fr3d_ldap.ldap_manager.parameters');
 
-        self::assertAlias('fr3d_ldap.user_hydrator.default', 'fr3d_ldap.user_hydrator');
-        self::assertAlias('fr3d_ldap.ldap_manager.default', 'fr3d_ldap.ldap_manager');
-        self::assertAlias('fr3d_ldap.ldap_driver.zend', 'fr3d_ldap.ldap_driver');
+        $this->assertAlias('fr3d_ldap.user_hydrator.default', 'fr3d_ldap.user_hydrator');
+        $this->assertAlias('fr3d_ldap.ldap_manager.default', 'fr3d_ldap.ldap_manager');
+        $this->assertAlias('fr3d_ldap.ldap_driver.zend', 'fr3d_ldap.ldap_driver');
     }
 
-    public function testLoadFullConfiguration()
+    public function testLoadFullConfiguration(): void
     {
         $config = $this->getDefaultConfig();
         $config['driver']['username'] = null;
@@ -64,7 +65,7 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($config['user'], $this->container->getParameter('fr3d_ldap.ldap_manager.parameters'));
     }
 
-    public function testLoadDriverConfiguration()
+    public function testLoadDriverConfiguration(): void
     {
         $config = $this->getDefaultConfig();
         $config['driver']['accountFilterFormat'] = '(%(uid=%s))';
@@ -78,7 +79,7 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($config['user'], $this->container->getParameter('fr3d_ldap.ldap_manager.parameters'));
     }
 
-    public function testSslConfiguration()
+    public function testSslConfiguration(): void
     {
         $config = $this->getDefaultConfig();
         $config['driver']['useSsl'] = true;
@@ -92,7 +93,7 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($config['driver'], $this->container->getParameter('fr3d_ldap.ldap_driver.parameters'));
     }
 
-    public function testTlsConfiguration()
+    public function testTlsConfiguration(): void
     {
         $config = $this->getDefaultConfig();
         $config['driver']['useSsl'] = false;
@@ -109,7 +110,7 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
-    public function testSslTlsExclusiveConfiguration()
+    public function testSslTlsExclusiveConfiguration(): void
     {
         $config = $this->getDefaultConfig();
         $config['driver']['useSsl'] = true;
@@ -121,22 +122,22 @@ class FR3DLdapExtensionTest extends \PHPUnit_Framework_TestCase
         $extension->load([$config], $this->container);
     }
 
-    private function assertAlias($value, $key)
+    private function assertAlias($value, $key): void
     {
         self::assertEquals($value, (string) $this->container->getAlias($key), sprintf('%s alias is not correct', $key));
     }
 
-    private function assertParameter($value, $key)
+    private function assertParameter($value, $key): void
     {
         self::assertEquals($value, $this->container->getParameter($key), sprintf('%s parameter is not correct', $key));
     }
 
-    private function assertHasDefinition($id)
+    private function assertHasDefinition($id): void
     {
         self::assertTrue(($this->container->hasDefinition($id) ?: $this->container->hasAlias($id)), sprintf('%s definition is not set', $id));
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->container);
     }

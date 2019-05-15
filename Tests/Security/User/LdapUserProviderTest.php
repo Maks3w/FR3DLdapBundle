@@ -5,33 +5,34 @@ namespace FR3D\LdapBundle\Tests\Security\User;
 use FR3D\LdapBundle\Security\User\LdapUserProvider;
 use FR3D\LdapBundle\Tests\TestUser;
 use FR3D\Psr3MessagesAssertions\PhpUnit\TestLogger;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use FR3D\LdapBundle\Ldap\LdapManager;
 
 /**
- * @covers FR3D\LdapBundle\Security\User\LdapUserProvider
+ * @covers \FR3D\LdapBundle\Security\User\LdapUserProvider
  */
-class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
+class LdapUserProviderTest extends TestCase
 {
     /**
-     * @var \FR3D\LdapBundle\Ldap\LdapManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var LdapManager|MockObject
      */
     protected $ldapManager;
 
     /**
-     * @var \FR3D\LdapBundle\Security\User\LdapUserProvider
+     * @var LdapUserProvider
      */
     protected $userProvider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->ldapManager = $this->getMockBuilder('FR3D\LdapBundle\Ldap\LdapManager')
-                ->disableOriginalConstructor()
-                ->getMock();
+        $this->ldapManager = $this->createMock(LdapManager::class);
 
         $this->userProvider = new LdapUserProvider($this->ldapManager, new TestLogger());
     }
 
-    public function testLoadUserByUsername()
+    public function testLoadUserByUsername(): void
     {
         $username = 'test_username';
         $user = new TestUser();
@@ -40,18 +41,18 @@ class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
         $this->ldapManager->expects($this->once())
                 ->method('findUserByUsername')
                 ->with($this->equalTo($username))
-                ->will($this->returnValue($user));
+                ->willReturn($user);
 
         self::assertEquals($username, $this->userProvider->loadUserByUsername($username)->getUsername());
     }
 
-    public function testLoadUserByUsernameNotFound()
+    public function testLoadUserByUsernameNotFound(): void
     {
         $username = 'invalid_username';
 
         $this->ldapManager->expects($this->once())
                 ->method('findUserByUsername')
-                ->will($this->returnValue(null));
+                ->willReturn(null);
 
         try {
             $this->userProvider->loadUserByUsername($username);
@@ -61,7 +62,7 @@ class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testRefreshUser()
+    public function testRefreshUser(): void
     {
         $username = 'test_username';
         $user = new TestUser();
@@ -70,7 +71,7 @@ class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
         $this->ldapManager->expects($this->once())
                 ->method('findUserByUsername')
                 ->with($this->equalTo($username))
-                ->will($this->returnValue($user));
+                ->willReturn($user);
 
         self::assertEquals($user, $this->userProvider->refreshUser($user));
     }

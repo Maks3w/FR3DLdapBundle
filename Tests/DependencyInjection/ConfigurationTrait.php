@@ -9,10 +9,8 @@ trait ConfigurationTrait
 {
     /**
      * Returns default configuration bundle configuration.
-     *
-     * @return array
      */
-    protected function getDefaultConfig()
+    protected function getDefaultConfig(): array
     {
         return [
             'driver' => $this->getDefaultDriverConfig(),
@@ -25,10 +23,8 @@ trait ConfigurationTrait
      * Returns default configuration for Driver subtree.
      *
      * Same as service parameter `fr3d_ldap.ldap_driver.parameters`
-     *
-     * @return array
      */
-    protected function getDefaultDriverConfig()
+    protected function getDefaultDriverConfig(): array
     {
         return [
             'host' => 'ldap.hostname.local',
@@ -45,10 +41,8 @@ trait ConfigurationTrait
      * Returns default configuration for User subtree.
      *
      * Same as service parameter `fr3d_ldap.ldap_manager.parameters`
-     *
-     * @return array
      */
-    protected function getDefaultUserConfig()
+    protected function getDefaultUserConfig(): array
     {
         return [
             'baseDn' => 'ou=Persons,dc=example,dc=com',
@@ -65,10 +59,8 @@ trait ConfigurationTrait
 
     /**
      * Returns default configuration for Service subtree.
-     *
-     * @return array
      */
-    protected function getDefaultServiceConfig()
+    protected function getDefaultServiceConfig(): array
     {
         return [
             'user_hydrator' => 'fr3d_ldap.user_hydrator.default',

@@ -49,11 +49,11 @@ class UniqueValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
         if (!$constraint instanceof Unique) {
-            throw new UnexpectedTypeException($constraint, __NAMESPACE__ . '\Unique');
+            throw new UnexpectedTypeException($constraint, __NAMESPACE__.'\Unique');
         }
 
         if (!$value instanceof UserInterface) {
-            throw new UnexpectedTypeException($value, 'Symfony\Component\Security\Core\User\UserInterface');
+            throw new UnexpectedTypeException($value, UserInterface::class);
         }
 
         $user = $this->ldapManager->findUserByUsername($value->getUsername());
