@@ -23,18 +23,12 @@ class LdapManager implements LdapManagerInterface
         $this->hydrator = $hydrator;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function findUserByUsername($username)
+    public function findUserByUsername(string $username): ?UserInterface
     {
         return $this->findUserBy([$this->params['usernameAttribute'] => $username]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function findUserBy(array $criteria)
+    public function findUserBy(array $criteria): ?UserInterface
     {
         $filter = $this->buildFilter($criteria);
         $entries = $this->driver->search($this->params['baseDn'], $filter);
@@ -42,7 +36,7 @@ class LdapManager implements LdapManagerInterface
             throw new \Exception('This search can only return a single user');
         }
 
-        if ($entries['count'] == 0) {
+        if (0 === $entries['count']) {
             return null;
         }
         $user = $this->hydrator->hydrate($entries[0]);
@@ -52,13 +46,8 @@ class LdapManager implements LdapManagerInterface
 
     /**
      * Build Ldap filter.
-     *
-     * @param  array  $criteria
-     * @param  string $condition
-     *
-     * @return string
      */
-    protected function buildFilter(array $criteria, $condition = '&')
+    protected function buildFilter(array $criteria, string $condition = '&'): string
     {
         $filters = [];
         $filters[] = $this->params['filter'];
@@ -70,10 +59,7 @@ class LdapManager implements LdapManagerInterface
         return sprintf('(%s%s)', $condition, implode($filters));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function bind(UserInterface $user, $password)
+    public function bind(UserInterface $user, string $password): bool
     {
         return $this->driver->bind($user, $password);
     }

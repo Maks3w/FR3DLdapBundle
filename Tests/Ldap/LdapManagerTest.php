@@ -5,9 +5,10 @@ namespace FR3D\LdapBundle\Tests\Ldap;
 use FR3D\LdapBundle\Hydrator\HydratorInterface;
 use FR3D\LdapBundle\Ldap\LdapManager;
 use Symfony\Component\Security\Core\User\UserInterface;
+use FR3D\LdapBundle\Driver\LdapDriverInterface;
 
 /**
- * @covers FR3D\LdapBundle\Ldap\LdapManager
+ * @covers \FR3D\LdapBundle\Ldap\LdapManager
  */
 class LdapManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +34,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->params = [
             'baseDn' => 'ou=Groups,dc=example,dc=com',
@@ -43,17 +44,17 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        $this->driver = $this->getMock('FR3D\LdapBundle\Driver\LdapDriverInterface');
+        $this->driver = $this->getMock(LdapDriverInterface::class);
 
-        $this->hydrator = $this->getMock('FR3D\LdapBundle\Hydrator\HydratorInterface');
+        $this->hydrator = $this->getMock(HydratorInterface::class);
 
         $this->ldapManager = new LdapManager($this->driver, $this->hydrator, $this->params);
     }
 
     /**
-     * @covers FR3D\LdapBundle\Ldap\LdapManager::findUserByUsername
+     * @covers \FR3D\LdapBundle\Ldap\LdapManager::findUserByUsername
      */
-    public function testFindUserByUsername()
+    public function testFindUserByUsername(): void
     {
         $username = 'test_username';
 
@@ -74,9 +75,9 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers FR3D\LdapBundle\Ldap\LdapManager::findUserBy
+     * @covers \FR3D\LdapBundle\Ldap\LdapManager::findUserBy
      */
-    public function testFindUserBy()
+    public function testFindUserBy(): void
     {
         $username = 'test_username';
 
@@ -98,11 +99,11 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers FR3D\LdapBundle\Ldap\LdapManager::buildFilter
+     * @covers \FR3D\LdapBundle\Ldap\LdapManager::buildFilter
      */
-    public function testBuildFilter()
+    public function testBuildFilter(): void
     {
-        $reflectionClass = new \ReflectionClass('FR3D\LdapBundle\Ldap\LdapManager');
+        $reflectionClass = new \ReflectionClass(LdapManager::class);
         $method = $reflectionClass->getMethod('buildFilter');
         $method->setAccessible(true);
 
@@ -116,14 +117,14 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers FR3D\LdapBundle\Ldap\LdapManager::bind
+     * @covers \FR3D\LdapBundle\Ldap\LdapManager::bind
      */
-    public function testBind()
+    public function testBind(): void
     {
         $password = 'password';
 
         /** @var UserInterface $user */
-        $user = $this->getMock('Symfony\\Component\\Security\\Core\\User\\UserInterface');
+        $user = $this->getMock(UserInterface::class);
 
         $this->driver->expects($this->once())
             ->method('bind')
@@ -133,12 +134,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
         self::assertTrue($this->ldapManager->bind($user, $password));
     }
 
-    /**
-     * @param $username
-     *
-     * @return array
-     */
-    protected function ldapResponse($username)
+    protected function ldapResponse(string $username): array
     {
         $entry = [
             'dn' => 'ou=group, dc=host, dc=foo',
@@ -153,7 +149,7 @@ class LdapManagerTest extends \PHPUnit_Framework_TestCase
             $entry,
         ];
 
-        $user = $this->getMock('Symfony\\Component\\Security\\Core\\User\\UserInterface');
+        $user = $this->getMock(UserInterface::class);
         $user->expects($this->any())
             ->method('getUsername')
             ->willReturn($username)

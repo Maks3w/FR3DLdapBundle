@@ -8,12 +8,12 @@ use FR3D\LdapBundle\Tests\TestUser;
 
 class LegacyHydratorTest extends AbstractHydratorTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         /** @var UserManagerInterface|\PHPUnit_Framework_MockObject_MockObject $userManager */
-        $userManager = $this->getMock('FOS\UserBundle\Model\UserManagerInterface');
+        $userManager = $this->getMock(UserManagerInterface::class);
         $userManager->expects($this->any())
             ->method('createUser')
             ->will($this->returnValue(new TestUser()));

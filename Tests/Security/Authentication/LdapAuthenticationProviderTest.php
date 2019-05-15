@@ -10,9 +10,11 @@ use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use FR3D\LdapBundle\Ldap\LdapManagerInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
- * @covers FR3D\LdapBundle\Security\Authentication\LdapAuthenticationProvider
+ * @covers \FR3D\LdapBundle\Security\Authentication\LdapAuthenticationProvider
  */
 class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,13 +37,13 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         /** @var UserCheckerInterface|\PHPUnit_Framework_MockObject_MockObject $userChecker */
-        $userChecker = $this->getMock('Symfony\Component\Security\Core\User\UserCheckerInterface');
+        $userChecker = $this->getMock(UserCheckerInterface::class);
         $providerKey = 'provider_key';
-        $this->userProvider = $this->getMock('Symfony\Component\Security\Core\User\UserProviderInterface');
-        $this->ldapManager = $this->getMock('FR3D\LdapBundle\Ldap\LdapManagerInterface');
+        $this->userProvider = $this->getMock(UserProviderInterface::class);
+        $this->ldapManager = $this->getMock(LdapManagerInterface::class);
         $hideUserNotFoundExceptions = false;
 
         $this->ldapAuthenticationProvider = new LdapAuthenticationProvider($userChecker, $providerKey, $this->userProvider, $this->ldapManager, $hideUserNotFoundExceptions);
@@ -49,11 +51,8 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider validTokensProvider
-     *
-     * @param string $username
-     * @param string $password
      */
-    public function testAuthenticate($username, $password)
+    public function testAuthenticate($username, $password): void
     {
         $user = $this->createUserMock();
         $token = $this->createToken($username, $password);
@@ -66,7 +65,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertValidAuthenticatedToken($authenticatedToken, $user);
     }
 
-    public function validTokensProvider()
+    public function validTokensProvider(): array
     {
         return [
             'normal' => ['test_username', 'password'],
@@ -77,7 +76,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException
      */
-    public function testRetrieveUserNotFound()
+    public function testRetrieveUserNotFound(): void
     {
         $username = 'notfound_username';
         $token = $this->createToken($username, 'password');
@@ -87,7 +86,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $this->ldapAuthenticationProvider->authenticate($token);
     }
 
-    public function testRetrieveUserUnexpectedError()
+    public function testRetrieveUserUnexpectedError(): void
     {
         $username = 'username';
         $token = $this->createToken($username, 'password');
@@ -102,7 +101,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testRetrieveUserReturnsUserFromTokenOnReauthentication()
+    public function testRetrieveUserReturnsUserFromTokenOnReauthentication(): void
     {
         $user = $this->createUserMock();
         $password = 'password';
@@ -118,7 +117,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertValidAuthenticatedToken($authenticatedToken, $user);
     }
 
-    public function testCheckAuthenticationWhenTokenNeedsReauthenticationWorksWithoutOriginalCredentials()
+    public function testCheckAuthenticationWhenTokenNeedsReauthenticationWorksWithoutOriginalCredentials(): void
     {
         $password = 'password';
         $user = $this->createUserMock();
@@ -136,7 +135,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
      * @expectedExceptionMessage The password in the token is empty. You may forgive turn off `erase_credentials` in your `security.yml`
      */
-    public function testCheckAuthenticationKnownUserCredentialsAreErased()
+    public function testCheckAuthenticationKnownUserCredentialsAreErased(): void
     {
         $password = '';
         $user = $this->createUserMock();
@@ -150,7 +149,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
      * @expectedExceptionMessage The credentials were changed from another session.
      */
-    public function testCheckAuthenticationKnownUserCredentialsChanged()
+    public function testCheckAuthenticationKnownUserCredentialsChanged(): void
     {
         $password = 'other_password';
         $user = $this->createUserMock();
@@ -166,7 +165,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
      * @expectedExceptionMessage The presented password is invalid.
      */
-    public function testCheckAuthenticationUnknownUserBadCredentials()
+    public function testCheckAuthenticationUnknownUserBadCredentials(): void
     {
         $username = 'test_username';
         $password = 'bad_password';
@@ -183,7 +182,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
      * @expectedExceptionMessage The presented password cannot be empty.
      */
-    public function testCheckAuthenticationUnknownUserPasswordEmpty()
+    public function testCheckAuthenticationUnknownUserPasswordEmpty(): void
     {
         $username = 'test_username';
         $password = '';
@@ -200,7 +199,7 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
      */
     private function createUserMock()
     {
-        $user = $this->getMock('Symfony\Component\Security\Core\User\UserInterface');
+        $user = $this->getMock(UserInterface::class);
         $user->expects($this->any())
             ->method('getRoles')
             ->willReturn([]);
@@ -208,16 +207,10 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         return $user;
     }
 
-    /**
-     * @param TokenInterface $authenticatedToken
-     * @param UserInterface $expectedUser
-     *
-     * @return void
-     */
-    private function assertValidAuthenticatedToken($authenticatedToken, UserInterface $expectedUser)
+    private function assertValidAuthenticatedToken($authenticatedToken, UserInterface $expectedUser): void
     {
         self::assertInstanceOf(
-            'Symfony\Component\Security\Core\Authentication\Token\TokenInterface',
+            TokenInterface::class,
             $authenticatedToken
         );
 
@@ -227,21 +220,13 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param UserInterface|string|object $user
-     * @param string $credentials
-     *
-     * @return UsernamePasswordToken
      */
-    private function createToken($user, $credentials)
+    private function createToken($user, string $credentials): UsernamePasswordToken
     {
         return new UsernamePasswordToken($user, $credentials, 'provider_key');
     }
 
-    /**
-     * @param UserInterface $user
-     * @param string $password
-     * @param bool $result
-     */
-    private function willBind(UserInterface $user, $password, $result = true)
+    private function willBind(UserInterface $user, string $password, bool $result = true): void
     {
         $this->ldapManager->expects($this->once())
             ->method('bind')
@@ -251,12 +236,9 @@ class LdapAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $username
      * @param UserInterface|Exception $userOrException
-     *
-     * @return void
      */
-    private function willRetrieveUser($username, $userOrException)
+    private function willRetrieveUser(string $username, $userOrException): void
     {
         $mock = $this->userProvider->expects($this->atMost(1))
             ->method('loadUserByUsername')

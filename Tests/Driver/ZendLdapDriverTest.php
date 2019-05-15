@@ -26,17 +26,17 @@ class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
      * Sets up the fixture, for example, opens a network Driver.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!function_exists('ldap_connect')) {
             $this->markTestSkipped('PHP LDAP extension not loaded');
         }
 
-        $this->zend = $this->getMock('Zend\Ldap\Ldap');
+        $this->zend = $this->getMock(Ldap::class);
         $this->driver = new ZendLdapDriver($this->zend, new TestLogger());
     }
 
-    public function testSearch()
+    public function testSearch(): void
     {
         $baseDn = 'ou=example,dc=org';
         $filter = '(&(uid=test_username))';
@@ -61,12 +61,8 @@ class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider validUserPasswordProvider
-     *
-     * @param UserInterface $user
-     * @param string $password
-     * @param string $expectedBindRdn
      */
-    public function testBindSuccessful(UserInterface $user, $password, $expectedBindRdn)
+    public function testBindSuccessful(UserInterface $user, $password, $expectedBindRdn): void
     {
         $this->zend->expects($this->once())
                 ->method('bind')
@@ -78,11 +74,8 @@ class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider invalidUserPasswordProvider
-     *
-     * @param UserInterface $user
-     * @param string $password
      */
-    public function testFailBindByDn(UserInterface $user, $password)
+    public function testFailBindByDn(UserInterface $user, $password): void
     {
         $this->zend->expects($this->once())
                 ->method('bind')
@@ -91,7 +84,7 @@ class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
         self::assertFalse($this->driver->bind($user, $password));
     }
 
-    public function testZendExceptionHandler()
+    public function testZendExceptionHandler(): void
     {
         $password = 'veryverysecret';
 
@@ -112,9 +105,10 @@ class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
             if (!$context['exception'] instanceof SanitizingException) {
                 return $this->fail('Logger context "exception" must contain object of class SanitizingException');
             }
-            if (strpos($context['exception']->__toString(), $password) !== false) {
+            if (false !== strpos($context['exception']->__toString(), $password)) {
                 return $this->fail('String representation of the SanitizingException must not contain the bind password');
             }
+
             return true;
         }));
 
@@ -125,5 +119,6 @@ class ZendLdapDriverTest extends \PHPUnit_Framework_TestCase
         $reflectionMethod = $reflectionClass->getMethod('zendExceptionHandler');
         $reflectionMethod->setAccessible(true);
         $reflectionMethod->invoke($this->driver, $zendLdapExceptionMock, $password);
+        self::assertTrue(true);
     }
 }

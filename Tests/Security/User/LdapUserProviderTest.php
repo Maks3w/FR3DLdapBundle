@@ -6,32 +6,33 @@ use FR3D\LdapBundle\Security\User\LdapUserProvider;
 use FR3D\LdapBundle\Tests\TestUser;
 use FR3D\Psr3MessagesAssertions\PhpUnit\TestLogger;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use FR3D\LdapBundle\Ldap\LdapManager;
 
 /**
- * @covers FR3D\LdapBundle\Security\User\LdapUserProvider
+ * @covers \FR3D\LdapBundle\Security\User\LdapUserProvider
  */
 class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \FR3D\LdapBundle\Ldap\LdapManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var LdapManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $ldapManager;
 
     /**
-     * @var \FR3D\LdapBundle\Security\User\LdapUserProvider
+     * @var LdapUserProvider
      */
     protected $userProvider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->ldapManager = $this->getMockBuilder('FR3D\LdapBundle\Ldap\LdapManager')
+        $this->ldapManager = $this->getMockBuilder(LdapManager::class)
                 ->disableOriginalConstructor()
                 ->getMock();
 
         $this->userProvider = new LdapUserProvider($this->ldapManager, new TestLogger());
     }
 
-    public function testLoadUserByUsername()
+    public function testLoadUserByUsername(): void
     {
         $username = 'test_username';
         $user = new TestUser();
@@ -45,7 +46,7 @@ class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($username, $this->userProvider->loadUserByUsername($username)->getUsername());
     }
 
-    public function testLoadUserByUsernameNotFound()
+    public function testLoadUserByUsernameNotFound(): void
     {
         $username = 'invalid_username';
 
@@ -61,7 +62,7 @@ class LdapUserProviderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testRefreshUser()
+    public function testRefreshUser(): void
     {
         $username = 'test_username';
         $user = new TestUser();

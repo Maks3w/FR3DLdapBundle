@@ -9,15 +9,12 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class FR3DLdapExtension extends Extension
 {
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         foreach (['services', 'security', 'validator', 'ldap_driver'] as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
         }

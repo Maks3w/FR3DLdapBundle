@@ -17,20 +17,13 @@ final class LegacyHydrator extends AbstractHydrator
      */
     private $userManager;
 
-    /**
-     * @param UserManagerInterface $userManager
-     * @param array $attributeMap
-     */
-    public function __construct($userManager, array $attributeMap)
+    public function __construct(UserManagerInterface $userManager, array $attributeMap)
     {
         parent::__construct($attributeMap);
 
         $this->userManager = $userManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function createUser()
     {
         $user = $this->userManager->createUser();

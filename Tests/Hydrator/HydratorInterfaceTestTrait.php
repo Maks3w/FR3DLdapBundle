@@ -4,7 +4,6 @@ namespace FR3D\LdapBundle\Tests\Hydrator;
 
 use FR3D\LdapBundle\Hydrator\HydratorInterface;
 use PHPUnit_Framework_Assert as Assert;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Common test methods for any FR3D\LdapBundle\Hydrator\HydratorInterface implementation.
@@ -16,31 +15,24 @@ trait HydratorInterfaceTestTrait
      */
     protected $hydrator;
 
-    public function testImplementsHydratorInterface()
+    public function testImplementsHydratorInterface(): void
     {
         Assert::assertInstanceOf(HydratorInterface::class, $this->hydrator);
     }
 
     /**
      * @dataProvider validLdapUserAttributesProvider
-     *
-     * @param array $ldapEntry
-     * @param array $methodsReturn
      */
-    public function testHydrate(array $ldapEntry, array $methodsReturn)
+    public function testHydrate(array $ldapEntry, array $methodsReturn): void
     {
         $user = $this->hydrator->hydrate($ldapEntry);
 
-        Assert::assertInstanceOf(UserInterface::class, $user);
         foreach ($methodsReturn as $method => $returnValue) {
             Assert::assertEquals($returnValue, $user->$method(), "UserInterface::{$method}() return value mismatch");
         }
     }
 
-    /**
-     * @return array
-     */
-    public function validLdapUserAttributesProvider()
+    public function validLdapUserAttributesProvider(): array
     {
         return [
             // Description => [ldap entry, [UserInterfaceMethod => return value]]

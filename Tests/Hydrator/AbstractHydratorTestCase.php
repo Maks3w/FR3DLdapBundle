@@ -15,10 +15,8 @@ abstract class AbstractHydratorTestCase extends \PHPUnit_Framework_TestCase
      * Returns default configuration for User subtree.
      *
      * Same as service parameter `fr3d_ldap.ldap_manager.parameters`
-     *
-     * @return array
      */
-    protected function getDefaultUserConfig()
+    protected function getDefaultUserConfig(): array
     {
         $config = $this->parentGetDefaultUserConfig();
         $config['attributes'][] = [
