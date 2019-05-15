@@ -3,9 +3,9 @@
 namespace FR3D\LdapBundle\Security\Factory;
 
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 
 class HttpBasicLdapFactory implements SecurityFactoryInterface
@@ -47,10 +47,10 @@ class HttpBasicLdapFactory implements SecurityFactoryInterface
     protected function createAuthProvider(ContainerBuilder $container, $id, $userProviderId)
     {
         $provider = 'fr3d_ldap.security.authentication.provider';
-        $providerId = $provider . '.' . $id;
+        $providerId = $provider.'.'.$id;
 
         $container
-            ->setDefinition($providerId, new DefinitionDecorator($provider))
+            ->setDefinition($providerId, new ChildDefinition($provider))
             ->replaceArgument(1, $id) // Provider Key
             ->replaceArgument(2, new Reference($userProviderId)) // User Provider
         ;
@@ -61,8 +61,8 @@ class HttpBasicLdapFactory implements SecurityFactoryInterface
     protected function createListener(ContainerBuilder $container, $id, $entryPointId)
     {
         // listener
-        $listenerId = 'security.authentication.listener.basic.' . $id;
-        $listener = $container->setDefinition($listenerId, new DefinitionDecorator('security.authentication.listener.basic'));
+        $listenerId = 'security.authentication.listener.basic.'.$id;
+        $listener = $container->setDefinition($listenerId, new ChildDefinition('security.authentication.listener.basic'));
         $listener->replaceArgument(2, $id);
         $listener->replaceArgument(3, new Reference($entryPointId));
 
@@ -75,9 +75,9 @@ class HttpBasicLdapFactory implements SecurityFactoryInterface
             return $defaultEntryPoint;
         }
 
-        $entryPointId = 'security.authentication.basic_entry_point.' . $id;
+        $entryPointId = 'security.authentication.basic_entry_point.'.$id;
         $container
-            ->setDefinition($entryPointId, new DefinitionDecorator('security.authentication.basic_entry_point'))
+            ->setDefinition($entryPointId, new ChildDefinition('security.authentication.basic_entry_point'))
             ->addArgument($config['realm'])
         ;
 

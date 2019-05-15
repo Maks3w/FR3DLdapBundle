@@ -9,6 +9,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Zend\Ldap\Exception\LdapException as ZendLdapException;
 use Zend\Ldap\Ldap;
 
+//use Symfony\Component\Ldap\Ldap;
+
 /**
  * This class adapt ldap calls to Zend Framework Ldap library functions.
  * Also prevent information disclosure catching Zend Ldap Exceptions and passing
@@ -30,7 +32,7 @@ class ZendLdapDriver implements LdapDriverInterface
 
     /**
      * @param Ldap            $driver Initialized Zend::Ldap Object
-     * @param LoggerInterface $logger Optional logger for write debug messages.
+     * @param LoggerInterface $logger optional logger for write debug messages
      */
     public function __construct(Ldap $driver, LoggerInterface $logger = null)
     {
@@ -82,7 +84,7 @@ class ZendLdapDriver implements LdapDriverInterface
             ]);
             $bind = $this->driver->bind($bind_rdn, $password);
 
-            return ($bind instanceof Ldap);
+            return $bind instanceof Ldap;
         } catch (ZendLdapException $exception) {
             $this->zendExceptionHandler($exception, $password);
         }
@@ -94,7 +96,7 @@ class ZendLdapDriver implements LdapDriverInterface
      * Treat a Zend Ldap Exception.
      *
      * @param ZendLdapException $exception
-     * @param string $password
+     * @param string            $password
      */
     protected function zendExceptionHandler(ZendLdapException $exception, $password = null)
     {
@@ -119,7 +121,7 @@ class ZendLdapDriver implements LdapDriverInterface
      * Log debug messages if the logger is set.
      *
      * @param string $message
-     * @param array $context
+     * @param array  $context
      */
     private function logDebug($message, array $context = [])
     {
