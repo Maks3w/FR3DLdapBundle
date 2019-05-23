@@ -17,10 +17,10 @@
     "require": {
         "php": ">=7.1",
         "psr/log": "~1.0",
-        "symfony/config": "2.7 - 4",
-        "symfony/dependency-injection": "2.7 - 4",
-        "symfony/security": "2.7 - 4",
-        "symfony/security-bundle": "2.7 - 4",
+        "symfony/config": "3.4 - 4",
+        "symfony/dependency-injection": "3.4 - 4",
+        "symfony/security": "3.4 - 4",
+        "symfony/security-bundle": "3.4 - 4",
         "zendframework/zend-ldap": "2.5 - 3"
     },
     "require-dev": {
@@ -28,7 +28,7 @@
         "fr3d/psr3-message-assertions": "^0.3",
         "friendsofsymfony/user-bundle": "^1.3||^2",
         "phpunit/phpunit": "^7",
-        "symfony/validator": "2.7 - 4"
+        "symfony/validator": "3.4 - 4"
     },
     "suggest": {
         "symfony/validator": "Allow pre-validate for existing users before register new ones",
