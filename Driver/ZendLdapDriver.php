@@ -86,9 +86,6 @@ class ZendLdapDriver implements LdapDriverInterface
 
     /**
      * Treat a Zend Ldap Exception.
-     *
-     * @param ZendLdapException $exception
-     * @param string            $password
      */
     protected function zendExceptionHandler(ZendLdapException $exception, string $password = null): void
     {
@@ -111,9 +108,6 @@ class ZendLdapDriver implements LdapDriverInterface
 
     /**
      * Log debug messages if the logger is set.
-     *
-     * @param string $message
-     * @param array  $context
      */
     private function logDebug(string $message, array $context = []): void
     {
