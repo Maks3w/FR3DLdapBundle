@@ -52,7 +52,10 @@ class LdapManager implements LdapManagerInterface
         $filters = [];
         $filters[] = $this->params['filter'];
         foreach ($criteria as $key => $value) {
-            $value = ldap_escape($value, '', LDAP_ESCAPE_FILTER);
+            if ($value !== '*') {
+                $value = ldap_escape($value, '', LDAP_ESCAPE_FILTER);
+            }
+
             $filters[] = sprintf('(%s=%s)', $key, $value);
         }
 
@@ -62,5 +65,20 @@ class LdapManager implements LdapManagerInterface
     public function bind(UserInterface $user, string $password): bool
     {
         return $this->driver->bind($user, $password);
+    }
+    
+    public function findAllUsers()
+    {
+        $filter = $this->buildFilter([$this->params['usernameAttribute'] => '*']);
+        $entries = $this->driver->search($this->params['baseDn'], $filter);
+        $users = [];
+        
+        if ($entries['count'] == 0) {
+            return null;
+        }
+
+        $users = $this->hydrator->hydrateAll($entries);
+
+        return $users;
     }
 }
