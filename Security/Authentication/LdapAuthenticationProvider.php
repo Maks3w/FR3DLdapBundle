@@ -67,7 +67,7 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
         $currentUser = $token->getUser();
         $presentedPassword = $token->getCredentials();
         if ($currentUser instanceof UserInterface) {
-            if ('' === $presentedPassword || NULL === $presentedPassword) {
+            if ('' === $presentedPassword || null === $presentedPassword) {
                 throw new BadCredentialsException(
                     'The password in the token is empty. You may forgive turn off `erase_credentials` in your `security.yml`'
                 );
@@ -77,7 +77,7 @@ class LdapAuthenticationProvider extends UserAuthenticationProvider
                 throw new BadCredentialsException('The credentials were changed from another session.');
             }
         } else {
-            if ('' === $presentedPassword || NULL === $presentedPassword) {
+            if ('' === $presentedPassword || null === $presentedPassword) {
                 throw new BadCredentialsException('The presented password cannot be empty.');
             }
 
