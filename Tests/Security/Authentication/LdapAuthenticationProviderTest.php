@@ -258,7 +258,7 @@ class LdapAuthenticationProviderTest extends TestCase
     }
 
     /**
-     * @param UserInterface|null|object $user
+     * @param UserInterface|string|object $user
      */
     private function createTokenWithNullPassword($user, ?string $credentials): UsernamePasswordToken
     {
