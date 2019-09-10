@@ -149,6 +149,20 @@ class LdapAuthenticationProviderTest extends TestCase
 
     /**
      * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
+     * @expectedExceptionMessage The password in the token is empty. You may forgive turn off `erase_credentials` in your `security.yml`
+     */
+    public function testCheckAuthenticationKnownUserCredentialsAreNull(): void
+    {
+        $password = null;
+        $user = $this->createUserMock();
+
+        $token = $this->createTokenWithNullPassword($user, $password);
+
+        $this->ldapAuthenticationProvider->authenticate($token);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
      * @expectedExceptionMessage The credentials were changed from another session.
      */
     public function testCheckAuthenticationKnownUserCredentialsChanged(): void
@@ -197,6 +211,21 @@ class LdapAuthenticationProviderTest extends TestCase
     }
 
     /**
+     * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
+     * @expectedExceptionMessage The presented password cannot be empty.
+     */
+    public function testCheckAuthenticationUnknownUserPasswordNull(): void
+    {
+        $username = 'test_username';
+        $user = $this->createUserMock();
+
+        $this->willRetrieveUser($username, $user);
+        $token = $this->createTokenWithNullPassword($username, null);
+
+        $this->ldapAuthenticationProvider->authenticate($token);
+    }
+
+    /**
      * @return UserInterface|MockObject
      */
     private function createUserMock()
@@ -226,6 +255,23 @@ class LdapAuthenticationProviderTest extends TestCase
     private function createToken($user, string $credentials): UsernamePasswordToken
     {
         return new UsernamePasswordToken($user, $credentials, 'provider_key');
+    }
+
+    /**
+     * @param UserInterface|null|object $user
+     */
+    private function createTokenWithNullPassword($user, ?string $credentials): UsernamePasswordToken
+    {
+        return new UsernamePasswordToken($user, $credentials, 'provider_key');
+    }
+
+    private function willBind(UserInterface $user, string $password, bool $result = true): void
+    {
+        $this->ldapManager->expects($this->once())
+            ->method('bind')
+            ->with($this->equalTo($user), $this->equalTo($password))
+            ->willReturn($result)
+        ;
     }
 
     private function willBind(UserInterface $user, string $password, bool $result = true): void
