@@ -264,16 +264,7 @@ class LdapAuthenticationProviderTest extends TestCase
     {
         return new UsernamePasswordToken($user, $credentials, 'provider_key');
     }
-
-    private function willBind(UserInterface $user, string $password, bool $result = true): void
-    {
-        $this->ldapManager->expects($this->once())
-            ->method('bind')
-            ->with($this->equalTo($user), $this->equalTo($password))
-            ->willReturn($result)
-        ;
-    }
-
+    
     private function willBind(UserInterface $user, string $password, bool $result = true): void
     {
         $this->ldapManager->expects($this->once())
